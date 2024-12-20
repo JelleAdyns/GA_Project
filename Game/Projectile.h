@@ -1,0 +1,36 @@
+#ifndef PROJECTILE_H
+#define PROJECTILE_H
+
+#include <Engine.h>
+#include "FlyFish.h"
+#include "structsf.h"
+
+class Projectile final
+{
+public:
+	Projectile(float xCenter, float yCenter);
+	Projectile(const Point2f& pos);
+
+	void Draw() const;
+	void Update();
+	
+	void SetPossesed(bool posses) { m_Possesed = posses; };
+	void SetPoint(const ThreeBlade& pos) { m_Position = pos; };
+	ThreeBlade GetPoint() { return m_Position; };
+
+	void Rotate(const Motor& rotationMotor);
+
+private:
+	constexpr static int m_Radius{ 10 };
+	constexpr static int m_Speed{ 100 };
+
+	bool m_Possesed{ false };
+
+	ThreeBlade m_Position;
+	OneBlade m_TransPlane{ 0,1,0,0 };
+	TwoBlade m_TransLine{ TwoBlade{0,1,0,0,0,0} };
+	Motor m_Translation{};
+	
+};
+
+#endif // !PROJECTILE_H
