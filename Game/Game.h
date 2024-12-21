@@ -21,6 +21,7 @@ public:
     virtual void Draw() const override;
     virtual void Tick() override;
     virtual void KeyDown(int virtualKeycode) override;
+    virtual void KeyDownThisFrame(int virtualKeycode) override;
     virtual void KeyUp(int virtualKeycode) override;
     virtual void HandleControllerInput() override;
     virtual void MouseDown(bool isLeft, int x, int y) override;
