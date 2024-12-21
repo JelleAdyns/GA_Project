@@ -75,6 +75,7 @@ void Game::KeyDownThisFrame(int virtualKeycode)
 	//
 	// Click here for more information: https://learn.microsoft.com/en-us/windows/win32/learnwin32/keyboard-input
 
+	m_Level.InputKeyDownThisFrame(virtualKeycode);
 }
 void Game::KeyUp(int virtualKeycode)
 {

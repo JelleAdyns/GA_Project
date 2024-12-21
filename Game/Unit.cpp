@@ -18,7 +18,7 @@ void Unit::Update()
 	
 }
 
-void Unit::ActOnProjectile(std::unique_ptr<Projectile>& pProjectile) const
+void Unit::ActOnProjectile(std::unique_ptr<Projectile>& pProjectile)
 {
 	//Check if overlapping here
 

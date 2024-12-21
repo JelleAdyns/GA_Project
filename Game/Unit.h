@@ -11,7 +11,7 @@ public:
 	Unit(const Point2f& pos);
 	virtual void Draw() const;
 	virtual void Update();
-	virtual void ActOnProjectile(std::unique_ptr<Projectile>& pProjectile) const;
+	virtual void ActOnProjectile(std::unique_ptr<Projectile>& pProjectile);
 protected:
 	Point2f m_Position{};
 private:

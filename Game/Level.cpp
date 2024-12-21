@@ -39,15 +39,20 @@ void Level::Update()
 
 }
 
-void Level::InputKeyDown(int virtualKeyCode)
+void Level::AddUnit(std::unique_ptr<Unit>&& pUnit)
+{
+	m_pVecUnits.push_back(std::move(pUnit));
+}
+
+void Level::InputKeyDownThisFrame(int virtualKeyCode)
 {
 	switch (virtualKeyCode)
 	{
 	case '0':
-		m_pVecUnits.push_back(RotatorUnit::CreateUnit());
+		//m_pVecUnits.push_back(RotatorUnit::CreateUnit());
 		break;
 	}
-	m_Player.InputKeyDown(virtualKeyCode);
+	m_Player.InputKeyDownThisFrame(virtualKeyCode, *this);
 
 }
 void Level::InputKeyUp(int virtualKeyCode)

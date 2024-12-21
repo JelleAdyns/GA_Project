@@ -3,21 +3,32 @@
 
 #include <Engine.h>
 #include "Unit.h"
+#include "structsf.h"
 
 class RotatorUnit final : public Unit
 {
 public:
+	RotatorUnit(const Point2f& pos);
 	RotatorUnit(float x, float y);
-	static std::unique_ptr<Unit> CreateUnit();
+	static std::unique_ptr<RotatorUnit> CreateUnit(const Point2f& pos);
 
 	virtual void Draw() const override;
 	virtual void Update() override;
-	virtual void ActOnProjectile(std::unique_ptr<Projectile>& pProjectile) const override;
+	virtual void ActOnProjectile(std::unique_ptr<Projectile>& pProjectile) override;
+	
+	void AddStartAngle();
+	void SwitchDegrees();
+	void ToggleDirection();
 
 private:
-	TwoBlade m_RotationLine;
+
+	float CalculateProjectileAngle(std::unique_ptr<Projectile>& pProjectile);
+
+	constexpr static float m_Radius{ 100 };
 	float m_Degrees{ 180 };
-	ThreeBlade m_TempPoint;
+	float m_StartAngle{ 0 };
+	float m_RotationVelocity{ 60 };
+	TwoBlade m_RotationLine;
 };
 
 #endif // !ROTATORUNIT_H

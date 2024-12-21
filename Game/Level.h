@@ -13,7 +13,9 @@ public:
 	void Draw() const;
 	void Update();
 
-	void InputKeyDown(int virtualKeyCode);
+	void AddUnit(std::unique_ptr<Unit>&& pUnit);
+
+	void InputKeyDownThisFrame(int virtualKeyCode);
 	void InputKeyUp(int virtualKeyCode);
 private:
 	

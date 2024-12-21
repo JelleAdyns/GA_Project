@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "DrawFloatToInt.h"
+#include "Level.h"
 
 
 Player::Player(float x, float y) :
@@ -19,6 +20,8 @@ void Player::Draw() const
 
 void Player::Update()
 {
+
+
 	auto dt = ENGINE.GetDeltaTime();
 	m_Direction = {};
 	if (ENGINE.IsKeyPressed('W')) m_Direction += TwoBlade{ 0,1,0,0,0,0 };
@@ -32,9 +35,38 @@ void Player::Update()
 	}
 }
 
-void Player::InputKeyDown(int virtualKeyCode)
+void Player::InputKeyDownThisFrame(int virtualKeyCode, Level& level)
 {
-
+	switch (virtualKeyCode)
+	{
+	case VK_SPACE:
+	{
+		if (not m_pControlledRotatorUnit)
+		{
+			auto pUnit = RotatorUnit::CreateUnit(Point2f{ m_Position[0],m_Position[1] });
+			m_pControlledRotatorUnit = pUnit.get();
+			level.AddUnit(std::move(pUnit));
+		}
+		else m_pControlledRotatorUnit = nullptr;
+		
+		break;
+	}
+	case VK_LEFT:
+	{
+		if(m_pControlledRotatorUnit) m_pControlledRotatorUnit->AddStartAngle();
+		break;
+	}
+	case VK_RIGHT:
+	{
+		if (m_pControlledRotatorUnit) m_pControlledRotatorUnit->SwitchDegrees();
+		break;
+	}
+	case VK_UP:
+	{
+		if (m_pControlledRotatorUnit) m_pControlledRotatorUnit->ToggleDirection();
+		break;
+	}
+	}
 }
 
 void Player::InputKeyUp(int virtualKeyCode)

@@ -3,8 +3,10 @@
 
 #include "FlyFish.h"
 #include "structsf.h"
+#include "RotatorUnit.h"
 #include <Engine.h>
 
+class Level;
 class Player final
 {
 public:
@@ -14,16 +16,18 @@ public:
 	void Draw() const;
 	void Update();
 
-	void InputKeyDown(int virtualKeyCode);
+	void InputKeyDownThisFrame(int virtualKeyCode, Level& level);
 	void InputKeyUp(int virtualKeyCode);
 private:
 
-	constexpr static float m_Speed{ 1000 };
+	constexpr static float m_Speed{ 600 };
 
 	TwoBlade m_Direction{ 1,0,0,0,0,0 };
 	Motor m_Translation{};
 
 	ThreeBlade m_Position{0,0,0};
+
+	RotatorUnit* m_pControlledRotatorUnit{nullptr};
 };
 
 #endif // !PLAYER_H
