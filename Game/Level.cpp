@@ -1,4 +1,5 @@
 #include "Level.h"
+#include <algorithm>
 
 void Level::Draw() const
 {
@@ -17,7 +18,7 @@ void Level::Draw() const
 
 void Level::Update()
 {
-	m_Player.Update();
+	m_Player.Update(*this);
 	if (m_Cannon.ReadyToFire())
 	{
 		m_pVecProjectiles.push_back(m_Cannon.CreateProjectile());
@@ -35,7 +36,18 @@ void Level::Update()
 			unit->ActOnProjectile(projectile);
 		}
 	}
+	}
 
+	m_pVecProjectiles.erase(
+		std::remove_if(
+			m_pVecProjectiles.begin(),
+			m_pVecProjectiles.end(),
+			[&](const std::unique_ptr<Projectile>& pProjectile)
+			{
+				return not m_LevelBox.IsPointInside(pProjectile->GetPoint());
+			}),
+		m_pVecProjectiles.end()
+	);
 
 }
 
@@ -58,4 +70,9 @@ void Level::InputKeyDownThisFrame(int virtualKeyCode)
 void Level::InputKeyUp(int virtualKeyCode)
 {
 	m_Player.InputKeyUp(virtualKeyCode);
+}
+
+const Box& Level::GetLevelBox() const
+{
+	return m_LevelBox;
 }

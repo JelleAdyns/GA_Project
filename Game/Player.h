@@ -21,10 +21,13 @@ public:
 	Player& operator=(Player&& other) noexcept = delete;
 
 	void Draw() const;
-	void Update();
+	void Update(const Level& level);
 
 	void InputKeyDownThisFrame(int virtualKeyCode, Level& level);
 	void InputKeyUp(int virtualKeyCode);
+
+	void HandleMovementInput();
+	void HandleBorderCollision(const Box& levelBox);
 private:
 
 	constexpr static float m_Speed{ 600 };
