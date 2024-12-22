@@ -3,7 +3,7 @@
 
 #include "FlyFish.h"
 #include "structsf.h"
-#include "RotatorUnit.h"
+#include "Unit.h"
 #include <Engine.h>
 
 class Level;
@@ -30,14 +30,13 @@ public:
 	void HandleBorderCollision(const Box& levelBox);
 private:
 
-	constexpr static float m_Speed{ 600 };
+	constexpr static float m_Speed{ 400 };
 
 	TwoBlade m_Direction{ 1,0,0,0,0,0 };
 	Motor m_Translation{};
 
 	ThreeBlade m_Position{0,0,0};
-
-	RotatorUnit* m_pControlledRotatorUnit{nullptr};
+	Unit* m_pControlledUnit{ nullptr };
 };
 
 #endif // !PLAYER_H

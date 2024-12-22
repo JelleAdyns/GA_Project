@@ -1,5 +1,7 @@
 #include "Player.h"
 #include "DrawFloatToInt.h"
+#include "TeleportUnit.h"
+#include "RotatorUnit.h"
 #include "Level.h"
 
 
@@ -22,7 +24,7 @@ void Player::Update(const Level& level)
 {
 	HandleMovementInput();
 	HandleBorderCollision(level.GetLevelBox());	
-	}
+}
 
 void Player::InputKeyDownThisFrame(int virtualKeyCode, Level& level)
 {
@@ -30,29 +32,43 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, Level& level)
 	{
 	case VK_SPACE:
 	{
-		if (not m_pControlledRotatorUnit)
+		if (not m_pControlledUnit)
 		{
 			auto pUnit = RotatorUnit::CreateUnit(Point2f{ m_Position[0],m_Position[1] });
-			m_pControlledRotatorUnit = pUnit.get();
+			m_pControlledUnit = pUnit.get();
+			//m_pControlledTeleportUnit = nullptr;
 			level.AddUnit(std::move(pUnit));
 		}
-		else m_pControlledRotatorUnit = nullptr;
+		else m_pControlledUnit = nullptr;
 		
+		break;
+	}
+	case 'T':
+	{
+		if (not m_pControlledUnit)
+		{
+			auto pUnit = TeleportUnit::CreateUnit(Point2f{ m_Position[0],m_Position[1] });
+			m_pControlledUnit = pUnit.get();
+			//m_pControlledRotatorUnit = nullptr;
+			level.AddUnit(std::move(pUnit));
+		}
+		else m_pControlledUnit = nullptr;
+
 		break;
 	}
 	case VK_LEFT:
 	{
-		if(m_pControlledRotatorUnit) m_pControlledRotatorUnit->AddStartAngle();
+		if(m_pControlledUnit) m_pControlledUnit->Action1();
 		break;
 	}
 	case VK_RIGHT:
 	{
-		if (m_pControlledRotatorUnit) m_pControlledRotatorUnit->SwitchDegrees();
+		if (m_pControlledUnit) m_pControlledUnit->Action2();
 		break;
 	}
 	case VK_UP:
 	{
-		if (m_pControlledRotatorUnit) m_pControlledRotatorUnit->ToggleDirection();
+		if (m_pControlledUnit) m_pControlledUnit->Action3();
 		break;
 	}
 	}
