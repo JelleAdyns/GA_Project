@@ -1,12 +1,13 @@
 #include "Cannon.h"
+#include "DrawFloatToInt.h"
 
 
 
 void Cannon::Draw() const
 {
 	ENGINE.SetColor(RGB(255,255,255));
-	ENGINE.FillEllipse(m_BaseShape.center, m_BaseShape.rad, m_BaseShape.rad);
-	ENGINE.FillRectangle(m_BarrelShape);
+	Drawf::FillEllipse(m_BaseShape.center, m_BaseShape.radius, m_BaseShape.radius);
+	Drawf::FillRectangle(m_BarrelShape);
 
 }
 

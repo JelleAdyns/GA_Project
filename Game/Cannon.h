@@ -5,6 +5,7 @@
 #include <memory>
 #include <Engine.h>
 #include "Projectile.h"
+#include "structsf.h"
 
 class Cannon final
 {
@@ -21,13 +22,13 @@ public:
 	bool ReadyToFire();
 	std::unique_ptr<Projectile> CreateProjectile();
 private:
-	jela::CircleInt m_BaseShape{60,60,50};
-	jela::RectInt m_BarrelShape
+	Circlef m_BaseShape{60,60,50};
+	Rectf m_BarrelShape
 	{
 		m_BaseShape.center.x,
-		static_cast<int>(m_BaseShape.center.y - m_BaseShape.rad + 20),
+		m_BaseShape.center.y - m_BaseShape.radius + 20,
 		80,
-		static_cast<int>(m_BaseShape.rad * 2 - 20 * 2)
+		m_BaseShape.radius * 2 - 20 * 2
 	};
 };
 
