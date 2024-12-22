@@ -15,7 +15,7 @@ RotatorUnit::RotatorUnit(float x, float y):
 {
 }
 
-std::unique_ptr<RotatorUnit> RotatorUnit::CreateUnit(const Point2f& pos)
+std::unique_ptr<Unit> RotatorUnit::CreateUnit(const Point2f& pos)
 {
 	return std::make_unique<RotatorUnit>(pos);
 	//return std::make_unique<RotatorUnit>(ENGINE.GetWindowRect().width/2.f, ENGINE.GetWindowRect().height / 2.f-200);
@@ -60,7 +60,7 @@ void RotatorUnit::ActOnProjectile(std::unique_ptr<Projectile>& pProjectile)
 	
 }
 
-void RotatorUnit::AddStartAngle()
+void RotatorUnit::Action1()
 {
 	m_StartAngle += 90.f;
 	if (m_StartAngle >= 360.f) m_StartAngle = 0.f;
@@ -76,7 +76,7 @@ void RotatorUnit::AddStartAngle()
 	//m_EndPlane = (rotat * m_EndPlane * ~rotat).Grade1();
 }
 
-void RotatorUnit::SwitchDegrees()
+void RotatorUnit::Action2()
 {
 	if (m_Degrees == 180.f)
 	{
@@ -101,7 +101,7 @@ void RotatorUnit::SwitchDegrees()
 	//m_Degrees = (m_Degrees == 180.f ? 90.f : 180.f);
 }
 
-void RotatorUnit::ToggleDirection()
+void RotatorUnit::Action3()
 {
 	m_RotationVelocity = -m_RotationVelocity;
 }

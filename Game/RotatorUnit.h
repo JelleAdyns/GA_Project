@@ -18,15 +18,16 @@ public:
 	RotatorUnit& operator=(const RotatorUnit& other) = delete;
 	RotatorUnit& operator=(RotatorUnit&& other) noexcept = delete;
 
-	static std::unique_ptr<RotatorUnit> CreateUnit(const Point2f& pos);
+	static std::unique_ptr<Unit> CreateUnit(const Point2f& pos);
 
 	virtual void Draw() const override;
 	virtual void Update() override;
 	virtual void ActOnProjectile(std::unique_ptr<Projectile>& pProjectile) override;
 	
-	void AddStartAngle();
-	void SwitchDegrees();
-	void ToggleDirection();
+	virtual void Action1() override;
+	virtual void Action2() override;
+	virtual void Action3() override;
+	virtual void Action4() override {};
 
 private:
 
