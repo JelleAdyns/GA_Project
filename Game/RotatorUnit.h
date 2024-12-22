@@ -10,6 +10,14 @@ class RotatorUnit final : public Unit
 public:
 	RotatorUnit(const Point2f& pos);
 	RotatorUnit(float x, float y);
+
+	virtual ~RotatorUnit() = default;
+
+	RotatorUnit(const RotatorUnit& other) = delete;
+	RotatorUnit(RotatorUnit&& other) noexcept = delete;
+	RotatorUnit& operator=(const RotatorUnit& other) = delete;
+	RotatorUnit& operator=(RotatorUnit&& other) noexcept = delete;
+
 	static std::unique_ptr<RotatorUnit> CreateUnit(const Point2f& pos);
 
 	virtual void Draw() const override;

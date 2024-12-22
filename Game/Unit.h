@@ -9,6 +9,14 @@ class Unit
 {
 public:
 	Unit(const Point2f& pos);
+
+	virtual ~Unit() = default;
+
+	Unit(const Unit& other) = delete;
+	Unit(Unit&& other) noexcept = delete;
+	Unit& operator=(const Unit& other) = delete;
+	Unit& operator=(Unit&& other) noexcept = delete;
+
 	virtual void Draw() const;
 	virtual void Update();
 	virtual void ActOnProjectile(std::unique_ptr<Projectile>& pProjectile);

@@ -13,6 +13,13 @@ public:
 	Player(float x, float y);
 	Player(const Point2f& pos);
 
+	~Player() = default;
+
+	Player(const Player& other) = delete;
+	Player(Player&& other) noexcept = delete;
+	Player& operator=(const Player& other) = delete;
+	Player& operator=(Player&& other) noexcept = delete;
+
 	void Draw() const;
 	void Update();
 

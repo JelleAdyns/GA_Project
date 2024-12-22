@@ -11,6 +11,13 @@ public:
 	Projectile(float xCenter, float yCenter);
 	Projectile(const Point2f& pos);
 
+	~Projectile() = default;
+
+	Projectile(const Projectile& other) = delete;
+	Projectile(Projectile&& other) noexcept = delete;
+	Projectile& operator=(const Projectile& other) = delete;
+	Projectile& operator=(Projectile&& other) noexcept = delete;
+
 	void Draw() const;
 	void Update();
 	

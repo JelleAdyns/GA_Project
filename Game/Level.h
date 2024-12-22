@@ -10,6 +10,15 @@
 class Level final
 {
 public:
+	Level() = default;
+
+	~Level() = default;
+
+	Level(const Level& other) = delete;
+	Level(Level&& other) noexcept = delete;
+	Level& operator=(const Level& other) = delete;
+	Level& operator=(Level&& other) noexcept = delete;
+
 	void Draw() const;
 	void Update();
 

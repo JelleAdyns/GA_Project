@@ -9,6 +9,13 @@
 class Cannon final
 {
 public:
+	Cannon() = default;
+	~Cannon() = default;
+
+	Cannon(const Cannon& other) = delete;
+	Cannon(Cannon&& other) noexcept = delete;
+	Cannon& operator=(const Cannon& other) = delete;
+	Cannon& operator=(Cannon&& other) noexcept = delete;
 
 	void Draw() const;
 	bool ReadyToFire();
