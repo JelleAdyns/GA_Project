@@ -8,9 +8,7 @@ Unit::Unit(const Point2f& pos):
 
 void Unit::Draw() const
 {
-	ENGINE.SetColor(RGB( 100,140,25));
-	Drawf::FillEllipse(m_Position.x, m_Position.y, 10, 10);
-	//Drawf::FillEllipse(m_Position.x, 10, 10);
+
 }
 
 void Unit::Update()

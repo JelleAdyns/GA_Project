@@ -37,6 +37,8 @@ private:
 	float m_StartAngle{ 0 };
 	float m_RotationVelocity{ 60 };
 	TwoBlade m_RotationLine;
+	OneBlade m_StartPlane{ -m_Position.y,0,1,0 };
+	OneBlade m_EndPlane{ -m_Position.y,0,1,0 };
 };
 
 #endif // !ROTATORUNIT_H

@@ -58,4 +58,11 @@ float GAUtils::GetAngle(const TwoBlade& line1, const TwoBlade& line2)
 	return std::acos(-(line1.Normalized() | line2.Normalized()));
 }
 
-// TODO: ALL of this and pay attention to DOT
+void GAUtils::RotatePlane(OneBlade& toRotate, float degrees, const TwoBlade& rotationLine)
+{
+	MultiVector rot{};
+	rot = (-sin(degrees * DEG_TO_RAD / 2) * rotationLine.Normalized());
+	rot[0] = cos(degrees * DEG_TO_RAD / 2);
+
+	toRotate = (rot * toRotate * ~rot).Normalized().Grade1();
+}

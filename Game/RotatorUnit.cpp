@@ -23,7 +23,6 @@ std::unique_ptr<RotatorUnit> RotatorUnit::CreateUnit(const Point2f& pos)
 
 void RotatorUnit::Draw() const
 {
-	Unit::Draw();
 	ENGINE.SetColor(RGB(255,255,255), 0.5f);
 	Drawf::FillArc(m_Position.x, m_Position.y, m_Radius, m_Radius, m_StartAngle, m_Degrees);
 	ENGINE.SetColor(RGB(255,0,0), 0.5f);
@@ -36,6 +35,9 @@ void RotatorUnit::Draw() const
 		Drawf::FillEllipse(
 			m_Position.x + (m_Radius / 2) * std::cos((m_StartAngle + 10) * DEG_TO_RAD),
 			m_Position.y + (m_Radius / 2) * std::sin((m_StartAngle + 10) * DEG_TO_RAD), 5, 5);
+
+	ENGINE.SetColor(RGB(100, 140, 25));
+	Drawf::FillEllipse(m_Position.x, m_Position.y, 10, 10);
 }
 
 void RotatorUnit::Update()
@@ -44,32 +46,59 @@ void RotatorUnit::Update()
 
 void RotatorUnit::ActOnProjectile(std::unique_ptr<Projectile>& pProjectile)
 {
-	if (ENGINE.IsKeyPressed('9')) return;
-
-	float projectileAngle = CalculateProjectileAngle(pProjectile);
+	//float projectileAngle = CalculateProjectileAngle(pProjectile);
 
 	if (GAUtils::GetDistance(pProjectile->GetPoint(), m_RotationLine) < m_Radius and
-		projectileAngle > m_StartAngle and projectileAngle < m_StartAngle + m_Degrees)
+		GAUtils::GetDistance(pProjectile->GetPoint(), m_StartPlane) > 0.f and
+		GAUtils::GetDistance(pProjectile->GetPoint(), m_EndPlane) > 0.f)
 	{
 		pProjectile->SetPossesed(true);
 		float angleForPoint = m_RotationVelocity * ENGINE.GetDeltaTime();
-		Motor rot = Motor::Rotation(angleForPoint, m_RotationLine.Normalized());
+		Motor rot = Motor::Rotation(angleForPoint, m_RotationLine);
 		pProjectile->Rotate(rot);
-		//pProjectile->SetPoint((rot * pProjectile->GetPoint() * ~rot).Normalized().Grade3());
 	}
+	
 }
 
 void RotatorUnit::AddStartAngle()
 {
 	m_StartAngle += 90.f;
 	if (m_StartAngle >= 360.f) m_StartAngle = 0.f;
-	//Motor rot = Motor::Rotation(m_StartAngle, m_RotationLine.Normalized());
-	//m_SeperationPlane = (rot * m_SeperationPlane * ~rot).Normalized().Grade1();
+
+	GAUtils::RotatePlane(m_StartPlane, 90, m_RotationLine);
+	GAUtils::RotatePlane(m_EndPlane, 90, m_RotationLine);
+	//MultiVector rot{};
+	//rot = (-sin(90 * DEG_TO_RAD / 2) * m_RotationLine.Normalized());
+	//rot[0] = cos(90 * DEG_TO_RAD / 2);
+	//
+	//Motor rotat = Motor::Rotation(90, m_RotationLine);
+	//m_StartPlane = (rotat * m_StartPlane * ~rotat).Grade1();
+	//m_EndPlane = (rotat * m_EndPlane * ~rotat).Grade1();
 }
 
 void RotatorUnit::SwitchDegrees()
 {
-	m_Degrees = (m_Degrees == 180.f ? 90.f : 180.f);
+	if (m_Degrees == 180.f)
+	{
+		m_Degrees = 90;
+		GAUtils::RotatePlane(m_EndPlane, -90, m_RotationLine);
+		//MultiVector rot{};
+		//rot = (-sin(-90 * DEG_TO_RAD / 2) * m_RotationLine.Normalized());
+		//rot[0] = cos(-90 * DEG_TO_RAD / 2);
+		////Motor rot = Motor::Rotation(-90, m_RotationLine);
+		//m_EndPlane = (rot * m_EndPlane.Normalized() * ~rot).Normalized().Grade1();
+	}
+	else
+	{
+		m_Degrees = 180;
+		GAUtils::RotatePlane(m_EndPlane, 90, m_RotationLine);
+		//MultiVector rot{};
+		//rot = (-sin(-90 * DEG_TO_RAD / 2) * m_RotationLine.Normalized());
+		//rot[0] = cos(-90 * DEG_TO_RAD / 2);
+		//Motor rot = Motor::Rotation(90, m_RotationLine);
+		//m_EndPlane = (rot * m_EndPlane.Normalized() * ~rot).Normalized().Grade1();
+	}
+	//m_Degrees = (m_Degrees == 180.f ? 90.f : 180.f);
 }
 
 void RotatorUnit::ToggleDirection()
