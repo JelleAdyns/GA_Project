@@ -3,7 +3,8 @@
 
 void Game::Initialize()
 {
-	BaseGame::Initialize();
+	//BaseGame::Initialize();
+	ENGINE.SetBackGroundColor(RGB(0, 0, 134));
 	pointToMove = {ENGINE.GetWindowRect().width / 2 - 100.f, ENGINE.GetWindowRect().height / 2.f,0.f, 1.f };
 	reflectedPointToMove = { pointToMove };
 	m_Position = { 20,20,0,1 };

@@ -8,7 +8,7 @@
 class Game final: public jela::BaseGame
 {
 public:
-    Game()  { ENGINE.SetWindowDimensions(1200, 720); };
+    Game() = default;
     virtual ~Game() = default;
 
     Game(const Game& other) = delete;
