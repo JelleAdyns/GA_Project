@@ -111,6 +111,9 @@ namespace jela
         void FillRoundedRect(const RectInt& rect, float radiusX, float radiusY)const;
 #endif // MATHEMATICAL_COORDINATESYSTEM
 
+        void DrawPolygon(const std::vector<Point2Int>& points, float lineThickness = 1.f, bool closeSegment = false)const;
+        void FillPolygon(const std::vector<Point2Int>& points)const;
+
         void DrawArc(int centerX, int centerY, float radiusX, float radiusY, float startAngle, float angle, float lineThickness = 1.f, bool closeSegment = false)const;
         void DrawArc(const Point2Int& center, float radiusX, float radiusY, float startAngle, float angle, float lineThickness = 1.f, bool closeSegment = false)const;
 
@@ -193,7 +196,8 @@ namespace jela
     private:
 
 
-        void CreateArc(ID2D1PathGeometry** pGeo, const Point2Int& center, float radiusX, float radiusY, float startAngle, float angle, bool closeSegment) const;
+        void CreatePolygon(ID2D1PathGeometry* pGeo, const std::vector<Point2Int>& points, bool closeSegment) const;
+        void CreateArc(ID2D1PathGeometry* pGeo, const Point2Int& center, float radiusX, float radiusY, float startAngle, float angle, bool closeSegment) const;
         void DrawBorders(int rtWidth, int rtHeight) const;
         void SetWindowPosition();
         void SetFullscreen();
