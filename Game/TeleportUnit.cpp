@@ -27,10 +27,16 @@ void TeleportUnit::Draw() const
 
 	ENGINE.SetColor(m_Color, 1.f);
 	Drawf::FillRoundedRect(m_Position.x - m_Width / 2, m_Position.y - mirrorThickness / 2, m_Width, mirrorThickness, mirrorThickness, mirrorThickness/4);
-	Drawf::DrawRectangle(m_Position.x - m_Width / 2, m_Position.y - m_Height / 2 + m_Height, m_Width, m_Height);
+
+	std::vector<Point2f> activateAreaPoints{};
+	m_DestinationBox.GetCornerPoints(activateAreaPoints);
+	Drawf::DrawPolygon(activateAreaPoints, 2.f, true);
 
 	ENGINE.SetColor(m_Color, 0.5f);
-	Drawf::FillRectangle(m_Position.x - m_Width / 2, m_Position.y - m_Height / 2 - m_Height, m_Width, m_Height);	
+
+	activateAreaPoints.clear();
+	m_ActivationBox.GetCornerPoints(activateAreaPoints);
+	Drawf::FillPolygon(activateAreaPoints);
 
 }
 

@@ -46,6 +46,8 @@ namespace Drawf
     void FillRoundedRect(const Rectf& rect, float radiusX, float radiusY);
     void FillRoundedRect(float left, float bottom, float width, float height, float radiusX, float radiusY);
 
+    void DrawPolygon(const std::vector<Point2f>& points, float lineThickness = 1.f, bool closeSegment = false);
+    void FillPolygon(const std::vector<Point2f>& points);
 
     void DrawArc(const Point2f& center, float radiusX, float radiusY, float startAngle, float angle, float lineThickness = 1.f, bool closeSegment = false);
     void DrawArc(float centerX, float centerY, float radiusX, float radiusY, float startAngle, float angle, float lineThickness = 1.f, bool closeSegment = false);

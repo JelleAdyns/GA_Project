@@ -76,6 +76,31 @@ jela::Vector2f Box::GetOutsideDistance(const ThreeBlade& point) const
 	return dist;
 }
 
+void Box::GetCornerPoints(std::vector<Point2f>& cornerPoints) const
+{
+	std::vector<ThreeBlade> vec{};
+	GetCornerPoints(vec);
+
+	cornerPoints.reserve(vec.size());
+
+	for (const auto& threeBlade : vec)
+	{
+		cornerPoints.push_back(Point2f{ threeBlade[0], threeBlade[1] });
+	}
+}
+void Box::GetCornerPoints(std::vector<ThreeBlade>& cornerPoints) const
+{
+	cornerPoints.reserve(4);
+
+	OneBlade screen{ 0,0,0,1 };
+
+	cornerPoints.push_back(TopSide ^ LeftSide ^ screen);
+	cornerPoints.push_back(RightSide ^ TopSide ^ screen);
+	cornerPoints.push_back(BottomSide ^ RightSide ^ screen);
+	cornerPoints.push_back(LeftSide ^ BottomSide ^ screen);
+
+}
+
 void Box::Rotate(const Motor& rotation, bool rotateSides)
 {
 	GAUtils::Transform(Center, rotation);

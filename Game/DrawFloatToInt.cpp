@@ -230,6 +230,26 @@ namespace Drawf
 		);
 	}
 
+	void DrawPolygon(const std::vector<Point2f>& points, float lineThickness, bool closeSegment)
+	{
+		std::vector<jela::Point2Int> vP(points.size());
+		for (size_t i = 0; i < points.size(); i++)
+		{
+			vP[i] = jela::Point2Int{ static_cast<int>(std::round(points[i].x)),static_cast<int>(std::round(points[i].y)) };
+		}
+		ENGINE.DrawPolygon(vP, lineThickness, closeSegment);
+	}
+
+	void FillPolygon(const std::vector<Point2f>& points)
+	{
+		std::vector<jela::Point2Int> vP(points.size());
+		for (size_t i = 0; i < points.size(); i++)
+		{
+			vP[i] = jela::Point2Int{ static_cast<int>(std::round(points[i].x)),static_cast<int>(std::round(points[i].y)) };
+		}
+		ENGINE.FillPolygon(vP);
+	}
+
 	void DrawArc(const Point2f& center, float radiusX, float radiusY, float startAngle, float angle, float lineThickness, bool closeSegment)
 	{
 		DrawArc(center.x, center.y, radiusX, radiusY, startAngle, angle, lineThickness, closeSegment);

@@ -1,10 +1,11 @@
 #ifndef BOX_H
 #define BOX_H
 
+#include <Structs.h>
 #include "FlyFish.h"
 #include "structsf.h"
 
-struct Box
+struct Box final
 {
 	Box(const Rectf& rect);
 	Box(const Point2f& center, float width, float height);
@@ -28,6 +29,10 @@ struct Box
 	float GetDistanceFromTop(const ThreeBlade& point) const;
 
 	jela::Vector2f GetOutsideDistance(const ThreeBlade& point) const;
+
+	void GetCornerPoints(std::vector<ThreeBlade>& cornerPoints) const;
+	void GetCornerPoints(std::vector<Point2f>& cornerPoints) const;
+	
 	void Rotate(const Motor& rotation, bool rotateSides);
 	void Translate(const Motor& translation);
 

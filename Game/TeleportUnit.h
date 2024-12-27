@@ -38,6 +38,7 @@ private:
 
 	OneBlade m_ReflectPlane{m_Position.y,0,-1,0};
 	Box m_ActivationBox{m_Position.x, m_Position.y - m_Height, m_Width, m_Height };
+	Box m_DestinationBox{m_Position.x, m_Position.y - m_Height, m_Width, m_Height };
 };
 
 #endif // !TELEPORTUNIT_H
