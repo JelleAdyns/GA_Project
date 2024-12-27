@@ -21,7 +21,7 @@ std::unique_ptr<Unit> RotatorUnit::CreateUnit(const Point2f& pos)
 
 void RotatorUnit::Draw() const
 {
-	ENGINE.SetColor(RGB(255,255,255), 0.5f);
+	ENGINE.SetColor(m_Color, 0.5f);
 	Drawf::FillArc(m_Position.x, m_Position.y, m_Radius, m_Radius, m_StartAngle, m_Degrees);
 	ENGINE.SetColor(RGB(255,0,0), 0.5f);
 	Drawf::DrawArc(m_Position.x, m_Position.y, m_Radius/2, m_Radius/2, m_StartAngle+10, m_Degrees-20);
@@ -34,7 +34,7 @@ void RotatorUnit::Draw() const
 			m_Position.x + (m_Radius / 2) * std::cos((m_StartAngle + 10) * DEG_TO_RAD),
 			m_Position.y + (m_Radius / 2) * std::sin((m_StartAngle + 10) * DEG_TO_RAD), 3,3);
 
-	ENGINE.SetColor(RGB(100, 140, 25));
+	ENGINE.SetColor(m_Color);
 	Drawf::FillEllipse(m_Position.x, m_Position.y, 5, 5);
 }
 
@@ -52,6 +52,14 @@ void RotatorUnit::ActOnProjectile(std::unique_ptr<Projectile>& pProjectile)
 		float angleForPoint = m_RotationVelocity * ENGINE.GetDeltaTime();
 		Motor rot = Motor::Rotation(angleForPoint, m_RotationLine);
 		pProjectile->Rotate(rot);
+
+		if (GAUtils::GetDistance(pProjectile->GetPoint(), m_EndPlane) < 0.f)
+		{
+			// First -e0, then the endPlane:
+			// because we want to flip the orientation of endPlane.
+			pProjectile->SetDirection(OneBlade{ -1,0,0,0 } ^ m_EndPlane);
+			pProjectile->SetPossesed(false);
+		}
 	}
 	
 }
@@ -98,7 +106,7 @@ void RotatorUnit::Action3()
 }
 
 void RotatorUnit::TranslateUnit(const Motor& translation)
-{
+{ 
 	GAUtils::Transform(m_RotationLine, translation);
 	GAUtils::Transform(m_StartPlane, translation);
 	GAUtils::Transform(m_EndPlane, translation);

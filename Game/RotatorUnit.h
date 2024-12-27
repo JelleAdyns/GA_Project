@@ -33,6 +33,7 @@ public:
 private:
 
 	constexpr static float m_Radius{ 50 };
+	constexpr static COLORREF m_Color{ RGB(100, 140, 25) };
 
 	float m_Degrees{ 180 };
 	float m_StartAngle{ 0 };
