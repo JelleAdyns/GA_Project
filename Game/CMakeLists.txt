@@ -1,5 +1,7 @@
 project(GameName)
+
 set(GUI_TYPE WIN32)
+
 set(SOURCES 
 	"Main.cpp"
 	"Game.cpp"
@@ -25,8 +27,11 @@ set(SOURCES
 	"structsf.cpp"
 	"TeleportUnit.h"
 	"TeleportUnit.cpp"
+	"BoosterUnit.h"
+	"BoosterUnit.cpp"
 	"Box.h"
 	"Box.cpp" 
+	"BlackHoleTile.h" "BlackHoleTile.cpp" "Tile.h" "Tile.cpp")
 
 add_executable(${PROJECT_NAME} WIN32  ${SOURCES} )
 set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE YES)
@@ -62,3 +67,6 @@ source_group("Units" REGULAR_EXPRESSION "Unit")
 
 #Filter FlyFish
 source_group("FlyFish" REGULAR_EXPRESSION "FlyFish")
+
+#Filter Tiles
+source_group("Tiles" REGULAR_EXPRESSION "Tile")

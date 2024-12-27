@@ -1,0 +1,26 @@
+#include "Tile.h"
+#include "DrawFloatToInt.h"
+#include <Engine.h>
+
+Tile::Tile(const Point2f& center):
+	m_Box{center, m_Size, m_Size}
+{
+}
+
+void Tile::Draw() const
+{
+	ENGINE.SetColor(RGB(220, 0, 0));
+	Drawf::FillRectangle(
+		m_Box.Center[0] - m_Box.GetWidth() / 2,
+		m_Box.Center[1] - m_Box.GetHeight() / 2,
+		m_Box.GetWidth(),
+		m_Box.GetHeight());
+}
+
+void Tile::ActOnProjectile(const std::unique_ptr<Projectile>& pProjectile) const
+{
+	if (m_Box.IsPointInside(pProjectile->GetPoint()))
+	{
+		pProjectile->Kill();
+	}
+}

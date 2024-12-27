@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_compile_options(/W3 /WX)
 
+add_definitions(-DUNICODE -D_UNICODE)
+
 add_subdirectory(Engine)
 add_subdirectory(Game)
 
