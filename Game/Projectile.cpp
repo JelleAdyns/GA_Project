@@ -15,23 +15,29 @@ Projectile::Projectile(const Point2f& pos):
 
 void Projectile::Draw() const
 {
-	ENGINE.SetColor(RGB(255,255,255));
-	Drawf::FillEllipse(m_Position[0], m_Position[1], m_Radius, m_Radius);
+	if(not m_IsDead)
+	{
+		ENGINE.SetColor(RGB(255, 255, 255));
+		Drawf::FillEllipse(std::abs(m_Position[0]), std::abs(m_Position[1]), m_Radius, m_Radius);
+	}
 }
 
 void Projectile::Update()
 {
-	if (!m_Possesed)
+	if(not m_IsDead)
 	{
+		if (!m_Possesed)
+		{
 			m_Translation = Motor::Translation(m_Velocity * ENGINE.GetDeltaTime(), m_TransLine);
 			GAUtils::Transform(m_Position, m_Translation);
+		}
+		m_Possesed = false;
 	}
-	m_Possesed = false;
 }
 
 void Projectile::Rotate(const Motor& rotationMotor)
 {
-	m_Position = (rotationMotor * m_Position * ~rotationMotor).Normalized().Grade3();
+	if (not m_IsDead)
 	{
 		GAUtils::Transform(m_Position, rotationMotor);
 		m_TransLine = OneBlade{ -1, 0, 0, 0 } ^ (rotationMotor.Grade2() & m_Position);

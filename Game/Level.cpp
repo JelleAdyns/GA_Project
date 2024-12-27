@@ -24,18 +24,25 @@ void Level::Update()
 		m_pVecProjectiles.push_back(m_Cannon.CreateProjectile());
 	}
 
-	for (auto& projectile : m_pVecProjectiles)
+	for (auto& pProjectile : m_pVecProjectiles)
 	{
-		projectile->Update();
+		pProjectile->Update();
+
+		if (not m_LevelBox.IsPointInside(pProjectile->GetPoint()))
+			pProjectile->Kill();
 	}
+
 	for (auto& unit : m_pVecUnits)
 	{
 		unit->Update();
-		for (auto& projectile : m_pVecProjectiles)
+
+		//if (ENGINE.IsKeyPressed('9'))
 		{
-			unit->ActOnProjectile(projectile);
+			for (auto& projectile : m_pVecProjectiles)
+			{
+				unit->ActOnProjectile(projectile);
+			}
 		}
-	}
 	}
 
 	m_pVecProjectiles.erase(
@@ -44,11 +51,11 @@ void Level::Update()
 			m_pVecProjectiles.end(),
 			[&](const std::unique_ptr<Projectile>& pProjectile)
 			{
-				return not m_LevelBox.IsPointInside(pProjectile->GetPoint());
+				return pProjectile->IsDead();
 			}),
 		m_pVecProjectiles.end()
 	);
-
+	
 }
 
 void Level::AddUnit(std::unique_ptr<Unit>&& pUnit)
@@ -58,14 +65,7 @@ void Level::AddUnit(std::unique_ptr<Unit>&& pUnit)
 
 void Level::InputKeyDownThisFrame(int virtualKeyCode)
 {
-	switch (virtualKeyCode)
-	{
-	case '0':
-		//m_pVecUnits.push_back(RotatorUnit::CreateUnit());
-		break;
-	}
 	m_Player.InputKeyDownThisFrame(virtualKeyCode, *this);
-
 }
 void Level::InputKeyUp(int virtualKeyCode)
 {
