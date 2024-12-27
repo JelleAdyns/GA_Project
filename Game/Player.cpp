@@ -2,6 +2,7 @@
 #include "DrawFloatToInt.h"
 #include "TeleportUnit.h"
 #include "RotatorUnit.h"
+#include "BoosterUnit.h"
 #include "Level.h"
 #include "GAUtils.h"
 
@@ -49,8 +50,6 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, Level& level)
 			level.AddUnit(std::move(m_pControlledUnit));
 			m_pControlledUnit = nullptr;
 		}
-		else m_pControlledUnit = nullptr;
-		
 		break;
 	}
 	case 'T':
@@ -80,7 +79,6 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, Level& level)
 			level.AddUnit(std::move(m_pControlledUnit));
 			m_pControlledUnit = nullptr;
 		}
-		else m_pControlledUnit = nullptr;
 
 		break;
 	}
@@ -97,6 +95,11 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, Level& level)
 	case VK_UP:
 	{
 		if (m_pControlledUnit) m_pControlledUnit->Action3();
+		break;
+	}
+	case VK_DOWN:
+	{
+		if (m_pControlledUnit) m_pControlledUnit->Action4();
 		break;
 	}
 	}
