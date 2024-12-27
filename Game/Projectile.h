@@ -28,8 +28,8 @@ public:
 	void Rotate(const Motor& rotationMotor);
 
 private:
-	constexpr static int m_Radius{ 10 };
 	constexpr static int m_Speed{ 100 };
+	constexpr static int m_Radius{ 5 };
 
 	bool m_Possesed{ false };
 

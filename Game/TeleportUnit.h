@@ -30,8 +30,8 @@ public:
 	virtual void Action3() override {};
 	virtual void Action4() override {};
 private:
-	constexpr static float m_Width{50};
-	constexpr static float m_Height{75};
+	constexpr static float m_Width{25};
+	constexpr static float m_Height{35};
 	constexpr static COLORREF m_Color{RGB(245, 123, 145)};
 
 	OneBlade m_ReflectPlane{m_Position.y,0,-1,0};

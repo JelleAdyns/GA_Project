@@ -30,14 +30,14 @@ void RotatorUnit::Draw() const
 	if(m_RotationVelocity >= 0.f)
 	Drawf::FillEllipse(
 		m_Position.x + (m_Radius / 2) * std::cos((m_StartAngle + m_Degrees - 10) * DEG_TO_RAD),
-		m_Position.y + (m_Radius / 2) * std::sin((m_StartAngle + m_Degrees - 10) * DEG_TO_RAD), 5, 5);
+		m_Position.y + (m_Radius / 2) * std::sin((m_StartAngle + m_Degrees - 10) * DEG_TO_RAD), 3,3);
 	else
 		Drawf::FillEllipse(
 			m_Position.x + (m_Radius / 2) * std::cos((m_StartAngle + 10) * DEG_TO_RAD),
-			m_Position.y + (m_Radius / 2) * std::sin((m_StartAngle + 10) * DEG_TO_RAD), 5, 5);
+			m_Position.y + (m_Radius / 2) * std::sin((m_StartAngle + 10) * DEG_TO_RAD), 3,3);
 
 	ENGINE.SetColor(RGB(100, 140, 25));
-	Drawf::FillEllipse(m_Position.x, m_Position.y, 10, 10);
+	Drawf::FillEllipse(m_Position.x, m_Position.y, 5, 5);
 }
 
 void RotatorUnit::Update()

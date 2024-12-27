@@ -22,13 +22,13 @@ public:
 	bool ReadyToFire();
 	std::unique_ptr<Projectile> CreateProjectile();
 private:
-	Circlef m_BaseShape{60,60,50};
+	Circlef m_BaseShape{30,30,25};
 	Rectf m_BarrelShape
 	{
 		m_BaseShape.center.x,
-		m_BaseShape.center.y - m_BaseShape.radius + 20,
-		80,
-		m_BaseShape.radius * 2 - 20 * 2
+		m_BaseShape.center.y - m_BaseShape.radius + 10,
+		40,
+		m_BaseShape.radius * 2 - 10 * 2
 	};
 };
 

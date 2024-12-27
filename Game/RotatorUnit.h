@@ -31,9 +31,8 @@ public:
 
 private:
 
-	float CalculateProjectileAngle(std::unique_ptr<Projectile>& pProjectile);
+	constexpr static float m_Radius{ 50 };
 
-	constexpr static float m_Radius{ 100 };
 	float m_Degrees{ 180 };
 	float m_StartAngle{ 0 };
 	float m_RotationVelocity{ 60 };
