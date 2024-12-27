@@ -6,7 +6,10 @@
 TeleportUnit::TeleportUnit(const Point2f& pos) :
 	TeleportUnit{ pos.x, pos.y }
 {
-
+	const ThreeBlade p{ m_Position.x, m_Position.y, 0 };
+	const TwoBlade rotLine{ TwoBlade::LineFromPoints(p[0], p[1], p[2], p[0], p[1], p[2] + 1) };
+	Motor rotation = Motor::Rotation(180, rotLine);
+	m_DestinationBox.Rotate(rotation, true);
 }
 TeleportUnit::TeleportUnit(float x, float y) :
 	Unit{ Point2f{x, y} }
@@ -48,11 +51,22 @@ void TeleportUnit::Action1()
 {
 	const ThreeBlade pos{ m_Position.x, m_Position.y, 0 };
 	const TwoBlade rotLine{ TwoBlade::LineFromPoints(pos[0], pos[1], pos[2], pos[0], pos[1], pos[2] + 1) };
-	const float degreesStep{ 90 };
+	const float degreesStep{ 45 };
 
-	GAUtils::RotatePlane(m_ReflectPlane, degreesStep, rotLine);
-	GAUtils::RotatePlane(m_ActivationBox.m_LeftSide, degreesStep, rotLine);
-	GAUtils::RotatePlane(m_ActivationBox.m_RightSide, degreesStep, rotLine);
-	GAUtils::RotatePlane(m_ActivationBox.m_BottomSide, degreesStep, rotLine);
-	GAUtils::RotatePlane(m_ActivationBox.m_TopSide, degreesStep, rotLine);
+	Motor rotation = Motor::Rotation(degreesStep, rotLine);
+	GAUtils::Transform(m_ReflectPlane, rotation);
+	m_ActivationBox.Rotate(rotation, true);
+	m_DestinationBox.Rotate(rotation, true);
+}
+
+void TeleportUnit::TranslateUnit(const Motor& translation)
+{
+	GAUtils::Transform(m_ReflectPlane, translation);
+	m_ActivationBox.Translate(translation);
+	m_DestinationBox.Translate(translation);
+
+
+	ThreeBlade newPoint{ m_Position.x, m_Position.y,0 };
+	GAUtils::Transform(newPoint, translation);
+	m_Position = Point2f{ newPoint[0], newPoint[1] };
 }

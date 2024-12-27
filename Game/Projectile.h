@@ -34,8 +34,7 @@ private:
 	bool m_Possesed{ false };
 
 	ThreeBlade m_Position;
-	OneBlade m_TransPlane{ 0,1,0,0 };
-	TwoBlade m_TransLine{ TwoBlade{0,1,0,0,0,0} };
+	TwoBlade m_TransLine{ 1,0,0,0,0,0 };
 	Motor m_Translation{};
 	
 };

@@ -29,6 +29,7 @@ public:
 	virtual void Action3() override;
 	virtual void Action4() override {};
 
+	virtual void TranslateUnit(const Motor& translation) override;
 private:
 
 	constexpr static float m_Radius{ 50 };

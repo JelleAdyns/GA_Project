@@ -29,6 +29,8 @@ public:
 	virtual void Action2() override {};
 	virtual void Action3() override {};
 	virtual void Action4() override {};
+
+	virtual void TranslateUnit(const Motor& translation) override;
 private:
 	constexpr static float m_Width{25};
 	constexpr static float m_Height{35};

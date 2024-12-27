@@ -36,7 +36,7 @@ private:
 	Motor m_Translation{};
 
 	ThreeBlade m_Position{0,0,0};
-	Unit* m_pControlledUnit{ nullptr };
+	std::unique_ptr<Unit> m_pControlledUnit{ nullptr };
 };
 
 #endif // !PLAYER_H

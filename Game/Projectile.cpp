@@ -1,5 +1,6 @@
 #include "Projectile.h"
 #include "DrawFloatToInt.h"
+#include "GAUtils.h"
 
 
 Projectile::Projectile(float xCenter, float yCenter) :
@@ -22,16 +23,8 @@ void Projectile::Update()
 {
 	if (!m_Possesed)
 	{
-		//Motor rotation = Motor::Rotation(45, TwoBlade{ 0,0,0,0,1,0 });
-		//auto newPlane = (rotation * OneBlade{ 0,1,1,0 } * ~rotation);
-
-		//m_TransLine.Normalize();
-
-		m_Translation = Motor::Translation(m_Speed * ENGINE.GetDeltaTime(), m_TransLine);
-		m_Position = ((m_Translation * m_Position * ~m_Translation)).Normalized().Grade3();
-
-		std::for_each(m_TransLine.begin(), m_TransLine.end(), [&](float& data) {
-			data = std::round(data); });
+			m_Translation = Motor::Translation(m_Velocity * ENGINE.GetDeltaTime(), m_TransLine);
+			GAUtils::Transform(m_Position, m_Translation);
 	}
 	m_Possesed = false;
 }
@@ -39,12 +32,8 @@ void Projectile::Update()
 void Projectile::Rotate(const Motor& rotationMotor)
 {
 	m_Position = (rotationMotor * m_Position * ~rotationMotor).Normalized().Grade3();
-
-	// Join rotationLine and projectile position, which create a plane.
-	// Intersect that plane with -e0 to get the current translation vanishing line.
-	m_TransLine = (rotationMotor.Grade2() & m_Position) ^ OneBlade{ -1, 0, 0, 0 };
-
-
-	//m_TransLine = (rotationMotor * m_TransLine * ~rotationMotor).Grade2();
-	//m_TransLine = OneBlade{ -1,0,0,0 } ^ m_TransPlane;
+	{
+		GAUtils::Transform(m_Position, rotationMotor);
+		m_TransLine = OneBlade{ -1, 0, 0, 0 } ^ (rotationMotor.Grade2() & m_Position);
+	}
 }

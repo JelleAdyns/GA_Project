@@ -12,10 +12,11 @@ Box::Box(const Point2f& center, float width, float height):
 }
 
 Box::Box(float centerX, float centerY, float width, float height):
-	m_LeftSide{ -(centerX - width / 2), 1,0,0 },
-	m_RightSide{ (centerX + width / 2), -1,0,0 },
-	m_BottomSide{ -(centerY - height / 2), 0,1,0 },
-	m_TopSide{ (centerY + height / 2), 0,-1,0 }
+	Center{centerX, centerY, 0},
+	LeftSide{ -(centerX - width / 2), 1,0,0 },
+	RightSide{ (centerX + width / 2), -1,0,0 },
+	BottomSide{ -(centerY - height / 2), 0,1,0 },
+	TopSide{ (centerY + height / 2), 0,-1,0 }
 {
 }
 
@@ -27,29 +28,39 @@ bool Box::IsPointInside(const ThreeBlade& point) const
 			GetDistanceFromTop(point) > 0.f );
 }
 
+float Box::GetWidth() const
+{
+	return GetDistanceFromLeft(Center) * 2;
+}
+
+float Box::GetHeight() const
+{
+	return GetDistanceFromTop(Center) * 2;
+}
+
 float Box::GetDistanceFromLeft(const ThreeBlade& point) const
 {
-	return GAUtils::GetDistance(point, m_LeftSide);
+	return GAUtils::GetDistance(point, LeftSide);
 }
 
 float Box::GetDistanceFromRight(const ThreeBlade& point) const
 {
-	return GAUtils::GetDistance(point, m_RightSide);
+	return GAUtils::GetDistance(point, RightSide);
 }
 
 float Box::GetDistanceFromBottom(const ThreeBlade& point) const
 {
-	return GAUtils::GetDistance(point, m_BottomSide);
+	return GAUtils::GetDistance(point, BottomSide);
 }
 
 float Box::GetDistanceFromTop(const ThreeBlade& point) const
 {
-	return GAUtils::GetDistance(point, m_TopSide);
+	return GAUtils::GetDistance(point, TopSide);
 }
 
-Point2f Box::GetOutsideDistance(const ThreeBlade& point) const
+jela::Vector2f Box::GetOutsideDistance(const ThreeBlade& point) const
 {
-	Point2f dist{};
+	jela::Vector2f dist{};
 
 	float left	{GetDistanceFromLeft(point)};
 	float right	{GetDistanceFromRight(point)};
@@ -63,4 +74,26 @@ Point2f Box::GetOutsideDistance(const ThreeBlade& point) const
 	else if (top < 0.f) dist.y = top;
 	
 	return dist;
+}
+
+void Box::Rotate(const Motor& rotation, bool rotateSides)
+{
+	GAUtils::Transform(Center, rotation);
+	if (rotateSides)
+	{
+		GAUtils::Transform(LeftSide, rotation);
+		GAUtils::Transform(RightSide, rotation);
+		GAUtils::Transform(BottomSide, rotation);
+		GAUtils::Transform(TopSide, rotation);
+	}
+}
+
+void Box::Translate(const Motor& translation)
+{
+	GAUtils::Transform(Center, translation);
+
+	GAUtils::Transform(LeftSide, translation);
+	GAUtils::Transform(RightSide, translation);
+	GAUtils::Transform(BottomSide, translation);
+	GAUtils::Transform(TopSide, translation);
 }

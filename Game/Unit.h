@@ -28,6 +28,7 @@ public:
 	virtual void Action3() = 0;
 	virtual void Action4() = 0;
 
+	virtual void TranslateUnit(const Motor& translation) = 0;
 
 protected:
 	Point2f m_Position{};

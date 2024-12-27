@@ -18,7 +18,9 @@ namespace GAUtils
 
 	float GetAngle(const TwoBlade& line1, const TwoBlade& line2);
 
-	void RotatePlane(OneBlade& toRotate, float degrees, const TwoBlade& rotationLine);
+	void Transform(OneBlade& toTransform, const Motor& transform);
+	void Transform(TwoBlade& toTransform, const Motor& transform);
+	void Transform(ThreeBlade& toTransform, const Motor& transform);
 	
 }
 

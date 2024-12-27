@@ -19,17 +19,24 @@ struct Box
 
 	bool IsPointInside(const ThreeBlade& point) const;
 
+	float GetWidth() const;
+	float GetHeight() const;
+
 	float GetDistanceFromLeft(const ThreeBlade& point) const;
 	float GetDistanceFromRight(const ThreeBlade& point) const;
 	float GetDistanceFromBottom(const ThreeBlade& point) const;
 	float GetDistanceFromTop(const ThreeBlade& point) const;
 
-	Point2f GetOutsideDistance(const ThreeBlade& point) const;
+	jela::Vector2f GetOutsideDistance(const ThreeBlade& point) const;
+	void Rotate(const Motor& rotation, bool rotateSides);
+	void Translate(const Motor& translation);
 
-	OneBlade m_LeftSide;
-	OneBlade m_RightSide;
-	OneBlade m_BottomSide;
-	OneBlade m_TopSide;
+	ThreeBlade Center;
+
+	OneBlade LeftSide;
+	OneBlade RightSide;
+	OneBlade BottomSide;
+	OneBlade TopSide;
 };
 
 #endif // !BOX_H
