@@ -1,10 +1,9 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "FlyFish.h"
-#include "structsf.h"
-#include "Unit.h"
 #include <Engine.h>
+#include "Unit.h"
+#include "Box.h"
 
 class Level;
 class Player final

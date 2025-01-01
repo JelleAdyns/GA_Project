@@ -1,6 +1,7 @@
 #include "BoosterUnit.h"
 #include "DrawFloatToInt.h"
 #include "GAUtils.h"
+#include "ProjectileOverlapHandler.h"
 
 BoosterUnit::BoosterUnit(const Point2f& pos):
 	BoosterUnit{pos.x, pos.y}
@@ -32,13 +33,28 @@ void BoosterUnit::Update()
 
 void BoosterUnit::ActOnProjectile(std::unique_ptr<Projectile>& pProjectile)
 {
+	
+	ProjectileOverlapHandler::GetInstance().CheckOverlap(this, m_Area, pProjectile);
 
-	bool isProjectileIn = m_Area.IsPointInside(pProjectile->GetPoint());
+	//bool isProjectileIn = m_Area.IsPointInside(pProjectile->GetPoint());
+	//
+	//if (isProjectileIn)
+	//{
+	//	pProjectile->SetVelocity(Projectile::GetDefaultSpeed() * 2);
+	//	pProjectile->AddDirection(TwoBlade{0,0,1,0,0,0});
+	//}
+}
 
-	if (isProjectileIn)
-	{
-		pProjectile->SetVelocity(Projectile::GetDefaultSpeed() * 2);
-	}
+void BoosterUnit::BeginOverlap(const std::unique_ptr<Projectile>& pProjectile) const
+{
+	pProjectile->SetVelocity(Projectile::GetDefaultSpeed() * 2);
+	pProjectile->AddDirection(TwoBlade{ 0,0,1,0,0,0 });
+}
+
+void BoosterUnit::EndOverlap(const std::unique_ptr<Projectile>& pProjectile) const
+{
+	pProjectile->SetVelocity(Projectile::GetDefaultSpeed());
+	//pProjectile->AddDirection(TwoBlade{ 0,0,1,0,0,0 });
 }
 
 void BoosterUnit::Action1()

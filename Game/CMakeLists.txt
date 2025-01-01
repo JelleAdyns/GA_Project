@@ -31,7 +31,12 @@ set(SOURCES
 	"BoosterUnit.cpp"
 	"Box.h"
 	"Box.cpp" 
-	"BlackHoleTile.h" "BlackHoleTile.cpp" "Tile.h" "Tile.cpp")
+	"BlackHoleTile.h"
+	"BlackHoleTile.cpp"
+	"Tile.h"
+	"Tile.cpp" 
+	"ProjectileOverlapHandler.h" 
+	"ProjectileOverlapHandler.cpp")
 
 add_executable(${PROJECT_NAME} WIN32  ${SOURCES} )
 set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE YES)

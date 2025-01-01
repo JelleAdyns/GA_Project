@@ -16,13 +16,15 @@ public:
 	Tile& operator=(const Tile& other) = delete;
 	Tile& operator=(Tile&& other) noexcept = delete;
 
-	void Draw() const;
-	void ActOnProjectile(const std::unique_ptr<Projectile>& pProjectile) const;
+	virtual void Draw() const;
+	virtual void ActOnProjectile(const std::unique_ptr<Projectile>& pProjectile);
+	virtual void BeginOverlap(const std::unique_ptr<Projectile>& pProjectile) const {};
+	virtual void EndOverlap(const std::unique_ptr<Projectile>& pProjectile) const {};
 
 	static float GetSize() { return m_Size; }
 
 protected:
-	const Box m_Box;
+	Box m_Box;
 
 private:
 

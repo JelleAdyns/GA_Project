@@ -7,6 +7,7 @@
 #include "Box.h"
 #include "RotatorUnit.h"
 #include "Player.h"
+#include "BlackHoleTile.h"
 
 class Level final
 {
@@ -41,6 +42,8 @@ private:
 	Cannon m_Cannon{};
 	std::vector<std::unique_ptr<Projectile>> m_pVecProjectiles{};
 	std::vector<std::unique_ptr<Unit>> m_pVecUnits{};
+	BlackHoleTile m_BlackHole{ Point2f{300,30} };
+	BlackHoleTile m_BlackHole2{ Point2f{360,30} };
 };
 
 #endif // !LEVEL_H

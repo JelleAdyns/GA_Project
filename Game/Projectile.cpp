@@ -1,6 +1,7 @@
 #include "Projectile.h"
 #include "DrawFloatToInt.h"
 #include "GAUtils.h"
+#include "ProjectileOverlapHandler.h"
 
 
 Projectile::Projectile(float xCenter, float yCenter) :
@@ -17,8 +18,8 @@ void Projectile::Draw() const
 {
 	if(not m_IsDead)
 	{
-		ENGINE.SetColor(RGB(255, 255, 255));
-		Drawf::FillEllipse(std::abs(m_Position[0]), std::abs(m_Position[1]), m_Radius, m_Radius);
+		ENGINE.SetColor(RGB(255, 255, 255), (m_Position[2] / 50 + 1));
+		Drawf::FillEllipse(std::abs(m_Position[0]), std::abs(m_Position[1]), m_Radius+(m_Position[2] / 50 + 1), m_Radius+(m_Position[2] / 50+1));
 	}
 }
 
@@ -32,9 +33,17 @@ void Projectile::Update()
 			GAUtils::Transform(m_Position, m_Translation);
 		}
 		m_Possesed = false;
+
+		if (m_Position[2] < -40)
+			Kill();
 	}
 }
 
+void Projectile::Kill()
+{
+	ProjectileOverlapHandler::GetInstance().EraseByProjectile(this);
+	m_IsDead = true;
+}
 void Projectile::Rotate(const Motor& rotationMotor)
 {
 	if (not m_IsDead)

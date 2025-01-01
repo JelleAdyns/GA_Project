@@ -21,11 +21,12 @@ public:
 	void Draw() const;
 	void Update();
 	
+	void AddDirection(const TwoBlade& transLine) { m_TransLine += transLine; }
 	void SetDirection(const TwoBlade& transLine) { m_TransLine = transLine; }
 	void SetPossesed(bool posses) { m_Possesed = posses; }
 	void SetPoint(const ThreeBlade& pos) { m_Position = pos; }
 	void SetVelocity(float velocity) { m_Velocity = velocity; }
-	void Kill() { m_IsDead = true; }
+	void Kill();
 
 	ThreeBlade GetPoint() const { return m_Position; } 
 	bool IsDead() const { return m_IsDead; } 

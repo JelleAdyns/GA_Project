@@ -3,9 +3,11 @@
 
 void Level::Draw() const
 {
-	m_Player.Draw();
+	m_BlackHole.Draw();
+	m_BlackHole2.Draw();
+	
 	m_Cannon.Draw();
-
+	
 	for (const auto& projectile : m_pVecProjectiles)
 	{
 		projectile->Draw();
@@ -14,6 +16,7 @@ void Level::Draw() const
 	{
 		unit->Draw();
 	}
+	m_Player.Draw();
 }
 
 void Level::Update()
@@ -44,6 +47,11 @@ void Level::Update()
 			}
 		}
 	}
+	for (auto& projectile : m_pVecProjectiles)
+	{
+		m_BlackHole.ActOnProjectile(projectile);
+		m_BlackHole2.ActOnProjectile(projectile);
+	}
 
 	m_pVecProjectiles.erase(
 		std::remove_if(
@@ -66,6 +74,14 @@ void Level::AddUnit(std::unique_ptr<Unit>&& pUnit)
 void Level::InputKeyDownThisFrame(int virtualKeyCode)
 {
 	m_Player.InputKeyDownThisFrame(virtualKeyCode, *this);
+
+	if(virtualKeyCode == 'K')
+	{
+
+		TwoBlade tr{ 0,1,0,0,0,0 };
+		m_BlackHole.Translate(tr);
+		m_BlackHole2.Translate(tr);
+	}
 }
 void Level::InputKeyUp(int virtualKeyCode)
 {

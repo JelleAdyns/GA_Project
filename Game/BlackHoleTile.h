@@ -1,25 +1,30 @@
 #ifndef BLACKHOLE_H
 #define BLACKHOLE_H
 
-#include "structsf.h"
 #include "Box.h"
 #include "Tile.h"
 
-class BlackHole final : public Tile
+class BlackHoleTile final : public Tile
 {
 public:
-	BlackHole(const Point2f& center);
-	~BlackHole() = default;
+	BlackHoleTile(const Point2f& center);
+	~BlackHoleTile() = default;
 
-	BlackHole(const BlackHole& other) = delete;
-	BlackHole(BlackHole&& other) noexcept = delete;
-	BlackHole& operator=(const BlackHole& other) = delete;
-	BlackHole& operator=(BlackHole&& other) noexcept = delete;
+	BlackHoleTile(const BlackHoleTile& other) = delete;
+	BlackHoleTile(BlackHoleTile&& other) noexcept = delete;
+	BlackHoleTile& operator=(const BlackHoleTile& other) = delete;
+	BlackHoleTile& operator=(BlackHoleTile&& other) noexcept = delete;
 
-	void Draw() const;
+	virtual void Draw() const override;
+	virtual void ActOnProjectile(const std::unique_ptr<Projectile>& pProjectile) override;
+	virtual void BeginOverlap(const std::unique_ptr<Projectile>& pProjectile) const override;
+	virtual void EndOverlap(const std::unique_ptr<Projectile>& pProjectile) const override;
+
+	void Translate(TwoBlade tr);
 
 private:
 	
+	Motor m_PullTranslation{};
 };
 
 #endif // !BLACKHOLE_H

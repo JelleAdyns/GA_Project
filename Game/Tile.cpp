@@ -17,7 +17,7 @@ void Tile::Draw() const
 		m_Box.GetHeight());
 }
 
-void Tile::ActOnProjectile(const std::unique_ptr<Projectile>& pProjectile) const
+void Tile::ActOnProjectile(const std::unique_ptr<Projectile>& pProjectile)
 {
 	if (m_Box.IsPointInside(pProjectile->GetPoint()))
 	{

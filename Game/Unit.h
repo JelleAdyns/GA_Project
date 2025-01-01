@@ -22,6 +22,8 @@ public:
 	virtual void Draw() const = 0;
 	virtual void Update() = 0;
 	virtual void ActOnProjectile(std::unique_ptr<Projectile>& pProjectile) = 0;
+	virtual void BeginOverlap(const std::unique_ptr<Projectile>& pProjectile) const = 0;
+	virtual void EndOverlap(const std::unique_ptr<Projectile>& pProjectile) const = 0;
 
 	virtual void Action1() = 0;
 	virtual void Action2() = 0;
