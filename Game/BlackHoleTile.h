@@ -17,8 +17,8 @@ public:
 
 	virtual void Draw() const override;
 	virtual void ActOnProjectile(const std::unique_ptr<Projectile>& pProjectile) override;
-	virtual void BeginOverlap(const std::unique_ptr<Projectile>& pProjectile) const override;
-	virtual void EndOverlap(const std::unique_ptr<Projectile>& pProjectile) const override;
+	virtual void BeginOverlap(const std::unique_ptr<Projectile>& pProjectile) override;
+	virtual void EndOverlap(const std::unique_ptr<Projectile>& pProjectile) override;
 
 private:
 	

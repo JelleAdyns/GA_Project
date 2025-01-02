@@ -18,8 +18,8 @@ public:
 
 	virtual void Draw() const;
 	virtual void ActOnProjectile(const std::unique_ptr<Projectile>& pProjectile);
-	virtual void BeginOverlap(const std::unique_ptr<Projectile>& pProjectile) const {};
-	virtual void EndOverlap(const std::unique_ptr<Projectile>& pProjectile) const {};
+	virtual void BeginOverlap(const std::unique_ptr<Projectile>& pProjectile) {};
+	virtual void EndOverlap(const std::unique_ptr<Projectile>& pProjectile) {};
 
 	static float GetSize() { return m_Size; }
 

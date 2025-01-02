@@ -23,12 +23,12 @@ void BlackHoleTile::ActOnProjectile(const std::unique_ptr<Projectile>& pProjecti
 	ProjectileOverlapHandler::GetInstance().CheckOverlap(this, m_Box, pProjectile);
 }
 
-void BlackHoleTile::BeginOverlap(const std::unique_ptr<Projectile>& pProjectile) const
+void BlackHoleTile::BeginOverlap(const std::unique_ptr<Projectile>& pProjectile)
 {
 	pProjectile->AddDirection(TwoBlade{ 0,0,-1,0,0,0 });
 }
 
-void BlackHoleTile::EndOverlap(const std::unique_ptr<Projectile>& pProjectile) const
+void BlackHoleTile::EndOverlap(const std::unique_ptr<Projectile>& pProjectile)
 {
 	pProjectile->AddDirection(TwoBlade{ 0,0,1,0,0,0 });
 }
