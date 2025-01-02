@@ -28,7 +28,8 @@ public:
 	void SetSpeedMultiplier(float speedMultiplier) { m_SpeedMultiplier = speedMultiplier; }
 	void Kill();
 
-	ThreeBlade GetPoint() const { return m_Position; } 
+	const TwoBlade& GetTransLine() const { return m_TransLine; } 
+	const ThreeBlade& GetPoint() const { return m_Position; } 
 	bool IsDead() const { return m_IsDead; } 
 
 	void Rotate(const Motor& rotationMotor);

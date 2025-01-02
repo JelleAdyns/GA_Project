@@ -3,6 +3,7 @@
 #include "TeleportUnit.h"
 #include "RotatorUnit.h"
 #include "BoosterUnit.h"
+#include "PhaserUnit.h"
 #include "Level.h"
 #include "GAUtils.h"
 
@@ -72,6 +73,21 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, Level& level)
 		if (not m_pControlledUnit)
 		{
 			auto pUnit = BoosterUnit::CreateUnit(Point2f{ m_Position[0],m_Position[1] });
+			m_pControlledUnit.swap(pUnit);
+		}
+		else
+		{
+			level.AddUnit(std::move(m_pControlledUnit));
+			m_pControlledUnit = nullptr;
+		}
+
+		break;
+	}
+	case 'P':
+	{
+		if (not m_pControlledUnit)
+		{
+			auto pUnit = PhaserUnit::CreateUnit(Point2f{ m_Position[0],m_Position[1] });
 			m_pControlledUnit.swap(pUnit);
 		}
 		else

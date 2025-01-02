@@ -36,7 +36,7 @@ set(SOURCES
 	"Tile.h"
 	"Tile.cpp" 
 	"ProjectileOverlapHandler.h" 
-	"ProjectileOverlapHandler.cpp")
+	"ProjectileOverlapHandler.cpp" "FenceTile.h" "FenceTile.cpp" "PhaserUnit.h" "PhaserUnit.cpp")
 
 add_executable(${PROJECT_NAME} WIN32  ${SOURCES} )
 set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE YES)
