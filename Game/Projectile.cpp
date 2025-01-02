@@ -18,8 +18,9 @@ void Projectile::Draw() const
 {
 	if(not m_IsDead)
 	{
-		ENGINE.SetColor(RGB(255, 255, 255), (m_Position[2] / 50 + 1));
-		Drawf::FillEllipse(std::abs(m_Position[0]), std::abs(m_Position[1]), m_Radius+(m_Position[2] / 50 + 1), m_Radius+(m_Position[2] / 50+1));
+		float depthValue = (m_Position[2] / std::abs(m_KillDepth + 1) + 1);
+		ENGINE.SetColor(RGB(255, 255, 255), depthValue);
+		Drawf::FillEllipse(std::abs(m_Position[0]), std::abs(m_Position[1]), m_Radius+depthValue, m_Radius+depthValue);
 	}
 }
 
@@ -27,15 +28,27 @@ void Projectile::Update()
 {
 	if(not m_IsDead)
 	{
+
+		if (std::abs(m_Position[2]) > 0.0001f and 
+			(not ProjectileOverlapHandler::GetInstance().IsOverlapping(this)))
+		{	
+			m_Position = GAUtils::Project(m_Position, OneBlade{ 0,0,0,1 });
+		}
 		if (!m_Possesed)
 		{
-			m_Translation = Motor::Translation(m_Velocity * ENGINE.GetDeltaTime(), m_TransLine);
+			auto origin = ThreeBlade{ 0,0,0 };
+			auto defaultPlane = TwoBlade{ m_TransLine[0],m_TransLine[1],0,0,0,0} &origin;
+			auto currentPlane = m_TransLine & origin;
+
+			m_Speed = m_DefaultSpeed / std::abs(std::cos(GAUtils::GetAngle(defaultPlane, currentPlane)));
+			m_Translation = Motor::Translation(m_Speed * m_SpeedMultiplier * ENGINE.GetDeltaTime(), m_TransLine);
 			GAUtils::Transform(m_Position, m_Translation);
 		}
 		m_Possesed = false;
 
-		if (m_Position[2] < -40)
+		if (m_Position[2] < m_KillDepth)
 			Kill();
+		
 	}
 }
 
@@ -49,6 +62,7 @@ void Projectile::Rotate(const Motor& rotationMotor)
 	if (not m_IsDead)
 	{
 		GAUtils::Transform(m_Position, rotationMotor);
-		m_TransLine = OneBlade{ -1, 0, 0, 0 } ^ (rotationMotor.Grade2() & m_Position);
+		if (not ProjectileOverlapHandler::GetInstance().IsOverlapping(this))
+			m_TransLine = OneBlade{ -1, 0, 0, 0 } ^ (rotationMotor.Grade2() & m_Position);
 	}
 }

@@ -117,3 +117,22 @@ void ProjectileOverlapHandler::EraseByProjectile(const Projectile* pProjectile)
         }
     );
 }
+
+bool ProjectileOverlapHandler::IsOverlapping(const Projectile* pProjectile) const
+{
+    bool projectilePresent = std::any_of(m_pTiles.cbegin(), m_pTiles.cend(),
+        [&](const std::pair<Tile*, Projectile*>& pair)
+        {
+            return (pair.second == pProjectile);
+        });
+
+    if (projectilePresent) return true;
+
+    projectilePresent = std::any_of(m_pUnits.cbegin(), m_pUnits.cend(),
+        [&](const std::pair<Unit*, Projectile*>& pair)
+        {
+            return (pair.second == pProjectile);
+        });
+
+    return projectilePresent;
+}

@@ -33,28 +33,18 @@ void BoosterUnit::Update()
 
 void BoosterUnit::ActOnProjectile(std::unique_ptr<Projectile>& pProjectile)
 {
-	
 	ProjectileOverlapHandler::GetInstance().CheckOverlap(this, m_Area, pProjectile);
-
-	//bool isProjectileIn = m_Area.IsPointInside(pProjectile->GetPoint());
-	//
-	//if (isProjectileIn)
-	//{
-	//	pProjectile->SetVelocity(Projectile::GetDefaultSpeed() * 2);
-	//	pProjectile->AddDirection(TwoBlade{0,0,1,0,0,0});
-	//}
 }
 
 void BoosterUnit::BeginOverlap(const std::unique_ptr<Projectile>& pProjectile) const
 {
-	pProjectile->SetVelocity(Projectile::GetDefaultSpeed() * 2);
+	pProjectile->SetSpeedMultiplier(2);
 	pProjectile->AddDirection(TwoBlade{ 0,0,1,0,0,0 });
 }
 
 void BoosterUnit::EndOverlap(const std::unique_ptr<Projectile>& pProjectile) const
 {
-	pProjectile->SetVelocity(Projectile::GetDefaultSpeed());
-	//pProjectile->AddDirection(TwoBlade{ 0,0,1,0,0,0 });
+	pProjectile->SetSpeedMultiplier(1);
 }
 
 void BoosterUnit::Action1()

@@ -25,7 +25,7 @@ public:
 	void SetDirection(const TwoBlade& transLine) { m_TransLine = transLine; }
 	void SetPossesed(bool posses) { m_Possesed = posses; }
 	void SetPoint(const ThreeBlade& pos) { m_Position = pos; }
-	void SetVelocity(float velocity) { m_Velocity = velocity; }
+	void SetSpeedMultiplier(float speedMultiplier) { m_SpeedMultiplier = speedMultiplier; }
 	void Kill();
 
 	ThreeBlade GetPoint() const { return m_Position; } 
@@ -33,13 +33,16 @@ public:
 
 	void Rotate(const Motor& rotationMotor);
 
-	static float GetDefaultSpeed() { return m_Speed; }
+	constexpr static float GetDefaultSpeed() { return m_DefaultSpeed; }
+	constexpr static float GetKillDepth() { return m_KillDepth; }
 
 private:
-	constexpr static int m_Speed{ 100 };
+	constexpr static int m_DefaultSpeed{ 100 };
 	constexpr static int m_Radius{ 5 };
+	constexpr static float m_KillDepth{ -20 };
 
-	float m_Velocity{ m_Speed };
+	float m_SpeedMultiplier{ 1.f };
+	float m_Speed{ m_DefaultSpeed };
 	bool m_Possesed{ false };
 	bool m_IsDead{ false };
 

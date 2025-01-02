@@ -1,5 +1,5 @@
-#ifndef BLACKHOLE_H
-#define BLACKHOLE_H
+#ifndef BLACKHOLETILE_H
+#define BLACKHOLETILE_H
 
 #include "Box.h"
 #include "Tile.h"
@@ -20,11 +20,8 @@ public:
 	virtual void BeginOverlap(const std::unique_ptr<Projectile>& pProjectile) const override;
 	virtual void EndOverlap(const std::unique_ptr<Projectile>& pProjectile) const override;
 
-	void Translate(TwoBlade tr);
-
 private:
 	
-	Motor m_PullTranslation{};
 };
 
-#endif // !BLACKHOLE_H
+#endif // !BLACKHOLETILE_H

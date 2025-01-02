@@ -28,7 +28,7 @@ protected:
 
 private:
 
-	constexpr static float m_Size{ 32 };
+	constexpr static float m_Size{ 40 };
 };
 
 #endif // !TILE_H

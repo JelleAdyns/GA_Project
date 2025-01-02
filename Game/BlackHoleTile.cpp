@@ -32,9 +32,3 @@ void BlackHoleTile::EndOverlap(const std::unique_ptr<Projectile>& pProjectile) c
 {
 	pProjectile->AddDirection(TwoBlade{ 0,0,1,0,0,0 });
 }
-
-void BlackHoleTile::Translate(TwoBlade tr)
-{
-	Motor trans = Motor::Translation(50, tr);
-	m_Box.Translate(trans);
-}

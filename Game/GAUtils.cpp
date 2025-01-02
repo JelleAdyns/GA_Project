@@ -52,6 +52,11 @@ float GAUtils::GetAngle(const TwoBlade& line1, const TwoBlade& line2)
 	return std::acos(-(line1.Normalized() | line2.Normalized()));
 }
 
+float GAUtils::GetAngle(const OneBlade& plane1, const OneBlade& plane2)
+{
+	return std::acos(plane1.Normalized() | plane2.Normalized());
+}
+
 void GAUtils::Transform(OneBlade& toTransform, const Motor& transform)
 {
 	toTransform = (transform * toTransform * ~transform).Normalized().Grade1();

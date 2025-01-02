@@ -74,14 +74,6 @@ void Level::AddUnit(std::unique_ptr<Unit>&& pUnit)
 void Level::InputKeyDownThisFrame(int virtualKeyCode)
 {
 	m_Player.InputKeyDownThisFrame(virtualKeyCode, *this);
-
-	if(virtualKeyCode == 'K')
-	{
-
-		TwoBlade tr{ 0,1,0,0,0,0 };
-		m_BlackHole.Translate(tr);
-		m_BlackHole2.Translate(tr);
-	}
 }
 void Level::InputKeyUp(int virtualKeyCode)
 {

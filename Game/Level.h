@@ -43,7 +43,7 @@ private:
 	std::vector<std::unique_ptr<Projectile>> m_pVecProjectiles{};
 	std::vector<std::unique_ptr<Unit>> m_pVecUnits{};
 	BlackHoleTile m_BlackHole{ Point2f{300,30} };
-	BlackHoleTile m_BlackHole2{ Point2f{360,30} };
+	BlackHoleTile m_BlackHole2{ Point2f{332,30} };
 };
 
 #endif // !LEVEL_H

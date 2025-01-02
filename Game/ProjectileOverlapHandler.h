@@ -15,6 +15,7 @@ public:
 	void CheckOverlap(Unit* pUnit, const Box& area, const std::unique_ptr<Projectile>& pProjectile);
 
 	void EraseByProjectile(const Projectile* pProjectile);
+	bool IsOverlapping(const Projectile* pProjectile) const;
 private:
 	ProjectileOverlapHandler() = default;
 
