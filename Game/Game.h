@@ -2,8 +2,10 @@
 #define GAME_H
 
 #include <Engine.h>
-#include "Level.h"
+#include "LevelScreen.h"
 #include "FlyFish.h"
+#include <queue>
+#include "Screen.h"
 
 class Game final: public jela::BaseGame
 {
@@ -28,13 +30,39 @@ public:
     virtual void MouseUp(bool isLeft, int x, int y) override;
     virtual void MouseMove(int x, int y, int keyDown) override;
     virtual void MouseWheelTurn(int x, int y, int turnDistance, int keyDown) override;
-private:
-    Level m_Level{};
 
-    ThreeBlade pointToMove;
-    ThreeBlade reflectedPointToMove;
-    ThreeBlade m_Position;
-    float angle = 30;
+
+    enum class State
+    {
+        Playing,
+    };
+    enum class ScreenOperation
+    {
+        Set,
+        Push,
+        Pop
+    };
+
+    // FUNCTIONS
+    void SetScreen(State newGameState);
+    void AddOperationToQueue(ScreenOperation screenOper);
+
+private:
+    // VARIABLES
+
+    State m_GameState{ State::Playing };
+    std::vector<std::pair<State, std::unique_ptr<Screen>>> m_pScreenStack{};
+
+    std::queue<std::pair<State, ScreenOperation>> m_ScreenEventQueue{};
+    //LevelScreen m_Level{};
+
+    bool m_UpdateScreen{};
+
+    void DrawScreens() const;
+    void LoadScreen();
+    void PushScreen();
+    void PopScreen();
+    void HandleEventQueue();
 };
 
 #endif // !GAME_H

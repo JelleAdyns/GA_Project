@@ -5,7 +5,7 @@
 #include "Unit.h"
 #include "Box.h"
 
-class Level;
+class LevelScreen;
 class Player final
 {
 public:
@@ -20,9 +20,9 @@ public:
 	Player& operator=(Player&& other) noexcept = delete;
 
 	void Draw() const;
-	void Update(const Level& level);
+	void Update(const LevelScreen& level);
 
-	void InputKeyDownThisFrame(int virtualKeyCode, Level& level);
+	void InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level);
 	void InputKeyUp(int virtualKeyCode);
 
 	void HandleMovementInput();

@@ -1,10 +1,12 @@
-#include "Level.h"
+#include "LevelScreen.h"
 #include <algorithm>
 
-void Level::Draw() const
+void LevelScreen::Draw() const
 {
 	m_BlackHole.Draw();
+	m_Fence.Draw();
 	m_BlackHole2.Draw();
+	m_Fence2.Draw();
 	
 	m_Cannon.Draw();
 	
@@ -19,7 +21,7 @@ void Level::Draw() const
 	m_Player.Draw();
 }
 
-void Level::Update()
+void LevelScreen::Update()
 {
 	m_Player.Update(*this);
 	if (m_Cannon.ReadyToFire())
@@ -50,7 +52,9 @@ void Level::Update()
 	for (auto& projectile : m_pVecProjectiles)
 	{
 		m_BlackHole.ActOnProjectile(projectile);
+		m_Fence.ActOnProjectile(projectile);
 		m_BlackHole2.ActOnProjectile(projectile);
+		m_Fence2.ActOnProjectile(projectile);
 	}
 
 	m_pVecProjectiles.erase(
@@ -66,21 +70,21 @@ void Level::Update()
 	
 }
 
-void Level::AddUnit(std::unique_ptr<Unit>&& pUnit)
+void LevelScreen::AddUnit(std::unique_ptr<Unit>&& pUnit)
 {
 	m_pVecUnits.push_back(std::move(pUnit));
 }
 
-void Level::InputKeyDownThisFrame(int virtualKeyCode)
+void LevelScreen::InputKeyDownThisFrame(int virtualKeyCode)
 {
 	m_Player.InputKeyDownThisFrame(virtualKeyCode, *this);
 }
-void Level::InputKeyUp(int virtualKeyCode)
+void LevelScreen::InputKeyUp(int virtualKeyCode)
 {
 	m_Player.InputKeyUp(virtualKeyCode);
 }
 
-const Box& Level::GetLevelBox() const
+const Box& LevelScreen::GetLevelBox() const
 {
 	return m_LevelBox;
 }

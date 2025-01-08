@@ -4,7 +4,7 @@
 #include "RotatorUnit.h"
 #include "BoosterUnit.h"
 #include "PhaserUnit.h"
-#include "Level.h"
+#include "LevelScreen.h"
 #include "GAUtils.h"
 
 
@@ -24,13 +24,13 @@ void Player::Draw() const
 	if (m_pControlledUnit) m_pControlledUnit->Draw();
 }
 
-void Player::Update(const Level& level)
+void Player::Update(const LevelScreen& level)
 {
 	HandleMovementInput();
 	HandleBorderCollision(level.GetLevelBox());	
 }
 
-void Player::InputKeyDownThisFrame(int virtualKeyCode, Level& level)
+void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level)
 {
 	switch (virtualKeyCode)
 	{
