@@ -10,8 +10,8 @@ set(SOURCES
 	"Cannon.h"	
 	"FlyFish.cpp"	
 	"FlyFish.h"	
-	"Level.cpp"	
-	"Level.h"	
+	"LevelScreen.cpp"	
+	"LevelScreen.h"	
 	"Player.cpp"	
 	"Player.h"	
 	"Projectile.cpp"	
@@ -36,7 +36,12 @@ set(SOURCES
 	"Tile.h"
 	"Tile.cpp" 
 	"ProjectileOverlapHandler.h" 
-	"ProjectileOverlapHandler.cpp" "FenceTile.h" "FenceTile.cpp" "PhaserUnit.h" "PhaserUnit.cpp")
+	"ProjectileOverlapHandler.cpp"
+	"FenceTile.h" 
+	"FenceTile.cpp"
+	"PhaserUnit.h"
+	"PhaserUnit.cpp"
+	"Screen.h")
 
 add_executable(${PROJECT_NAME} WIN32  ${SOURCES} )
 set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE YES)
@@ -75,3 +80,6 @@ source_group("FlyFish" REGULAR_EXPRESSION "FlyFish")
 
 #Filter Tiles
 source_group("Tiles" REGULAR_EXPRESSION "Tile")
+
+#Filter Screens
+source_group("Screens" REGULAR_EXPRESSION "Screen")
