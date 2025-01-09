@@ -2,6 +2,7 @@
 #define BOOSTERUNIT_H
 
 #include "Unit.h"
+#include "Tile.h"
 #include "Box.h"
 
 class BoosterUnit final: public Unit
@@ -30,8 +31,8 @@ public:
 
 	virtual void TranslateUnit(const Motor& translation) override;
 private:
-	constexpr static float m_Width{ 160 };
-	constexpr static float m_Height{ 40 };
+	constexpr static float m_Width{ Tile::GetSize() * 4};
+	constexpr static float m_Height{ Tile::GetSize()};
 	constexpr static COLORREF m_Color{ RGB(234, 124, 25) };
 
 	Box m_Area;

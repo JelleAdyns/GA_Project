@@ -12,7 +12,7 @@ int APIENTRY WINAPI _tWinMain(_In_ HINSTANCE hInstance,
     _In_ LPTSTR    lpCmdLine,
     _In_ int       nCmdShow)
 {  
-    bool ok = jela::Engine::GetInstance().Init(hInstance, _T("Resources/"), 1000, 1000, RGB(0,0,0), _T("Game"));
+    bool ok = jela::Engine::GetInstance().Init(hInstance, _T("Resources/"), 800, 800, RGB(0,0,0), _T("Game"));
     if (ok)
     {
         int result = jela::Engine::GetInstance().Run(std::make_unique<Game>());

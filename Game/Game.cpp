@@ -4,7 +4,7 @@
 void Game::Initialize()
 {
 	ENGINE.SetBackGroundColor(RGB(0, 0, 134));
-	ENGINE.SetWindowScale(0.75f);
+	//ENGINE.SetWindowScale(0.75f);
 	LoadScreen();
 }
 void Game::Cleanup()

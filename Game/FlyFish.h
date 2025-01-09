@@ -732,7 +732,7 @@ public:
     //    *this = Translation(translation, line) * Rotation(angle, line) * ~Translation(translation, line);
     //}
 
-    [[nodiscard]] static Motor Translation(float translation, const TwoBlade line)
+    [[nodiscard]] static Motor Translation(float translation, const TwoBlade& line)
     {
         float d{ -translation / (2 * line.VNorm()) };
         return Motor{
@@ -747,7 +747,7 @@ public:
         };
     }
 
-    [[nodiscard]] static Motor Rotation(float angle, const TwoBlade line)
+    [[nodiscard]] static Motor Rotation(float angle, const TwoBlade& line)
     {
         float mult{ -sin(angle * DEG_TO_RAD / 2) / line.Norm() };
         return Motor{

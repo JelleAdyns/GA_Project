@@ -3,6 +3,7 @@
 
 #include <Engine.h>
 #include "Unit.h"
+#include "Tile.h"
 #include "structsf.h"
 
 class RotatorUnit final : public Unit
@@ -32,7 +33,7 @@ public:
 	virtual void TranslateUnit(const Motor& translation) override;
 private:
 
-	constexpr static float m_Radius{ 70 };
+	constexpr static float m_Radius{ Tile::GetSize() * 2};
 	constexpr static COLORREF m_Color{ RGB(100, 140, 25) };
 	
 	float m_Degrees{ 180 };

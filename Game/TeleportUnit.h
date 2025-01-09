@@ -3,6 +3,7 @@
 
 #include <Engine.h>
 #include "Unit.h"
+#include "Tile.h"
 #include "Box.h"
 #include "structsf.h"
 
@@ -32,8 +33,8 @@ public:
 
 	virtual void TranslateUnit(const Motor& translation) override;
 private:
-	constexpr static float m_Width{35};
-	constexpr static float m_Height{55};
+	constexpr static float m_Width{Tile::GetSize()};
+	constexpr static float m_Height{Tile::GetSize()};
 	constexpr static float m_DistanceFromPlane{20};
 	constexpr static COLORREF m_Color{RGB(245, 123, 145)};
 
