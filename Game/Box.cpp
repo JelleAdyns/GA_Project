@@ -20,12 +20,21 @@ Box::Box(float centerX, float centerY, float width, float height):
 {
 }
 
-bool Box::IsPointInside(const ThreeBlade& point) const
+//Rectf Box::ToRectf() const
+//{
+//	return Rectf {
+//		Center[0] - GetWidth() / 2,
+//		Center[1] - GetHeight() / 2,
+//		GetWidth(),
+//		GetHeight() };
+//}
+
+bool Box::IsPointInside(const ThreeBlade& point, float extraRadius) const
 {
-	return (GetDistanceFromLeft(point) > 0.f and
-			GetDistanceFromRight(point) > 0.f and
-			GetDistanceFromBottom(point) > 0.f and
-			GetDistanceFromTop(point) > 0.f );
+	return (GetDistanceFromLeft(point) > -extraRadius and
+			GetDistanceFromRight(point) > -extraRadius and
+			GetDistanceFromBottom(point) > -extraRadius and
+			GetDistanceFromTop(point) > -extraRadius );
 }
 
 float Box::GetWidth() const
@@ -58,14 +67,14 @@ float Box::GetDistanceFromTop(const ThreeBlade& point) const
 	return GAUtils::GetDistance(point, TopSide);
 }
 
-jela::Vector2f Box::GetOutsideDistance(const ThreeBlade& point) const
+jela::Vector2f Box::GetOutsideDistance(const ThreeBlade& point, float extraRadius) const
 {
 	jela::Vector2f dist{};
 
-	float left	{GetDistanceFromLeft(point)};
-	float right	{GetDistanceFromRight(point)};
-	float bottom{GetDistanceFromBottom(point)};
-	float top	{GetDistanceFromTop(point)};
+	float left	{GetDistanceFromLeft(point) - extraRadius};
+	float right	{GetDistanceFromRight(point) - extraRadius};
+	float bottom{GetDistanceFromBottom(point) - extraRadius};
+	float top	{GetDistanceFromTop(point) - extraRadius};
 
 	if (left < 0.f) dist.x = std::abs(left);
 	else if (right < 0.f) dist.x = right;

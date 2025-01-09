@@ -33,7 +33,7 @@ void LevelScreen::Update()
 	{
 		pProjectile->Update();
 
-		if (not m_LevelBox.IsPointInside(pProjectile->GetPoint()))
+		if (not m_LevelBox.IsPointInside(pProjectile->GetPoint(), Projectile::GetRadius()))
 			pProjectile->Kill();
 	}
 

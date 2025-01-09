@@ -144,7 +144,7 @@ void Player::HandleMovementInput()
 void Player::HandleBorderCollision(const Box& levelBox)
 {
 
-	const jela::Vector2f dist = levelBox.GetOutsideDistance(m_Position);
+	const jela::Vector2f dist = levelBox.GetOutsideDistance(m_Position, 50);
 
 	if (dist.x != 0.f)
 	{

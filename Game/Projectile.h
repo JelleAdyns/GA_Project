@@ -36,6 +36,7 @@ public:
 
 	constexpr static float GetDefaultSpeed() { return m_DefaultSpeed; }
 	constexpr static float GetKillDepth() { return m_KillDepth; }
+	constexpr static float GetRadius() { return m_Radius; }
 
 private:
 	constexpr static int m_DefaultSpeed{ 100 };
