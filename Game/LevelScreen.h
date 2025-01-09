@@ -7,9 +7,11 @@
 #include "Box.h"
 #include "RotatorUnit.h"
 #include "Player.h"
+#include "Tile.h"
 #include "BlackHoleTile.h"
 #include "FenceTile.h"
 #include "Screen.h"
+#include "Target.h"
 
 class Game;
 class LevelScreen final : public Screen
@@ -24,6 +26,8 @@ public:
 			static_cast<float>(ENGINE.GetWindowRect().height) }
 	{}
 		LoadStage();
+		m_pVecTargets.emplace_back(std::make_unique<Target>(60.f, 300.f));
+	}
 
 	~LevelScreen() = default;
 
@@ -51,12 +55,15 @@ private:
 	const Box m_LevelBox;
 	Player m_Player{ 120.f,160.f };
 	Cannon m_Cannon{};
+	std::vector<std::unique_ptr<Target>> m_pVecTargets{};
 	std::vector<std::unique_ptr<Projectile>> m_pVecProjectiles{};
 	std::vector<std::unique_ptr<Unit>> m_pVecUnits{};
 	std::vector<std::unique_ptr<Tile>> m_pVecTiles{};
 
 	int m_StageNumber{};
 
+	void EraseDeadTargets();
+	void EraseDeadProjectiles();
 	void LoadStage();
 };
 

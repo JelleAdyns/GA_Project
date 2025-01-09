@@ -9,17 +9,21 @@ Tile::Tile(const Point2f& center):
 
 void Tile::Draw() const
 {
-	ENGINE.SetColor(RGB(220, 0, 0));
-	Drawf::FillRectangle(
-		m_Box.Center[0] - m_Box.GetWidth() / 2,
-		m_Box.Center[1] - m_Box.GetHeight() / 2,
-		m_Box.GetWidth(),
-		m_Box.GetHeight());
+	 
+	Rectf rect{	m_Box.Center[0] - m_Box.GetWidth() / 2,
+				m_Box.Center[1] - m_Box.GetHeight() / 2,
+				m_Box.GetWidth(),
+				m_Box.GetHeight()  };
+
+	ENGINE.SetColor(RGB(180, 0, 0));
+	Drawf::FillRectangle(rect);
+	ENGINE.SetColor(RGB(0, 0, 0));
+	Drawf::DrawRectangle(rect);
 }
 
 void Tile::ActOnProjectile(const std::unique_ptr<Projectile>& pProjectile)
 {
-	if (m_Box.IsPointInside(pProjectile->GetPoint()))
+	if (m_Box.IsPointInside(pProjectile->GetPoint(), Projectile::GetRadius()))
 	{
 		pProjectile->Kill();
 	}

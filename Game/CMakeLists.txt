@@ -41,9 +41,11 @@ set(SOURCES
 	"FenceTile.cpp"
 	"PhaserUnit.h"
 	"PhaserUnit.cpp"
-	"Screen.h")
+	"Screen.h"
+	"Target.h" 
+	"Target.cpp"
 
-add_executable(${PROJECT_NAME} WIN32  ${SOURCES} )
+add_executable(${PROJECT_NAME} WIN32  ${SOURCES})
 set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE YES)
 
 add_dependencies(${PROJECT_NAME} EngineLibrary)
@@ -58,19 +60,6 @@ add_custom_command(
                 ${CMAKE_SOURCE_DIR}/Resources
                 ${CMAKE_CURRENT_BINARY_DIR}/Resources
 )
-
-#find_library(VLD vld
-#    HINTS "C:/Program Files (x86)/Visual Leak Detector/lib/Win32" "C:/Program Files/Visual Leak Detector/lib/Win64")
-#  find_file(VLD_H vld.h
-#    HINTS "C:/Program Files (x86)/Visual Leak Detector/include" "C:/Program Files/Visual Leak Detector/include")
-#  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /FIwinsock2.h")
-#  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \"/FI${VLD_H}\"")
-#  get_filename_component(VLD_LIBRARY_DIR "${VLD}" PATH)
-#  link_directories("${VLD_LIBRARY_DIR}")
-#find_library(VLD vld HINTS "C:\\Program Files (x86)\\Visual Leak Detector\\lib\\Win64")
-#find_path(VLD_H vld.h HINTS "C:\\Program Files (x86)\\Visual Leak Detector\\include")
-#include_directories(${VLD_H})
-#link_libraries(${VLD})
 
 #Filter the Units
 source_group("Units" REGULAR_EXPRESSION "Unit")

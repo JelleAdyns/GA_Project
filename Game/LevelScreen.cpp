@@ -10,26 +10,39 @@ void LevelScreen::Draw() const
 	
 	m_Cannon.Draw();
 	
-	for (const auto& projectile : m_pVecProjectiles)
+	for (const auto& pTile : m_pVecTiles)
 	{
-		projectile->Draw();
+		pTile->Draw();
 	}
-	for (const auto& unit : m_pVecUnits)
+	for (const auto& pProjectile : m_pVecProjectiles)
 	{
-		unit->Draw();
+		pProjectile->Draw();
+	}
+	for (const auto& pUnit : m_pVecUnits)
+	{
+		pUnit->Draw();
+	}
+	for (const auto& pTarget : m_pVecTargets)
+	{
+		pTarget->Draw();
 	}
 	m_Player.Draw();
 }
 
 void LevelScreen::Update()
 {
+
 	m_Player.Update(*this);
 	if (m_Cannon.ReadyToFire())
 	{
 		m_pVecProjectiles.push_back(m_Cannon.CreateProjectile());
 	}
 
-	for (auto& pProjectile : m_pVecProjectiles)
+	for (const auto& pTarget : m_pVecTargets)
+	{
+		pTarget->Update();
+	}
+	for (const auto& pProjectile : m_pVecProjectiles)
 	{
 		pProjectile->Update();
 
@@ -37,31 +50,81 @@ void LevelScreen::Update()
 			pProjectile->Kill();
 	}
 
-	for (auto& unit : m_pVecUnits)
+	for (const auto& pUnit : m_pVecUnits)
 	{
-		unit->Update();
+		pUnit->Update();
 
-		//if (ENGINE.IsKeyPressed('9'))
+		for (auto& projectile : m_pVecProjectiles)
 		{
+			pUnit->ActOnProjectile(projectile);
+		}
+		
+	}
+	for (const auto& pTile : m_pVecTiles)
+	{
 			for (auto& projectile : m_pVecProjectiles)
 			{
-				unit->ActOnProjectile(projectile);
+			pTile->ActOnProjectile(projectile);
+		}
+	}
+	for (const auto& pProjectile : m_pVecProjectiles)
+	{
+		for (auto& pTarget : m_pVecTargets)
+		{
+			if (pTarget and pTarget->GetHitBox().IsPointInside(pProjectile->GetPoint()))
+			{
+				pTarget->DealDamage();
+				pProjectile->Kill();
+				if (pTarget->IsDead())
+				{
+					pTarget = nullptr;
+				}
 			}
 		}
 	}
-	for (auto& projectile : m_pVecProjectiles)
-	{
-		m_BlackHole.ActOnProjectile(projectile);
-		m_Fence.ActOnProjectile(projectile);
-		m_BlackHole2.ActOnProjectile(projectile);
-		m_Fence2.ActOnProjectile(projectile);
+	EraseDeadProjectiles();
+	EraseDeadTargets();
+}
+
+void LevelScreen::AddUnit(std::unique_ptr<Unit>&& pUnit)
+{
+	m_pVecUnits.push_back(std::move(pUnit));
+}
+
+void LevelScreen::InputKeyDownThisFrame(int virtualKeyCode)
+{
+			}
+void LevelScreen::InputKeyUp(int virtualKeyCode)
+{
+	m_Player.InputKeyUp(virtualKeyCode);
+		}
+
+const Box& LevelScreen::GetLevelBox() const
+{
+	return m_LevelBox;
 	}
 
+void LevelScreen::EraseDeadTargets()
+{
+	m_pVecTargets.erase(
+		std::remove_if(
+			m_pVecTargets.begin(),
+			m_pVecTargets.end(),
+			[](const std::unique_ptr<Target>& pTarget)
+	{
+				return pTarget == nullptr;
+			}),
+		m_pVecTargets.end()
+	);
+	}
+
+void LevelScreen::EraseDeadProjectiles()
+{
 	m_pVecProjectiles.erase(
 		std::remove_if(
 			m_pVecProjectiles.begin(),
 			m_pVecProjectiles.end(),
-			[&](const std::unique_ptr<Projectile>& pProjectile)
+			[](const std::unique_ptr<Projectile>& pProjectile)
 			{
 				return pProjectile->IsDead();
 			}),

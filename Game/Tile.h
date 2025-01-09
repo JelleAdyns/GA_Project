@@ -21,7 +21,7 @@ public:
 	virtual void BeginOverlap(const std::unique_ptr<Projectile>& pProjectile) {};
 	virtual void EndOverlap(const std::unique_ptr<Projectile>& pProjectile) {};
 
-	static float GetSize() { return m_Size; }
+	constexpr static float GetSize() { return m_Size; }
 
 protected:
 	Box m_Box;
