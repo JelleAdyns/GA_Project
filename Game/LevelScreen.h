@@ -23,6 +23,7 @@ public:
 			static_cast<float>(ENGINE.GetWindowRect().width),
 			static_cast<float>(ENGINE.GetWindowRect().height) }
 	{}
+		LoadStage();
 
 	~LevelScreen() = default;
 
@@ -52,10 +53,11 @@ private:
 	Cannon m_Cannon{};
 	std::vector<std::unique_ptr<Projectile>> m_pVecProjectiles{};
 	std::vector<std::unique_ptr<Unit>> m_pVecUnits{};
-	BlackHoleTile m_BlackHole{ Point2f{300,200} };
-	BlackHoleTile m_BlackHole2{ Point2f{340,200} };
-	FenceTile m_Fence{ Point2f{400,200} };
-	FenceTile m_Fence2{ Point2f{440,200} };
+	std::vector<std::unique_ptr<Tile>> m_pVecTiles{};
+
+	int m_StageNumber{};
+
+	void LoadStage();
 };
 
 #endif // !LEVELSCREEN_H

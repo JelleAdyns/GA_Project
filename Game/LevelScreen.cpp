@@ -70,21 +70,56 @@ void LevelScreen::Update()
 	
 }
 
-void LevelScreen::AddUnit(std::unique_ptr<Unit>&& pUnit)
+
+void LevelScreen::LoadStage()
 {
-	m_pVecUnits.push_back(std::move(pUnit));
+
+	tifstream inputFile{ jela::ResourceManager::GetInstance().GetDataPath() + _T("StagePattern.txt") };
+
+	tstring info{};
+
+	tstringstream stageTest{};
+	while (getline(inputFile, info, _T('/')))
+	{
+		if (info.find(_T("Stage " + to_tstring(m_StageNumber))) != tstring::npos)
+{
+			info.erase(0, info.find(to_tstring(m_StageNumber) + _T('\n')));
+			stageTest << info;
+}
+	}
+	while (getline(stageTest, info))
+	{
+		tstring rowString{};
+		tstringstream infoStream{ info };
+		getline(infoStream, rowString, _T('\"'));
+		int row{ std::stoi(rowString) };
+		int col{};
+
+		getline(infoStream, rowString);
+
+		const tstring possibleSymbols{ _T(".") };
+
+		while (rowString.find_first_of(possibleSymbols, col) != tstring::npos)
+		{
+			col = int(rowString.find_first_of(possibleSymbols, col));
+
+			Point2f center
+			{
+				Tile::GetSize() / 2 + Tile::GetSize() * col,
+				Tile::GetSize() / 2 + Tile::GetSize() * row
+			};
+
+			bool isIntersection{};
+
+			switch (rowString[col])
+{
+			case _T('.'):
+
+				m_pVecTiles.emplace_back(std::make_unique<Tile>( center ));
+				break;
+			}
+			++col;
+}
 }
 
-void LevelScreen::InputKeyDownThisFrame(int virtualKeyCode)
-{
-	m_Player.InputKeyDownThisFrame(virtualKeyCode, *this);
-}
-void LevelScreen::InputKeyUp(int virtualKeyCode)
-{
-	m_Player.InputKeyUp(virtualKeyCode);
-}
-
-const Box& LevelScreen::GetLevelBox() const
-{
-	return m_LevelBox;
 }
