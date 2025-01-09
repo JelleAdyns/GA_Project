@@ -3,11 +3,7 @@
 
 void LevelScreen::Draw() const
 {
-	m_BlackHole.Draw();
-	m_Fence.Draw();
-	m_BlackHole2.Draw();
-	m_Fence2.Draw();
-	
+
 	m_Cannon.Draw();
 	
 	for (const auto& pTile : m_pVecTiles)
@@ -27,6 +23,7 @@ void LevelScreen::Draw() const
 		pTarget->Draw();
 	}
 	m_Player.Draw();
+	m_HUD.Draw();
 }
 
 void LevelScreen::Update()
@@ -62,8 +59,8 @@ void LevelScreen::Update()
 	}
 	for (const auto& pTile : m_pVecTiles)
 	{
-			for (auto& projectile : m_pVecProjectiles)
-			{
+		for (auto& projectile : m_pVecProjectiles)
+		{
 			pTile->ActOnProjectile(projectile);
 		}
 	}
@@ -93,16 +90,17 @@ void LevelScreen::AddUnit(std::unique_ptr<Unit>&& pUnit)
 
 void LevelScreen::InputKeyDownThisFrame(int virtualKeyCode)
 {
-			}
+	m_Player.InputKeyDownThisFrame(virtualKeyCode, *this, m_HUD);
+}
 void LevelScreen::InputKeyUp(int virtualKeyCode)
 {
 	m_Player.InputKeyUp(virtualKeyCode);
-		}
+}
 
 const Box& LevelScreen::GetLevelBox() const
 {
 	return m_LevelBox;
-	}
+}
 
 void LevelScreen::EraseDeadTargets()
 {
@@ -111,12 +109,12 @@ void LevelScreen::EraseDeadTargets()
 			m_pVecTargets.begin(),
 			m_pVecTargets.end(),
 			[](const std::unique_ptr<Target>& pTarget)
-	{
+			{
 				return pTarget == nullptr;
 			}),
 		m_pVecTargets.end()
 	);
-	}
+}
 
 void LevelScreen::EraseDeadProjectiles()
 {
@@ -130,7 +128,7 @@ void LevelScreen::EraseDeadProjectiles()
 			}),
 		m_pVecProjectiles.end()
 	);
-	
+
 }
 
 
@@ -145,10 +143,10 @@ void LevelScreen::LoadStage()
 	while (getline(inputFile, info, _T('/')))
 	{
 		if (info.find(_T("Stage " + to_tstring(m_StageNumber))) != tstring::npos)
-{
+		{
 			info.erase(0, info.find(to_tstring(m_StageNumber) + _T('\n')));
 			stageTest << info;
-}
+		}
 	}
 	while (getline(stageTest, info))
 	{
@@ -175,14 +173,14 @@ void LevelScreen::LoadStage()
 			bool isIntersection{};
 
 			switch (rowString[col])
-{
+			{
 			case _T('.'):
 
 				m_pVecTiles.emplace_back(std::make_unique<Tile>( center ));
 				break;
 			}
 			++col;
-}
-}
+		}
+	}
 
 }

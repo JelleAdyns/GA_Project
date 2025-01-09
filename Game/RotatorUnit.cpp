@@ -9,14 +9,9 @@ RotatorUnit::RotatorUnit(const Point2f& pos) :
 
 }
 RotatorUnit::RotatorUnit(float x, float y):
-	Unit{ Point2f{x, y}},
+	Unit{ x, y },
 	m_RotationLine{ TwoBlade::LineFromPoints(x,y,0, x,y,1) }
 {
-}
-
-std::unique_ptr<Unit> RotatorUnit::CreateUnit(const Point2f& pos)
-{
-	return std::make_unique<RotatorUnit>(pos);
 }
 
 void RotatorUnit::Draw() const
@@ -56,7 +51,7 @@ void RotatorUnit::ActOnProjectile(std::unique_ptr<Projectile>& pProjectile)
 		if (GAUtils::GetDistance(pProjectile->GetPoint(), m_EndPlane) < 0.f)
 		{
 			// First -e0, then the endPlane:
-			// because we want to flip the orientation of endPlane.
+			// because we want to flip the orientation of TranslationLine.
 			pProjectile->SetDirection(OneBlade{ -1,0,0,0 } ^ m_EndPlane);
 			pProjectile->SetPossesed(false);
 		}

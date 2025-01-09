@@ -9,14 +9,9 @@ BoosterUnit::BoosterUnit(const Point2f& pos):
 }
 
 BoosterUnit::BoosterUnit(float x, float y):
-	Unit{ Point2f{x, y} },
+	Unit{ x, y },
 	m_Area{x, y, m_Width, m_Height}
 {
-}
-
-std::unique_ptr<Unit> BoosterUnit::CreateUnit(const Point2f& pos)
-{
-	return std::make_unique<BoosterUnit>(pos);
 }
 
 void BoosterUnit::Draw() const

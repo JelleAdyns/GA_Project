@@ -12,6 +12,7 @@
 #include "FenceTile.h"
 #include "Screen.h"
 #include "Target.h"
+#include "HUD.h"
 
 class Game;
 class LevelScreen final : public Screen
@@ -21,10 +22,10 @@ public:
 		Screen{},
 		m_LevelBox{
 			ENGINE.GetWindowRect().width / 2.f,
-			ENGINE.GetWindowRect().height / 2.f,
+			(ENGINE.GetWindowRect().height - HUD::GetAreaHeight()) / 2.f,
 			static_cast<float>(ENGINE.GetWindowRect().width),
-			static_cast<float>(ENGINE.GetWindowRect().height) }
-	{}
+			ENGINE.GetWindowRect().height - HUD::GetAreaHeight()}
+	{
 		LoadStage();
 		m_pVecTargets.emplace_back(std::make_unique<Target>(60.f, 300.f));
 	}
@@ -50,11 +51,13 @@ public:
 
 	void AddUnit(std::unique_ptr<Unit>&& pUnit);
 	const Box& GetLevelBox() const;
+
 private:
 
 	const Box m_LevelBox;
 	Player m_Player{ 120.f,160.f };
 	Cannon m_Cannon{};
+	HUD m_HUD{};
 	std::vector<std::unique_ptr<Target>> m_pVecTargets{};
 	std::vector<std::unique_ptr<Projectile>> m_pVecProjectiles{};
 	std::vector<std::unique_ptr<Unit>> m_pVecUnits{};

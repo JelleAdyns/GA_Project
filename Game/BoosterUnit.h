@@ -17,8 +17,6 @@ public:
 	BoosterUnit& operator=(const BoosterUnit& other) = delete;
 	BoosterUnit& operator=(BoosterUnit&& other) noexcept = delete;
 
-	static std::unique_ptr<Unit> CreateUnit(const Point2f& pos);
-
 	virtual void Draw() const override;
 	virtual void Update() override;
 	virtual void ActOnProjectile(std::unique_ptr<Projectile>& pProjectile) override;

@@ -18,8 +18,6 @@ public:
 	RotatorUnit& operator=(const RotatorUnit& other) = delete;
 	RotatorUnit& operator=(RotatorUnit&& other) noexcept = delete;
 
-	static std::unique_ptr<Unit> CreateUnit(const Point2f& pos);
-
 	virtual void Draw() const override;
 	virtual void Update() override;
 	virtual void ActOnProjectile(std::unique_ptr<Projectile>& pProjectile) override;
@@ -34,12 +32,12 @@ public:
 	virtual void TranslateUnit(const Motor& translation) override;
 private:
 
-	constexpr static float m_Radius{ 50 };
+	constexpr static float m_Radius{ 70 };
 	constexpr static COLORREF m_Color{ RGB(100, 140, 25) };
-
+	
 	float m_Degrees{ 180 };
 	float m_StartAngle{ 0 };
-	float m_RotationVelocity{ 60 };
+	float m_RotationVelocity{ 90 };
 	TwoBlade m_RotationLine;
 	OneBlade m_StartPlane{ -m_Position.y,0,1,0 };
 	OneBlade m_EndPlane{ -m_Position.y,0,1,0 };

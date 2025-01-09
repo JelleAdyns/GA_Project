@@ -19,8 +19,6 @@ public:
 	TeleportUnit& operator=(const TeleportUnit& other) = delete;
 	TeleportUnit& operator=(TeleportUnit&& other) noexcept = delete;
 
-	static std::unique_ptr<Unit> CreateUnit(const Point2f& pos);
-
 	virtual void Draw() const override;
 	virtual void Update() override;
 	virtual void ActOnProjectile(std::unique_ptr<Projectile>& pProjectile) override;
@@ -34,13 +32,14 @@ public:
 
 	virtual void TranslateUnit(const Motor& translation) override;
 private:
-	constexpr static float m_Width{25};
-	constexpr static float m_Height{35};
+	constexpr static float m_Width{35};
+	constexpr static float m_Height{55};
+	constexpr static float m_DistanceFromPlane{20};
 	constexpr static COLORREF m_Color{RGB(245, 123, 145)};
 
 	OneBlade m_ReflectPlane{m_Position.y,0,-1,0};
-	Box m_ActivationBox{m_Position.x, m_Position.y - m_Height, m_Width, m_Height };
-	Box m_DestinationBox{m_Position.x, m_Position.y - m_Height, m_Width, m_Height };
+	Box m_ActivationBox{ m_Position.x, m_Position.y - (m_Height / 2 + m_DistanceFromPlane), m_Width, m_Height };
+	Box m_DestinationBox{ m_ActivationBox };
 };
 
 #endif // !TELEPORTUNIT_H

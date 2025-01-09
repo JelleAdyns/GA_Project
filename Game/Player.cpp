@@ -5,6 +5,7 @@
 #include "BoosterUnit.h"
 #include "PhaserUnit.h"
 #include "LevelScreen.h"
+#include "HUD.h"
 #include "GAUtils.h"
 
 
@@ -30,7 +31,7 @@ void Player::Update(const LevelScreen& level)
 	HandleBorderCollision(level.GetLevelBox());	
 }
 
-void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level)
+void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& hud)
 {
 	switch (virtualKeyCode)
 	{
@@ -43,7 +44,8 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level)
 	{
 		if (not m_pControlledUnit)
 		{
-			auto pUnit = RotatorUnit::CreateUnit(Point2f{ m_Position[0],m_Position[1] });
+			auto pUnit = hud.GetInstaceOfSelectedUnit(Point2f{ m_Position[0],m_Position[1] });
+			//auto pUnit = RotatorUnit::CreateUnit(Point2f{ m_Position[0],m_Position[1] });
 			m_pControlledUnit.swap( pUnit);
 		}
 		else
@@ -53,51 +55,61 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level)
 		}
 		break;
 	}
-	case 'T':
+	case 'Q':
 	{
-		if (not m_pControlledUnit)
-		{
-			auto pUnit = TeleportUnit::CreateUnit(Point2f{ m_Position[0],m_Position[1] });
-			m_pControlledUnit.swap(pUnit);
-		}
-		else
-		{
-			level.AddUnit(std::move(m_pControlledUnit));
-			m_pControlledUnit = nullptr;
-		}
-
+		hud.SelectPreviousUnit();
 		break;
 	}
-	case 'B':
+	case 'E':
 	{
-		if (not m_pControlledUnit)
-		{
-			auto pUnit = BoosterUnit::CreateUnit(Point2f{ m_Position[0],m_Position[1] });
-			m_pControlledUnit.swap(pUnit);
-		}
-		else
-		{
-			level.AddUnit(std::move(m_pControlledUnit));
-			m_pControlledUnit = nullptr;
-		}
-
+		hud.SelectNextUnit();
 		break;
 	}
-	case 'P':
-	{
-		if (not m_pControlledUnit)
-		{
-			auto pUnit = PhaserUnit::CreateUnit(Point2f{ m_Position[0],m_Position[1] });
-			m_pControlledUnit.swap(pUnit);
-		}
-		else
-		{
-			level.AddUnit(std::move(m_pControlledUnit));
-			m_pControlledUnit = nullptr;
-		}
-
-		break;
-	}
+	//case 'T':
+	//{
+	//	if (not m_pControlledUnit)
+	//	{
+	//		auto pUnit = TeleportUnit::CreateUnit(Point2f{ m_Position[0],m_Position[1] });
+	//		m_pControlledUnit.swap(pUnit);
+	//	}
+	//	else
+	//	{
+	//		level.AddUnit(std::move(m_pControlledUnit));
+	//		m_pControlledUnit = nullptr;
+	//	}
+	//
+	//	break;
+	//}
+	//case 'B':
+	//{
+	//	if (not m_pControlledUnit)
+	//	{
+	//		auto pUnit = BoosterUnit::CreateUnit(Point2f{ m_Position[0],m_Position[1] });
+	//		m_pControlledUnit.swap(pUnit);
+	//	}
+	//	else
+	//	{
+	//		level.AddUnit(std::move(m_pControlledUnit));
+	//		m_pControlledUnit = nullptr;
+	//	}
+	//
+	//	break;
+	//}
+	//case 'P':
+	//{
+	//	if (not m_pControlledUnit)
+	//	{
+	//		auto pUnit = PhaserUnit::CreateUnit(Point2f{ m_Position[0],m_Position[1] });
+	//		m_pControlledUnit.swap(pUnit);
+	//	}
+	//	else
+	//	{
+	//		level.AddUnit(std::move(m_pControlledUnit));
+	//		m_pControlledUnit = nullptr;
+	//	}
+	//
+	//	break;
+	//}
 	case VK_LEFT:
 	{
 		if(m_pControlledUnit) m_pControlledUnit->Action1();

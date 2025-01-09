@@ -17,8 +17,6 @@ public:
 	PhaserUnit& operator=(const PhaserUnit& other) = delete;
 	PhaserUnit& operator=(PhaserUnit&& other) noexcept = delete;
 
-	static std::unique_ptr<Unit> CreateUnit(const Point2f& pos);
-
 	virtual void Draw() const override;
 	virtual void Update() override;
 	virtual void ActOnProjectile(std::unique_ptr<Projectile>& pProjectile) override;
@@ -31,6 +29,7 @@ public:
 	virtual void Action4() override {};
 
 	virtual void TranslateUnit(const Motor& translation) override;
+
 private:
 	constexpr static float m_Width{ 160 };
 	constexpr static float m_Height{ 40 };

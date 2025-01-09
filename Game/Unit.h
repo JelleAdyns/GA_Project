@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <Engine.h>
+#include <typeindex>
 #include "Projectile.h"
 
 class Unit
@@ -29,8 +30,21 @@ public:
 
 	virtual void TranslateUnit(const Motor& translation) {};
 
+	std::type_index GetTypeId() { return typeid(*this); }
+	Point2f GetPos() const { return m_Position; }
+	
+	template <typename UnitClass> 
+		requires std::derived_from<UnitClass, Unit>
+	static std::unique_ptr<Unit> CreateUnit(const Point2f& pos) 
+	{ 
+		return std::make_unique<UnitClass>(pos);
+	}
+
 protected:
 
+	Unit(float x, float y) :
+		m_Position{ x, y }
+	{}
 	Unit(const Point2f& pos) :
 		m_Position{ pos }
 	{}

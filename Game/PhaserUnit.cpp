@@ -10,16 +10,10 @@ PhaserUnit::PhaserUnit(const Point2f& pos) :
 }
 
 PhaserUnit::PhaserUnit(float x, float y) :
-	Unit{ Point2f{x, y} },
+	Unit{ x, y },
 	m_Area{ x, y, m_Width, m_Height }
 {
 }
-
-std::unique_ptr<Unit> PhaserUnit::CreateUnit(const Point2f& pos)
-{
-	return std::make_unique<PhaserUnit>(pos);
-}
-
 void PhaserUnit::Draw() const
 {
 	std::vector<Point2f> areaCornerPoints{ };

@@ -6,6 +6,7 @@
 #include "Box.h"
 
 class LevelScreen;
+class HUD;
 class Player final
 {
 public:
@@ -22,7 +23,7 @@ public:
 	void Draw() const;
 	void Update(const LevelScreen& level);
 
-	void InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level);
+	void InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& hud);
 	void InputKeyUp(int virtualKeyCode);
 
 	void HandleMovementInput();

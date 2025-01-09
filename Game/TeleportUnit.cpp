@@ -6,19 +6,14 @@
 TeleportUnit::TeleportUnit(const Point2f& pos) :
 	TeleportUnit{ pos.x, pos.y }
 {
-	const ThreeBlade p{ m_Position.x, m_Position.y, 0 };
+}
+TeleportUnit::TeleportUnit(float x, float y) :
+	Unit{ x, y }
+{
+	const ThreeBlade p{ x, y, 0 };
 	const TwoBlade rotLine{ TwoBlade::LineFromPoints(p[0], p[1], p[2], p[0], p[1], p[2] + 1) };
 	Motor rotation = Motor::Rotation(180, rotLine);
 	m_DestinationBox.Rotate(rotation, true);
-}
-TeleportUnit::TeleportUnit(float x, float y) :
-	Unit{ Point2f{x, y} }
-{
-}
-
-std::unique_ptr<Unit> TeleportUnit::CreateUnit(const Point2f& pos)
-{
-	return std::make_unique<TeleportUnit>(pos);
 }
 
 void TeleportUnit::Draw() const
