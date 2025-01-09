@@ -17,20 +17,20 @@ RotatorUnit::RotatorUnit(float x, float y):
 void RotatorUnit::Draw() const
 {
 	ENGINE.SetColor(m_Color, 0.5f);
-	Drawf::FillArc(m_Position.x, m_Position.y, m_Radius, m_Radius, m_StartAngle, m_Degrees);
+	Drawf::FillArc(m_Position[0], m_Position[1], m_Radius, m_Radius, m_StartAngle, m_Degrees);
 	ENGINE.SetColor(RGB(255,0,0), 0.5f);
-	Drawf::DrawArc(m_Position.x, m_Position.y, m_Radius/2, m_Radius/2, m_StartAngle+10, m_Degrees-20);
+	Drawf::DrawArc(m_Position[0], m_Position[1], m_Radius/2, m_Radius/2, m_StartAngle+10, m_Degrees-20);
 	if(m_RotationVelocity >= 0.f)
 	Drawf::FillEllipse(
-		m_Position.x + (m_Radius / 2) * std::cos((m_StartAngle + m_Degrees - 10) * DEG_TO_RAD),
-		m_Position.y + (m_Radius / 2) * std::sin((m_StartAngle + m_Degrees - 10) * DEG_TO_RAD), 3,3);
+		m_Position[0] + (m_Radius / 2) * std::cos((m_StartAngle + m_Degrees - 10) * DEG_TO_RAD),
+		m_Position[1] + (m_Radius / 2) * std::sin((m_StartAngle + m_Degrees - 10) * DEG_TO_RAD), 3,3);
 	else
 		Drawf::FillEllipse(
-			m_Position.x + (m_Radius / 2) * std::cos((m_StartAngle + 10) * DEG_TO_RAD),
-			m_Position.y + (m_Radius / 2) * std::sin((m_StartAngle + 10) * DEG_TO_RAD), 3,3);
+			m_Position[0] + (m_Radius / 2) * std::cos((m_StartAngle + 10) * DEG_TO_RAD),
+			m_Position[1] + (m_Radius / 2) * std::sin((m_StartAngle + 10) * DEG_TO_RAD), 3,3);
 
 	ENGINE.SetColor(m_Color);
-	Drawf::FillEllipse(m_Position.x, m_Position.y, 5, 5);
+	Drawf::FillEllipse(m_Position[0], m_Position[1], 5, 5);
 }
 
 void RotatorUnit::Update()
@@ -106,7 +106,5 @@ void RotatorUnit::TranslateUnit(const Motor& translation)
 	GAUtils::Transform(m_StartPlane, translation);
 	GAUtils::Transform(m_EndPlane, translation);
 
-	ThreeBlade newPoint{ m_Position.x, m_Position.y,0};
-	GAUtils::Transform(newPoint, translation);
-	m_Position = Point2f{newPoint[0], newPoint[1]};
+	GAUtils::Transform(m_Position, translation);
 }

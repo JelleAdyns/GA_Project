@@ -38,8 +38,8 @@ private:
 	constexpr static float m_DistanceFromPlane{20};
 	constexpr static COLORREF m_Color{RGB(245, 123, 145)};
 
-	OneBlade m_ReflectPlane{m_Position.y,0,-1,0};
-	Box m_ActivationBox{ m_Position.x, m_Position.y - (m_Height / 2 + m_DistanceFromPlane), m_Width, m_Height };
+	OneBlade m_ReflectPlane{m_Position[1],0,-1,0};
+	Box m_ActivationBox{ m_Position[0], m_Position[1] - (m_Height / 2 + m_DistanceFromPlane), m_Width, m_Height};
 	Box m_DestinationBox{ m_ActivationBox };
 };
 

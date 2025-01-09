@@ -41,7 +41,7 @@ void HUD::Draw() const
 	auto squareSize{ m_AreaHeight - 5 };
 	auto unitPos = m_VecUnitsToSelect[m_IndexSelectedUnit]->GetPos();
 	ENGINE.SetColor(RGB(0, 220, 0));
-	Drawf::DrawRectangle(unitPos.x - squareSize / 2, unitPos.y - squareSize / 2, squareSize, squareSize, 2.f);
+	Drawf::DrawRectangle(unitPos[0] - squareSize / 2, unitPos[1] - squareSize / 2, squareSize, squareSize, 2.f);
 }
 
 void HUD::SelectNextUnit()

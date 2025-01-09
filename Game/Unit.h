@@ -31,7 +31,7 @@ public:
 	virtual void TranslateUnit(const Motor& translation) {};
 
 	std::type_index GetTypeId() { return typeid(*this); }
-	Point2f GetPos() const { return m_Position; }
+	ThreeBlade GetPos() const { return m_Position; }
 	
 	template <typename UnitClass> 
 		requires std::derived_from<UnitClass, Unit>
@@ -43,13 +43,13 @@ public:
 protected:
 
 	Unit(float x, float y) :
-		m_Position{ x, y }
+		m_Position{ x, y, 0}
 	{}
 	Unit(const Point2f& pos) :
-		m_Position{ pos }
+		m_Position{ pos.x,pos.y,0 }
 	{}
 
-	Point2f m_Position{};
+	ThreeBlade m_Position{};
 private:
 };
 
