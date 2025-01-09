@@ -158,7 +158,7 @@ void LevelScreen::LoadStage()
 
 		getline(infoStream, rowString);
 
-		const tstring possibleSymbols{ _T(".") };
+		const tstring possibleSymbols{ _T(".BFT") };
 
 		while (rowString.find_first_of(possibleSymbols, col) != tstring::npos)
 		{
@@ -175,8 +175,19 @@ void LevelScreen::LoadStage()
 			switch (rowString[col])
 			{
 			case _T('.'):
-
 				m_pVecTiles.emplace_back(std::make_unique<Tile>( center ));
+				break;
+
+			case _T('B'):
+				m_pVecTiles.emplace_back(std::make_unique<BlackHoleTile>(center));
+				break;
+
+			case _T('F'):
+				m_pVecTiles.emplace_back(std::make_unique<FenceTile>(center));
+				break;
+
+			case _T('T'):
+				m_pVecTargets.emplace_back(std::make_unique<Target>(center));
 				break;
 			}
 			++col;

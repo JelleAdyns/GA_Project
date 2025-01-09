@@ -27,7 +27,6 @@ public:
 			ENGINE.GetWindowRect().height - HUD::GetAreaHeight()}
 	{
 		LoadStage();
-		m_pVecTargets.emplace_back(std::make_unique<Target>(60.f, 300.f));
 	}
 
 	~LevelScreen() = default;
