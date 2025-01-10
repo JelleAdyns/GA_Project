@@ -16,6 +16,8 @@ RotatorUnit::RotatorUnit(float x, float y):
 
 void RotatorUnit::Draw() const
 {
+	Unit::Draw();
+
 	ENGINE.SetColor(m_Color, 0.5f);
 	Drawf::FillArc(m_Position[0], m_Position[1], m_Radius, m_Radius, m_StartAngle, m_Degrees);
 	ENGINE.SetColor(RGB(255,0,0), 0.5f);

@@ -1,7 +1,7 @@
 #ifndef LEVELSCREEN_H
 #define LEVELSCREEN_H
 
-#include <memory.h>
+#include <memory>
 #include "Cannon.h"
 #include "Unit.h"
 #include "Box.h"
@@ -27,6 +27,7 @@ public:
 			ENGINE.GetWindowRect().height - HUD::GetAreaHeight()}
 	{
 		LoadStage();
+		m_Player.SetControlledUnit(m_HUD.GetInstaceOfSelectedUnit(Point2f{ m_Player.GetPos()[0],m_Player.GetPos()[1] }));
 	}
 
 	~LevelScreen() = default;
@@ -50,11 +51,13 @@ public:
 
 	void AddUnit(std::unique_ptr<Unit>&& pUnit);
 	const Box& GetLevelBox() const;
+	bool PickUpUnit();
+	void CheckForUnitPickUp() const;
 
 private:
 
 	const Box m_LevelBox;
-	Player m_Player{ 120.f,160.f };
+	Player m_Player{ m_LevelBox.Center[0], m_LevelBox.Center[1] };
 	Cannon m_Cannon{};
 	HUD m_HUD{};
 	std::vector<std::unique_ptr<Target>> m_pVecTargets{};
@@ -64,6 +67,7 @@ private:
 
 	int m_StageNumber{};
 
+	void EraseRemovedUnits();
 	void EraseDeadTargets();
 	void EraseDeadProjectiles();
 	void LoadStage();

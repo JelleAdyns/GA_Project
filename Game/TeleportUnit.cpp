@@ -18,6 +18,8 @@ TeleportUnit::TeleportUnit(float x, float y) :
 
 void TeleportUnit::Draw() const
 {
+	Unit::Draw();
+
 	constexpr float mirrorThickness{ 10 };
 
 	ENGINE.SetColor(m_Color, 1.f);

@@ -26,11 +26,16 @@ public:
 	void InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& hud);
 	void InputKeyUp(int virtualKeyCode);
 
+	void SetControlledUnit(std::unique_ptr<Unit>&& pointerToMove);
+	bool OwnsUnit() const {	return m_pControlledUnit ? true : false;}
+
+
+	ThreeBlade GetPos() const { return m_Position; }
+private:
 	void HandleMovementInput();
 	void HandleBorderCollision(const Box& levelBox);
-private:
 
-	constexpr static float m_Speed{ 400 };
+	constexpr static float m_Speed{ 300 };
 
 	TwoBlade m_Direction{ 1,0,0,0,0,0 };
 	Motor m_Translation{};

@@ -16,6 +16,8 @@ BoosterUnit::BoosterUnit(float x, float y):
 
 void BoosterUnit::Draw() const
 {
+	Unit::Draw();
+
 	std::vector<Point2f> areaCornerPoints{ };
 	m_Area.GetCornerPoints(areaCornerPoints);
 	ENGINE.SetColor(m_Color, 0.5f);

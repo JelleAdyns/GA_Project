@@ -63,19 +63,19 @@ std::unique_ptr<Unit> HUD::GetInstaceOfSelectedUnit(const Point2f& pos) const
 	auto typeID = m_VecUnitsToSelect[m_IndexSelectedUnit]->GetTypeId();
 	if (typeid(RotatorUnit) == typeID)
 	{
-		return ((m_VecUnitsToSelect[m_IndexSelectedUnit])->CreateUnit<RotatorUnit>(pos));
+		return Unit::CreateUnit<RotatorUnit>(pos);
 	}
 	if (typeid(TeleportUnit) == typeID)
 	{
-		return ((m_VecUnitsToSelect[m_IndexSelectedUnit])->CreateUnit<TeleportUnit>(pos));
+		return Unit::CreateUnit<TeleportUnit>(pos);
 	}
 	if (typeid(BoosterUnit) == typeID)
 	{
-		return ((m_VecUnitsToSelect[m_IndexSelectedUnit])->CreateUnit<BoosterUnit>(pos));
+		return Unit::CreateUnit<BoosterUnit>(pos);
 	}
 	if (typeid(PhaserUnit) == typeID)
 	{
-		return ((m_VecUnitsToSelect[m_IndexSelectedUnit])->CreateUnit<PhaserUnit>(pos));
+		return Unit::CreateUnit<PhaserUnit>(pos);
 	}
 
 	return nullptr;

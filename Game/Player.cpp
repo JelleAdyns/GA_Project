@@ -21,7 +21,8 @@ Player::Player(const Point2f& pos):
 
 void Player::Draw() const
 {
-	Drawf::DrawEllipse(m_Position[0], m_Position[1],50, 50);
+	ENGINE.SetColor(RGB(255, 255, 0));
+	Drawf::DrawEllipse(m_Position[0], m_Position[1],20, 20, 5);
 	if (m_pControlledUnit) m_pControlledUnit->Draw();
 }
 
@@ -44,9 +45,7 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& 
 	{
 		if (not m_pControlledUnit)
 		{
-			auto pUnit = hud.GetInstaceOfSelectedUnit(Point2f{ m_Position[0],m_Position[1] });
-			//auto pUnit = RotatorUnit::CreateUnit(Point2f{ m_Position[0],m_Position[1] });
-			m_pControlledUnit.swap( pUnit);
+		 	SetControlledUnit( hud.GetInstaceOfSelectedUnit(Point2f{ m_Position[0],m_Position[1] }));
 		}
 		else
 		{
@@ -55,61 +54,31 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& 
 		}
 		break;
 	}
-	case 'Q':
+	case _T('Q'):
 	{
 		hud.SelectPreviousUnit();
+		SetControlledUnit(hud.GetInstaceOfSelectedUnit(Point2f{ m_Position[0],m_Position[1] }));
 		break;
 	}
-	case 'E':
+	case _T('E'):
 	{
 		hud.SelectNextUnit();
+		SetControlledUnit(hud.GetInstaceOfSelectedUnit(Point2f{ m_Position[0],m_Position[1] }));
 		break;
 	}
-	//case 'T':
-	//{
-	//	if (not m_pControlledUnit)
-	//	{
-	//		auto pUnit = TeleportUnit::CreateUnit(Point2f{ m_Position[0],m_Position[1] });
-	//		m_pControlledUnit.swap(pUnit);
-	//	}
-	//	else
-	//	{
-	//		level.AddUnit(std::move(m_pControlledUnit));
-	//		m_pControlledUnit = nullptr;
-	//	}
-	//
-	//	break;
-	//}
-	//case 'B':
-	//{
-	//	if (not m_pControlledUnit)
-	//	{
-	//		auto pUnit = BoosterUnit::CreateUnit(Point2f{ m_Position[0],m_Position[1] });
-	//		m_pControlledUnit.swap(pUnit);
-	//	}
-	//	else
-	//	{
-	//		level.AddUnit(std::move(m_pControlledUnit));
-	//		m_pControlledUnit = nullptr;
-	//	}
-	//
-	//	break;
-	//}
-	//case 'P':
-	//{
-	//	if (not m_pControlledUnit)
-	//	{
-	//		auto pUnit = PhaserUnit::CreateUnit(Point2f{ m_Position[0],m_Position[1] });
-	//		m_pControlledUnit.swap(pUnit);
-	//	}
-	//	else
-	//	{
-	//		level.AddUnit(std::move(m_pControlledUnit));
-	//		m_pControlledUnit = nullptr;
-	//	}
-	//
-	//	break;
-	//}
+	case _T('X'):
+	{
+		if(level.PickUpUnit())
+		{
+			if (not m_Position.RoundedEqual(m_pControlledUnit->GetPos(),0.001f))
+			{
+					TwoBlade trLine = OneBlade{ -1,0,0,0 } ^ ((m_pControlledUnit->GetPos() & m_Position) | m_Position);
+				Motor tr = Motor::Translation(GAUtils::GetDistance(m_pControlledUnit->GetPos(), m_Position), trLine);
+				m_pControlledUnit->TranslateUnit(tr);
+			}
+		}
+		break;
+	}
 	case VK_LEFT:
 	{
 		if(m_pControlledUnit) m_pControlledUnit->Action1();
@@ -136,6 +105,11 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& 
 void Player::InputKeyUp(int virtualKeyCode)
 {
 }
+void Player::SetControlledUnit(std::unique_ptr<Unit>&& pointerToMove)
+{
+	if(pointerToMove)
+		m_pControlledUnit = std::move(pointerToMove);
+}
 void Player::HandleMovementInput()
 {
 	auto dt = ENGINE.GetDeltaTime();
@@ -156,7 +130,7 @@ void Player::HandleMovementInput()
 void Player::HandleBorderCollision(const Box& levelBox)
 {
 
-	const jela::Vector2f dist = levelBox.GetOutsideDistance(m_Position, 50);
+	const jela::Vector2f dist = levelBox.GetOutsideDistance(m_Position, 20);
 
 	if (dist.x != 0.f)
 	{

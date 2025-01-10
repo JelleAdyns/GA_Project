@@ -16,6 +16,8 @@ PhaserUnit::PhaserUnit(float x, float y) :
 }
 void PhaserUnit::Draw() const
 {
+	Unit::Draw();
+
 	std::vector<Point2f> areaCornerPoints{ };
 	m_Area.GetCornerPoints(areaCornerPoints);
 	ENGINE.SetColor(m_Color, 0.5f);

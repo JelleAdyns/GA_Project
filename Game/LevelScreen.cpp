@@ -1,4 +1,5 @@
 #include "LevelScreen.h"
+#include "GAUtils.h"
 #include <algorithm>
 
 void LevelScreen::Draw() const
@@ -10,13 +11,13 @@ void LevelScreen::Draw() const
 	{
 		pTile->Draw();
 	}
-	for (const auto& pProjectile : m_pVecProjectiles)
-	{
-		pProjectile->Draw();
-	}
 	for (const auto& pUnit : m_pVecUnits)
 	{
 		pUnit->Draw();
+	}
+	for (const auto& pProjectile : m_pVecProjectiles)
+	{
+		pProjectile->Draw();
 	}
 	for (const auto& pTarget : m_pVecTargets)
 	{
@@ -47,6 +48,7 @@ void LevelScreen::Update()
 			pProjectile->Kill();
 	}
 
+	CheckForUnitPickUp();
 	for (const auto& pUnit : m_pVecUnits)
 	{
 		pUnit->Update();
@@ -100,6 +102,66 @@ void LevelScreen::InputKeyUp(int virtualKeyCode)
 const Box& LevelScreen::GetLevelBox() const
 {
 	return m_LevelBox;
+}
+
+bool LevelScreen::PickUpUnit()
+{
+	bool pickedUp{ false };
+	for (auto& pUnit : m_pVecUnits)
+	{
+		if (pUnit->PickUpAvailable())
+		{
+			pUnit->ShowPickUpRadius(false);
+			m_Player.SetControlledUnit(std::move(pUnit));
+			pickedUp = true;
+			break;
+		}
+	}
+
+	if(pickedUp) EraseRemovedUnits();
+	return pickedUp;
+}
+
+void LevelScreen::CheckForUnitPickUp() const
+{
+
+	std::vector<Unit*> copyVector{};
+
+	for (auto& pUnit : m_pVecUnits)
+	{
+		if (GAUtils::GetDistance(pUnit->GetPos(), m_Player.GetPos()) < Unit::GetPickUpRadius())
+			copyVector.push_back(pUnit.get());
+		else pUnit->ShowPickUpRadius(false);
+	}
+
+	std::sort(copyVector.begin(), copyVector.end(),
+		[&](const Unit* pUnit1, const Unit* pUnit2)
+		{
+			return GAUtils::GetDistance(m_Player.GetPos(), pUnit1->GetPos()) < GAUtils::GetDistance(m_Player.GetPos(), pUnit2->GetPos());
+		});
+
+	if (not copyVector.empty())
+	{
+		(*copyVector.cbegin())->ShowPickUpRadius(true);
+
+		std::for_each(std::next(copyVector.cbegin()), copyVector.cend(),
+			[](Unit* pUnit) {pUnit->ShowPickUpRadius(false); });
+	}
+	
+}
+
+void LevelScreen::EraseRemovedUnits()
+{
+	m_pVecUnits.erase(
+		std::remove_if(
+			m_pVecUnits.begin(),
+			m_pVecUnits.end(),
+			[](const std::unique_ptr<Unit>& pUnit)
+			{
+				return pUnit == nullptr;
+			}),
+		m_pVecUnits.end()
+	);
 }
 
 void LevelScreen::EraseDeadTargets()

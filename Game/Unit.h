@@ -5,6 +5,7 @@
 #include <Engine.h>
 #include <typeindex>
 #include "Projectile.h"
+#include "DrawFloatToInt.h"
 
 class Unit
 {
@@ -17,7 +18,14 @@ public:
 	Unit& operator=(const Unit& other) = delete;
 	Unit& operator=(Unit&& other) noexcept = delete;
 
-	virtual void Draw() const {};
+	virtual void Draw() const
+	{
+		if (m_DrawPickUpRadius)
+		{
+			ENGINE.SetColor(RGB(230, 0, 0));
+			Drawf::DrawEllipse(m_Position[0], m_Position[1], m_PickUpRadius, m_PickUpRadius, 3.f);
+		}
+	};
 	virtual void Update() {};
 	virtual void ActOnProjectile(std::unique_ptr<Projectile>& pProjectile) {};
 	virtual void BeginOverlap(const std::unique_ptr<Projectile>& pProjectile) {};
@@ -32,6 +40,10 @@ public:
 
 	std::type_index GetTypeId() { return typeid(*this); }
 	ThreeBlade GetPos() const { return m_Position; }
+	bool PickUpAvailable() const { return m_DrawPickUpRadius; }
+	void ShowPickUpRadius(bool show){ m_DrawPickUpRadius = show; }
+	
+	constexpr static float GetPickUpRadius() { return m_PickUpRadius; }
 	
 	template <typename UnitClass> 
 		requires std::derived_from<UnitClass, Unit>
@@ -50,7 +62,10 @@ protected:
 	{}
 
 	ThreeBlade m_Position{};
+
 private:
+	constexpr static float m_PickUpRadius{ 50 };
+	bool m_DrawPickUpRadius{ false };
 };
 
 
