@@ -56,12 +56,15 @@ target_link_libraries(${PROJECT_NAME} PRIVATE EngineLibrary)
 set_property(GLOBAL PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
 
 message(STATUS "SOURCE DIR: ${CMAKE_CURRENT_BINARY_DIR}")
-add_custom_command(
-        TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different
-                ${CMAKE_SOURCE_DIR}/Resources
-                ${CMAKE_CURRENT_BINARY_DIR}/Resources
+add_custom_target(copyResources ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/Resources
+    ${CMAKE_CURRENT_BINARY_DIR}/Resources
+    COMMENT "Copying resources into the binary folder"
 )
+
+add_dependencies(${PROJECT_NAME} copyResources)
+
 
 #Filter the Units
 source_group("Units" REGULAR_EXPRESSION "Unit")
