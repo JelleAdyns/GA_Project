@@ -66,13 +66,13 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& 
 		SetControlledUnit(hud.GetInstaceOfSelectedUnit(Point2f{ m_Position[0],m_Position[1] }));
 		break;
 	}
-	case _T('X'):
+	case VK_SHIFT:
 	{
 		if(level.PickUpUnit())
 		{
 			if (not m_Position.RoundedEqual(m_pControlledUnit->GetPos(),0.001f))
 			{
-					TwoBlade trLine = OneBlade{ -1,0,0,0 } ^ ((m_pControlledUnit->GetPos() & m_Position) | m_Position);
+				TwoBlade trLine = OneBlade{ -1,0,0,0 } ^ ((m_pControlledUnit->GetPos() & m_Position) | m_Position);
 				Motor tr = Motor::Translation(GAUtils::GetDistance(m_pControlledUnit->GetPos(), m_Position), trLine);
 				m_pControlledUnit->TranslateUnit(tr);
 			}

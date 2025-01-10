@@ -327,8 +327,8 @@ namespace jela
 
         static IDWriteFactory5* m_pDWriteFactory;
 
-        IDWriteFontCollection1* m_pFontCollection;
-        IDWriteTextFormat* m_pTextFormat;
+        IDWriteFontCollection1* m_pFontCollection{ nullptr };
+        IDWriteTextFormat* m_pTextFormat{nullptr};
 
         std::wstring m_FontName;
         int m_FontSize;

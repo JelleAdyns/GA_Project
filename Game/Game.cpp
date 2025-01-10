@@ -1,10 +1,11 @@
 #include "Game.h"
 #include "DrawFloatToInt.h"
+#include "MainMenuScreen.h"
 
 void Game::Initialize()
 {
 	ENGINE.SetBackGroundColor(RGB(0, 0, 134));
-	//ENGINE.SetWindowScale(0.75f);
+	ENGINE.SetTitle(_T("In Plane Sight"));
 	LoadScreen();
 }
 void Game::Cleanup()
@@ -106,7 +107,11 @@ void Game::LoadScreen()
 
 	switch (m_GameState)
 	{
+	case State::MainMenu:
 
+		m_pScreenStack.emplace_back(m_GameState, std::make_unique<MainMenuScreen>(*this));
+
+		break;
 	case State::Playing:
 
 		m_pScreenStack.emplace_back(m_GameState, std::make_unique<LevelScreen>(*this));
@@ -124,7 +129,11 @@ void Game::PushScreen()
 	m_pScreenStack.back().second->OnSuspend();
 	switch (m_GameState)
 	{
+	case State::MainMenu:
 
+		m_pScreenStack.emplace_back(m_GameState, std::make_unique<MainMenuScreen>(*this));
+
+		break;
 	case State::Playing:
 
 		m_pScreenStack.emplace_back(m_GameState, std::make_unique<LevelScreen>(*this));

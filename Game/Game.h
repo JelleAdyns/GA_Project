@@ -34,7 +34,8 @@ public:
 
     enum class State
     {
-        Playing,
+        MainMenu,
+        Playing
     };
     enum class ScreenOperation
     {
@@ -50,7 +51,7 @@ public:
 private:
     // VARIABLES
 
-    State m_GameState{ State::Playing };
+    State m_GameState{ State::MainMenu };
     std::vector<std::pair<State, std::unique_ptr<Screen>>> m_pScreenStack{};
 
     std::queue<std::pair<State, ScreenOperation>> m_ScreenEventQueue{};
