@@ -61,6 +61,17 @@ void TeleportUnit::Action1()
 	m_DestinationBox.Rotate(rotation, true);
 }
 
+void TeleportUnit::Action2()
+{
+	const TwoBlade rotLine{ TwoBlade::LineFromPoints(m_Position[0], m_Position[1], 0, m_Position[0], m_Position[1], 1) };
+	const float degreesStep{ -45 };
+
+	Motor rotation = Motor::Rotation(degreesStep, rotLine);
+	GAUtils::Transform(m_ReflectPlane, rotation);
+	m_ActivationBox.Rotate(rotation, true);
+	m_DestinationBox.Rotate(rotation, true);
+}
+
 void TeleportUnit::TranslateUnit(const Motor& translation)
 {
 	GAUtils::Transform(m_ReflectPlane, translation);

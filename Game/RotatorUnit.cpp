@@ -33,6 +33,15 @@ void RotatorUnit::Draw() const
 
 	ENGINE.SetColor(m_Color);
 	Drawf::FillEllipse(m_Position[0], m_Position[1], 5, 5);
+
+#ifdef _DEBUG
+
+	ENGINE.SetColor(RGB(0,255,255));
+	Drawf::DrawVector(m_Position[0], m_Position[1], m_StartPlane.e1() * 100, m_StartPlane.e2() * 100);
+
+	ENGINE.SetColor(RGB(255,0,255));
+	Drawf::DrawVector(m_Position[0], m_Position[1], m_EndPlane.e1() * 100, m_EndPlane.e2() * 100);
+#endif // _DEBUG
 }
 
 void RotatorUnit::Update()
@@ -63,10 +72,10 @@ void RotatorUnit::ActOnProjectile(std::unique_ptr<Projectile>& pProjectile)
 
 void RotatorUnit::Action1()
 {
-	m_StartAngle += 90.f;
+	m_StartAngle += 45.f;
 	if (m_StartAngle >= 360.f) m_StartAngle = 0.f;
 
-	Motor rotation = Motor::Rotation(90, m_RotationLine);
+	Motor rotation = Motor::Rotation(45, m_RotationLine);
 
 	GAUtils::Transform(m_StartPlane, rotation);
 	GAUtils::Transform(m_EndPlane, rotation);
@@ -74,18 +83,14 @@ void RotatorUnit::Action1()
 
 void RotatorUnit::Action2()
 {
-	Motor rotation{};
-	if (m_Degrees == 180.f)
+	m_Degrees += 45;
+	if (m_Degrees > 180.f)
 	{
-		m_Degrees = 90;
-		rotation = Motor::Rotation(-90, m_RotationLine);
-	}
-	else
-	{
-		m_Degrees = 180;
-		rotation = Motor::Rotation(90, m_RotationLine);
+		m_Degrees = 45;
+		m_EndPlane = -m_StartPlane;
 	}
 
+	Motor rotation{ Motor::Rotation(45, m_RotationLine) };
 	if (m_RotationVelocity > 0.f)
 		GAUtils::Transform(m_EndPlane, rotation);
 	else
@@ -95,7 +100,7 @@ void RotatorUnit::Action2()
 void RotatorUnit::Action3()
 {
 	m_RotationVelocity = -m_RotationVelocity;
-
+	
 	OneBlade temp = m_StartPlane;
 
 	m_StartPlane = m_EndPlane;

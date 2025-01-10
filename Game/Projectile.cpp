@@ -36,11 +36,14 @@ void Projectile::Update()
 		}
 		if (!m_Possesed)
 		{
-			auto origin = ThreeBlade{ 0,0,0 };
-			auto defaultPlane = TwoBlade{ m_TransLine[0],m_TransLine[1],0,0,0,0} &origin;
-			auto currentPlane = m_TransLine & origin;
+			if(std::abs(m_TransLine[2]) > 0.001f)
+			{
+				auto origin = ThreeBlade{ 0,0,0 };
+				auto defaultPlane = TwoBlade{ m_TransLine[0],m_TransLine[1],0,0,0,0 } &origin;
+				auto currentPlane = m_TransLine & origin;
 
-			m_Speed = m_DefaultSpeed / std::abs(std::cos(GAUtils::GetAngle(defaultPlane, currentPlane)));
+				m_Speed = m_DefaultSpeed / std::abs(std::cos(GAUtils::GetAngle(defaultPlane, currentPlane)));
+			}
 			m_Translation = Motor::Translation(m_Speed * m_SpeedMultiplier * ENGINE.GetDeltaTime(), m_TransLine);
 			GAUtils::Transform(m_Position, m_Translation);
 		}

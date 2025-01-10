@@ -54,7 +54,7 @@ void BoosterUnit::EndOverlap(const std::unique_ptr<Projectile>& pProjectile)
 void BoosterUnit::Action1()
 {
 	const TwoBlade rotLine = TwoBlade::LineFromPoints(m_Position[0], m_Position[1], 0, m_Position[0], m_Position[1], 1);
-	Motor rotation = Motor::Rotation(90, rotLine);
+	Motor rotation = Motor::Rotation(45, rotLine);
 	m_Area.Rotate(rotation, true);
 }
 

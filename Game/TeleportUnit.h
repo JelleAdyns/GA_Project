@@ -27,7 +27,7 @@ public:
 	virtual void EndOverlap(const std::unique_ptr<Projectile>& pProjectile) override {};
 
 	virtual void Action1() override;
-	virtual void Action2() override {};
+	virtual void Action2() override;
 	virtual void Action3() override {};
 	virtual void Action4() override {};
 
