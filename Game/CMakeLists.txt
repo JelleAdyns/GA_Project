@@ -1,4 +1,4 @@
-project(GameName)
+project(InPlaneSight)
 
 set(GUI_TYPE WIN32)
 
