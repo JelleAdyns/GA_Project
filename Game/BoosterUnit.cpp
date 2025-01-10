@@ -2,6 +2,7 @@
 #include "DrawFloatToInt.h"
 #include "GAUtils.h"
 #include "ProjectileOverlapHandler.h"
+#include "BlackHoleTile.h"
 
 BoosterUnit::BoosterUnit(const Point2f& pos):
 	BoosterUnit{pos.x, pos.y}
@@ -31,12 +32,18 @@ void BoosterUnit::Update()
 void BoosterUnit::ActOnProjectile(std::unique_ptr<Projectile>& pProjectile)
 {
 	ProjectileOverlapHandler::GetInstance().CheckOverlap(this, m_Area, pProjectile);
+	if (m_Area.IsPointInside(pProjectile->GetPoint()))
+	{
+		pProjectile->SetSpeedMultiplier(2);
+		ThreeBlade point = pProjectile->GetPoint();
+		GAUtils::Transform(point, Motor::Translation(BlackHoleTile::GetPullSpeed()/2 * ENGINE.GetDeltaTime(), TwoBlade{ 0,0,1,0,0,0 }));
+		pProjectile->SetPoint(point);
+	}
 }
 
 void BoosterUnit::BeginOverlap(const std::unique_ptr<Projectile>& pProjectile)
 {
-	pProjectile->SetSpeedMultiplier(2);
-	pProjectile->AddDirection(TwoBlade{ 0,0,1,0,0,0 });
+	
 }
 
 void BoosterUnit::EndOverlap(const std::unique_ptr<Projectile>& pProjectile)

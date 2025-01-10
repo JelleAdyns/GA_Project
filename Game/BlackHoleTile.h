@@ -20,8 +20,9 @@ public:
 	virtual void BeginOverlap(const std::unique_ptr<Projectile>& pProjectile) override;
 	virtual void EndOverlap(const std::unique_ptr<Projectile>& pProjectile) override;
 
+	constexpr static float GetPullSpeed() { return m_PullSpeed; }
 private:
-	
+	constexpr static float m_PullSpeed{ 100 };
 };
 
 #endif // !BLACKHOLETILE_H

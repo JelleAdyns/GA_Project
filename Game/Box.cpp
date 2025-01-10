@@ -31,10 +31,10 @@ Box::Box(float centerX, float centerY, float width, float height):
 
 bool Box::IsPointInside(const ThreeBlade& point, float extraRadius) const
 {
-	return (GetDistanceFromLeft(point) > -extraRadius and
-			GetDistanceFromRight(point) > -extraRadius and
-			GetDistanceFromBottom(point) > -extraRadius and
-			GetDistanceFromTop(point) > -extraRadius );
+	return (GetDistanceFromLeft(point) >= -extraRadius and
+			GetDistanceFromRight(point) >= -extraRadius and
+			GetDistanceFromBottom(point) >= -extraRadius and
+			GetDistanceFromTop(point) >= -extraRadius );
 }
 
 float Box::GetWidth() const

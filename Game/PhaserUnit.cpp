@@ -30,28 +30,26 @@ void PhaserUnit::Update()
 
 void PhaserUnit::ActOnProjectile(std::unique_ptr<Projectile>& pProjectile)
 {
-
 	ProjectileOverlapHandler::GetInstance().CheckOverlap(this, m_Area, pProjectile);
 	if (m_Area.IsPointInside(pProjectile->GetPoint()))
 	{
-		if (pProjectile->GetPoint()[2] < FenceTile::GetAcceptanceDepth())
+		
+		if (pProjectile->GetPoint()[2] > FenceTile::GetAcceptanceDepth())
 		{
-			auto currentDir = pProjectile->GetTransLine();
-			currentDir[2] = 0;
-			pProjectile->SetDirection(currentDir);
+			ThreeBlade point = pProjectile->GetPoint();
+			GAUtils::Transform(point, Motor::Translation(50 * ENGINE.GetDeltaTime(), TwoBlade{ 0,0,-1,0,0,0 }));
+			pProjectile->SetPoint(point);
 		}
 	}
 }
 
 void PhaserUnit::BeginOverlap(const std::unique_ptr<Projectile>& pProjectile)
 {
-	m_TransDownwards = TwoBlade{ 0,0,-1,0,0,0 } + pProjectile->GetTransLine();
-	pProjectile->AddDirection(m_TransDownwards);
+
 }
 
 void PhaserUnit::EndOverlap(const std::unique_ptr<Projectile>& pProjectile)
 {
-	pProjectile->AddDirection(-m_TransDownwards);
 }
 
 void PhaserUnit::Action1()
