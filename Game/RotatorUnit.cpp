@@ -87,7 +87,10 @@ void RotatorUnit::Action2()
 	if (m_Degrees > 180.f)
 	{
 		m_Degrees = 45;
-		m_EndPlane = -m_StartPlane;
+		if (m_RotationVelocity > 0.f)
+			m_EndPlane = -m_StartPlane;
+		else
+			m_StartPlane = -m_EndPlane;
 	}
 
 	Motor rotation{ Motor::Rotation(45, m_RotationLine) };
