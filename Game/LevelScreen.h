@@ -52,7 +52,6 @@ public:
 	void AddUnit(std::unique_ptr<Unit>&& pUnit);
 	const Box& GetLevelBox() const;
 	bool PickUpUnit();
-	void CheckForUnitPickUp() const;
 
 private:
 
@@ -66,7 +65,11 @@ private:
 	std::vector<std::unique_ptr<Tile>> m_pVecTiles{};
 
 	int m_StageNumber{};
+	int m_MaxStages{2};
 
+	bool LevelCompleted() const;
+	void Reset();
+	void CheckForUnitPickUp() const;
 	void EraseRemovedUnits();
 	void EraseDeadTargets();
 	void EraseDeadProjectiles();

@@ -83,6 +83,14 @@ void LevelScreen::Update()
 	}
 	EraseDeadProjectiles();
 	EraseDeadTargets();
+
+	if (LevelCompleted())
+	{
+		Reset();
+		++m_StageNumber %= m_MaxStages;
+		LoadStage();
+	}
+
 }
 
 void LevelScreen::AddUnit(std::unique_ptr<Unit>&& pUnit)
@@ -120,6 +128,19 @@ bool LevelScreen::PickUpUnit()
 
 	if(pickedUp) EraseRemovedUnits();
 	return pickedUp;
+}
+
+bool LevelScreen::LevelCompleted() const
+{
+	return m_pVecTargets.empty();
+}
+
+void LevelScreen::Reset()
+{
+	m_pVecProjectiles.clear();
+	m_pVecUnits.clear();
+	m_pVecTiles.clear();
+	m_pVecTargets.clear();
 }
 
 void LevelScreen::CheckForUnitPickUp() const
