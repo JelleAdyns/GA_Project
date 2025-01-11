@@ -15,6 +15,7 @@ LevelScreen::LevelScreen(Game& game) :
 {
 	LoadStage();
 	m_Player.SetControlledUnit(m_HUD.GetInstaceOfSelectedUnit(Point2f{ m_Player.GetPos()[0],m_Player.GetPos()[1] }));
+	m_pPushCommand = std::make_unique<PushScreenCommand>(game, Game::State::Pause);
 }
 
 void LevelScreen::Draw() const
@@ -116,6 +117,10 @@ void LevelScreen::AddUnit(std::unique_ptr<Unit>&& pUnit)
 void LevelScreen::InputKeyDownThisFrame(int virtualKeyCode)
 {
 	m_Player.InputKeyDownThisFrame(virtualKeyCode, *this, m_HUD);
+	if (virtualKeyCode == VK_ESCAPE)
+	{
+		m_pPushCommand->Execute();
+	}
 }
 void LevelScreen::InputKeyUp(int virtualKeyCode)
 {

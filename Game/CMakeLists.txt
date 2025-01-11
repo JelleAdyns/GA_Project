@@ -48,6 +48,8 @@ set(SOURCES
 	"HUD.cpp" 
 	"MainMenuScreen.h"
 	"MainMenuScreen.cpp"
+	"PauseScreen.h"
+	"PauseScreen.cpp"
 	"Commands.h")
 
 add_executable(${PROJECT_NAME} WIN32  ${SOURCES})

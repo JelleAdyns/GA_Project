@@ -2,7 +2,6 @@
 #define GAME_H
 
 #include <Engine.h>
-#include "LevelScreen.h"
 #include "FlyFish.h"
 #include <queue>
 #include "Screen.h"
@@ -35,7 +34,8 @@ public:
     enum class State
     {
         MainMenu,
-        Playing
+        Playing,
+        Pause
     };
     enum class ScreenOperation
     {

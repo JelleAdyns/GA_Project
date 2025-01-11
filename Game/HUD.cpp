@@ -16,6 +16,10 @@ HUD::HUD()
 
 void HUD::Draw() const
 {
+	//m_rFont.SetTextFormat(32, true, false);
+	m_rFont.SetHorizontalAllignment(jela::Font::HorAllignment::Left);
+	m_rFont.SetVerticalAllignment(jela::Font::VertAllignment::Bottom);
+
 	ENGINE.SetColor(RGB(20, 20, 20), 0.9f);
 	Drawf::FillRectangle(m_Area);
 	ENGINE.SetColor(RGB(0, 0, 0));

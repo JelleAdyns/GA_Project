@@ -13,8 +13,9 @@
 #include "Screen.h"
 #include "Target.h"
 #include "HUD.h"
+#include "Commands.h"
+#include "Game.h"
 
-class Game;
 class LevelScreen final : public Screen
 {
 public:
@@ -44,6 +45,8 @@ public:
 	bool IsPointInTile(const ThreeBlade& point) const;
 
 private:
+
+	std::unique_ptr<Command> m_pPushCommand{nullptr};
 
 	Player m_Player{ m_LevelBox.Center[0], m_LevelBox.Center[1] };
 	Cannon m_Cannon{};

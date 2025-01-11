@@ -35,7 +35,7 @@ void MainMenuScreen::Draw() const
 void MainMenuScreen::Update()
 {
 	static float fireRate{ 1.f };
-	static float time{ 0.f };
+	static float time{ 1.f };
 	time += ENGINE.GetDeltaTime();
 	if (time >= fireRate)
 	{
@@ -65,10 +65,15 @@ void MainMenuScreen::Update()
 	EraseLostPoints();
 }
 
+void MainMenuScreen::InputKeyDownThisFrame(int virtualKeyCode)
+{
+	if (virtualKeyCode != VK_F11)
+		m_pStartCommand->Execute();
+}
+
 void MainMenuScreen::InputKeyUp(int virtualKeyCode)
 {
-	if(virtualKeyCode != VK_F11)
-		m_pStartCommand->Execute();
+	
 }
 
 void MainMenuScreen::EraseLostPoints()

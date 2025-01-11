@@ -37,7 +37,7 @@ public:
 	virtual void Draw() const override;
 	virtual void Update() override;
 
-	virtual void InputKeyDownThisFrame(int virtualKeyCode) override {};
+	virtual void InputKeyDownThisFrame(int virtualKeyCode) override;
 	virtual void InputKeyUp(int virtualKeyCode) override;
 	virtual void HandleControllerInput() override {};
 

@@ -1,6 +1,8 @@
 #include "Game.h"
 #include "DrawFloatToInt.h"
 #include "MainMenuScreen.h"
+#include "LevelScreen.h"
+#include "PauseScreen.h"
 
 void Game::Initialize()
 {
@@ -117,6 +119,11 @@ void Game::LoadScreen()
 		m_pScreenStack.emplace_back(m_GameState, std::make_unique<LevelScreen>(*this));
 
 		break;
+	case State::Pause:
+
+		m_pScreenStack.emplace_back(m_GameState, std::make_unique<PauseScreen>(*this));
+
+		break;
 
 	}
 
@@ -139,7 +146,11 @@ void Game::PushScreen()
 		m_pScreenStack.emplace_back(m_GameState, std::make_unique<LevelScreen>(*this));
 
 		break;
-	
+	case State::Pause:
+
+		m_pScreenStack.emplace_back(m_GameState, std::make_unique<PauseScreen>(*this));
+
+		break;
 	}
 
 	m_pScreenStack.back().second->OnEnter();
