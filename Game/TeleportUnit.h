@@ -28,18 +28,24 @@ public:
 
 	virtual void Action1() override;
 	virtual void Action2() override;
-	virtual void Action3() override {};
-	virtual void Action4() override {};
+	virtual void Action3() override;
+	virtual void Action4() override;
 
 	virtual void TranslateUnit(const Motor& translation) override;
 private:
+	void Rotate(float degrees);
+	void ApplyOffset(float dist);
+
 	constexpr static float m_Width{Tile::GetSize()};
-	constexpr static float m_Height{Tile::GetSize()};
-	constexpr static float m_DistanceFromPlane{20};
+	constexpr static float m_Height{Tile::GetSize()*1.5f};
+	constexpr static float m_MaxDistFromPlane{Tile::GetSize()*2};
+	constexpr static float m_MinDistFromPlane{m_Height/2};
+	constexpr static float m_OffsetStep{10};
+	constexpr static float m_DegreesStep{45};
 	constexpr static COLORREF m_Color{RGB(245, 123, 145)};
 
 	OneBlade m_ReflectPlane{m_Position[1],0,-1,0};
-	Box m_ActivationBox{ m_Position[0], m_Position[1] - (m_Height / 2 + m_DistanceFromPlane), m_Width, m_Height};
+	Box m_ActivationBox{ m_Position[0], m_Position[1] - (m_Height / 2 + m_OffsetStep), m_Width, m_Height};
 	Box m_DestinationBox{ m_ActivationBox };
 };
 

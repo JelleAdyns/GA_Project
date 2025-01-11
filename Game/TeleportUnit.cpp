@@ -52,24 +52,22 @@ void TeleportUnit::ActOnProjectile(std::unique_ptr<Projectile>& pProjectile)
 
 void TeleportUnit::Action1()
 {
-	const TwoBlade rotLine{ TwoBlade::LineFromPoints(m_Position[0], m_Position[1], 0, m_Position[0], m_Position[1], 1) };
-	const float degreesStep{ 45 };
-
-	Motor rotation = Motor::Rotation(degreesStep, rotLine);
-	GAUtils::Transform(m_ReflectPlane, rotation);
-	m_ActivationBox.Rotate(rotation, true);
-	m_DestinationBox.Rotate(rotation, true);
+	Rotate(m_DegreesStep);
 }
 
 void TeleportUnit::Action2()
 {
-	const TwoBlade rotLine{ TwoBlade::LineFromPoints(m_Position[0], m_Position[1], 0, m_Position[0], m_Position[1], 1) };
-	const float degreesStep{ -45 };
+	Rotate(-m_DegreesStep);
+}
 
-	Motor rotation = Motor::Rotation(degreesStep, rotLine);
-	GAUtils::Transform(m_ReflectPlane, rotation);
-	m_ActivationBox.Rotate(rotation, true);
-	m_DestinationBox.Rotate(rotation, true);
+void TeleportUnit::Action3()
+{
+	ApplyOffset(m_OffsetStep);
+}
+
+void TeleportUnit::Action4()
+{
+	ApplyOffset(-m_OffsetStep);
 }
 
 void TeleportUnit::TranslateUnit(const Motor& translation)
@@ -79,4 +77,38 @@ void TeleportUnit::TranslateUnit(const Motor& translation)
 	m_DestinationBox.Translate(translation);
 
 	GAUtils::Transform(m_Position, translation);
+}
+
+void TeleportUnit::Rotate(float degrees)
+{
+	const TwoBlade rotLine{ TwoBlade::LineFromPoints(m_Position[0], m_Position[1], 0, m_Position[0], m_Position[1], 1) };
+	
+	Motor rotation = Motor::Rotation(degrees, rotLine);
+	GAUtils::Transform(m_ReflectPlane, rotation);
+	m_ActivationBox.Rotate(rotation, true);
+	m_DestinationBox.Rotate(rotation, true);
+}
+
+void TeleportUnit::ApplyOffset(float dist)
+{
+	const TwoBlade trLine{ m_ReflectPlane ^ OneBlade{-1,0,0,0} };
+
+	m_ActivationBox.Translate(Motor::Translation(dist, trLine));
+	m_DestinationBox.Translate(Motor::Translation(dist, -trLine));
+
+	float currentDistance = GAUtils::GetDistance(m_ActivationBox.Center, m_ReflectPlane);
+	if ((dist > 0.f and currentDistance >= m_MaxDistFromPlane))
+	{
+		m_ActivationBox.Translate(Motor::Translation(m_MaxDistFromPlane - currentDistance, trLine));
+		m_DestinationBox.Translate(Motor::Translation(m_MaxDistFromPlane - currentDistance, -trLine));
+		return;
+	}
+	else if(dist < 0.f and currentDistance <= m_MinDistFromPlane)
+	{
+		m_ActivationBox.Translate(Motor::Translation(m_MinDistFromPlane - currentDistance, trLine));
+		m_DestinationBox.Translate(Motor::Translation(m_MinDistFromPlane - currentDistance, -trLine));
+		return;
+	}
+
+
 }
