@@ -1,6 +1,21 @@
 #include "LevelScreen.h"
 #include "GAUtils.h"
 #include <algorithm>
+#include "TeleportUnit.h"
+#include "BoosterUnit.h"
+#include "PhaserUnit.h"
+
+LevelScreen::LevelScreen(Game& game) :
+	Screen{},
+	m_LevelBox{
+		ENGINE.GetWindowRect().width / 2.f,
+		m_HUD.GetBottom() / 2.f,
+		static_cast<float>(ENGINE.GetWindowRect().width),
+		m_HUD.GetBottom() }
+{
+	LoadStage();
+	m_Player.SetControlledUnit(m_HUD.GetInstaceOfSelectedUnit(Point2f{ m_Player.GetPos()[0],m_Player.GetPos()[1] }));
+}
 
 void LevelScreen::Draw() const
 {
@@ -151,6 +166,7 @@ void LevelScreen::Reset()
 	m_pVecUnits.clear();
 	m_pVecTiles.clear();
 	m_pVecTargets.clear();
+	m_HUD.Reset();
 }
 
 void LevelScreen::CheckForUnitPickUp() const
@@ -237,10 +253,45 @@ void LevelScreen::LoadStage()
 	{
 		if (info.find(_T("Stage " + to_tstring(m_StageNumber))) != tstring::npos)
 		{
-			info.erase(0, info.find(to_tstring(m_StageNumber) + _T('\n')));
+			info.erase(0, info.find(_T('\n'))+1);
 			stageTest << info;
 		}
+		inputFile.get();
 	}
+
+	auto pos = stageTest.str().find(_T('\n')) + 1;
+
+	tstring unitsString{ stageTest.str().substr(0, pos) };
+	tstringstream unitsStream{ unitsString };
+
+	info = stageTest.str().substr(pos);
+
+	while (getline(unitsStream, unitsString, _T(' ')))
+	{
+		tchar firstChar = unitsString[0];
+		auto unitAmount = static_cast<int>(unitsString[1] - _T('0'));
+		switch (firstChar)
+		{
+		case _T('R'):
+			m_HUD.AddUnit(std::make_unique<RotatorUnit>(0.f, 0.f), unitAmount);
+			break;
+
+		case _T('T'):
+			m_HUD.AddUnit(std::make_unique<TeleportUnit>(0.f, 0.f), unitAmount);
+			break;
+
+		case _T('B'):
+			m_HUD.AddUnit(std::make_unique<BoosterUnit>(0.f, 0.f), unitAmount);
+			break;
+
+		case _T('P'):
+			m_HUD.AddUnit(std::make_unique<PhaserUnit>(0.f, 0.f), unitAmount);
+			break;
+		}
+	}
+	
+	stageTest.str(info);
+
 	while (getline(stageTest, info))
 	{
 		tstring rowString{};

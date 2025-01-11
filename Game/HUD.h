@@ -20,6 +20,7 @@ public:
 	void Reset();
 	void DecreaseAmountAvailable();
 	void IncreaseAmountAvailable();
+	void AddUnit(std::unique_ptr<Unit>&& pUnit, int amount);
 
 	bool IsSameUnit(std::type_index typeId) const;
 	bool IsUnitAvailable() const;

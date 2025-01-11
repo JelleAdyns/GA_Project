@@ -43,7 +43,7 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& 
 	}
 	case VK_SPACE:
 	{
-		if (not m_pControlledUnit)
+		if ( m_pControlledUnit)
 		{
 		 	SetControlledUnit( hud.GetInstaceOfSelectedUnit(Point2f{ m_Position[0],m_Position[1] }));
 		}
@@ -58,7 +58,14 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& 
 					hud.DecreaseAmountAvailable();
 				}
 			}
+			
 		}
+
+		if (not m_pControlledUnit)
+		{
+		 	SetControlledUnit( hud.GetInstaceOfSelectedUnit(Point2f{ m_Position[0],m_Position[1] }));
+		}
+
 		break;
 	}
 	case _T('Q'):

@@ -12,24 +12,6 @@ HUD::HUD()
 	m_rFont.SetTextFormat(32, true, false);
 	m_rFont.SetHorizontalAllignment(jela::Font::HorAllignment::Left);
 	m_rFont.SetVerticalAllignment(jela::Font::VertAllignment::Bottom);
-
-	m_VecUnits.emplace_back(std::make_unique<RotatorUnit>(0.f, 0.f),7);
-	m_VecUnits.emplace_back(std::make_unique<TeleportUnit>(0.f, 0.f),4);
-	m_VecUnits.emplace_back(std::make_unique<BoosterUnit>(0.f, 0.f),5);
-	m_VecUnits.emplace_back(std::make_unique<PhaserUnit>(0.f, 0.f),2);
-
-	float spaceBetween = m_Area.width / (static_cast<int>(m_VecUnits.size()) + 1);
-
-	for (size_t i = 0; i < m_VecUnits.size(); i++)
-	{
-		TwoBlade transLine{1,0,0,0,0,0};
-		Motor trans = Motor::Translation(m_Area.left + spaceBetween + spaceBetween * i, transLine);
-		m_VecUnits[i].pUnit->TranslateUnit(trans);
-
-		transLine = { 0,1,0,0,0,0 };
-		trans = Motor::Translation(m_Area.bottom + m_AreaHeight / 2, transLine);
-		m_VecUnits[i].pUnit->TranslateUnit(trans);
-	}
 }
 
 void HUD::Draw() const
@@ -87,6 +69,34 @@ void HUD::IncreaseAmountAvailable()
 {
 	m_VecUnits[m_SelectedIndex].CurrentAmountLeft =
 		std::min<int>(m_VecUnits[m_SelectedIndex].CurrentAmountLeft + 1, m_VecUnits[m_SelectedIndex].MaxAmount);
+}
+
+void HUD::AddUnit(std::unique_ptr<Unit>&& pUnit, int amount)
+{
+	m_VecUnits.emplace_back(std::move(pUnit), amount);
+
+	float spaceBetween = m_Area.width / (static_cast<int>(m_VecUnits.size()) + 1);
+
+	for (size_t i = 0; i < m_VecUnits.size(); i++)
+	{
+		// X-value
+		TwoBlade transLine{ 1,0,0,0,0,0 };
+
+		Motor trans = Motor::Translation(-m_VecUnits[i].pUnit->GetPos()[0], transLine);
+		m_VecUnits[i].pUnit->TranslateUnit(trans);
+
+		trans = Motor::Translation(m_Area.left + spaceBetween + spaceBetween * i, transLine);
+		m_VecUnits[i].pUnit->TranslateUnit(trans);
+
+		// Y-value
+		transLine = { 0,1,0,0,0,0 };
+
+		trans = Motor::Translation(-m_VecUnits[i].pUnit->GetPos()[1], transLine);
+		m_VecUnits[i].pUnit->TranslateUnit(trans);
+
+		trans = Motor::Translation(m_Area.bottom + m_AreaHeight / 2, transLine);
+		m_VecUnits[i].pUnit->TranslateUnit(trans);
+	}
 }
 
 bool HUD::IsSameUnit(std::type_index typeId) const

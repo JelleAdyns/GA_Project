@@ -18,18 +18,7 @@ class Game;
 class LevelScreen final : public Screen
 {
 public:
-	LevelScreen(Game& game) :
-		Screen{},
-		m_LevelBox{
-			ENGINE.GetWindowRect().width / 2.f,
-			m_HUD.GetBottom() / 2.f,
-			static_cast<float>(ENGINE.GetWindowRect().width),
-			m_HUD.GetBottom()}
-	{
-		LoadStage();
-		m_Player.SetControlledUnit(m_HUD.GetInstaceOfSelectedUnit(Point2f{ m_Player.GetPos()[0],m_Player.GetPos()[1] }));
-	}
-
+	LevelScreen(Game& game);
 	~LevelScreen() = default;
 
 	LevelScreen(const LevelScreen& other) = delete;
