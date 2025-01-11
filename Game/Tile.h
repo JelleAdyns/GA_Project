@@ -21,6 +21,7 @@ public:
 	virtual void BeginOverlap(const std::unique_ptr<Projectile>& pProjectile) {};
 	virtual void EndOverlap(const std::unique_ptr<Projectile>& pProjectile) {};
 
+	bool IsPointInside(const ThreeBlade& point) const { return m_Box.IsPointInside(point); };
 	constexpr static float GetSize() { return m_Size; }
 
 protected:

@@ -49,8 +49,11 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& 
 		}
 		else
 		{
-			level.AddUnit(std::move(m_pControlledUnit));
-			m_pControlledUnit = nullptr;
+			if(not level.IsPointInTile(m_Position))
+			{
+				level.AddUnit(std::move(m_pControlledUnit));
+				m_pControlledUnit = nullptr;
+			}
 		}
 		break;
 	}

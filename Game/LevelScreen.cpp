@@ -130,6 +130,16 @@ bool LevelScreen::PickUpUnit()
 	return pickedUp;
 }
 
+bool LevelScreen::IsPointInTile(const ThreeBlade& point)
+{
+	for (const auto& pTile : m_pVecTiles)
+	{
+		if (pTile->IsPointInside(point))
+			return true;
+	}
+	return false;
+}
+
 bool LevelScreen::LevelCompleted() const
 {
 	return m_pVecTargets.empty();

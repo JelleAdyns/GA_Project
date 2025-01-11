@@ -52,6 +52,7 @@ public:
 	void AddUnit(std::unique_ptr<Unit>&& pUnit);
 	const Box& GetLevelBox() const;
 	bool PickUpUnit();
+	bool IsPointInTile(const ThreeBlade& point);
 
 private:
 

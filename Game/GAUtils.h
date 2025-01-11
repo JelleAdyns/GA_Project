@@ -15,6 +15,7 @@ namespace GAUtils
 	float GetDistance(const ThreeBlade& point, const OneBlade& plane);
 	float GetDistance(const ThreeBlade& point, const TwoBlade& line);
 	float GetDistance(const ThreeBlade& point1, const ThreeBlade& point2);
+	float GetDistance(const OneBlade& plane1, const OneBlade& plane2);
 
 	float GetAngle(const TwoBlade& line1, const TwoBlade& line2);
 	float GetAngle(const OneBlade& plane1, const OneBlade& plane2);

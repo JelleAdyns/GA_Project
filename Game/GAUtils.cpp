@@ -47,6 +47,11 @@ float GAUtils::GetDistance(const ThreeBlade& point1, const ThreeBlade& point2)
 	return (point1.Normalized() & point2.Normalized()).Norm();
 }
 
+float GAUtils::GetDistance(const OneBlade& plane1, const OneBlade& plane2)
+{
+	return (plane1.Normalized() ^ plane2.Normalized()).VNorm();
+}
+
 float GAUtils::GetAngle(const TwoBlade& line1, const TwoBlade& line2)
 {
 	return std::acos(-(line1.Normalized() | line2.Normalized()));
