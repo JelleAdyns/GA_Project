@@ -36,7 +36,7 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& 
 {
 	switch (virtualKeyCode)
 	{
-	case VK_ESCAPE:
+	case _T('R'):
 	{
 		m_pControlledUnit = nullptr;
 		break;
@@ -44,10 +44,6 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& 
 	case VK_SPACE:
 	{
 		if ( m_pControlledUnit)
-		{
-		 	SetControlledUnit( hud.GetInstaceOfSelectedUnit(Point2f{ m_Position[0],m_Position[1] }));
-		}
-		else
 		{
 			if(not level.IsPointInTile(m_Position))
 			{
@@ -80,7 +76,7 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& 
 		SetControlledUnit(hud.GetInstaceOfSelectedUnit(Point2f{ m_Position[0],m_Position[1] }));
 		break;
 	}
-	case VK_SHIFT:
+	case _T('X'):
 	{
 		if(level.PickUpUnit())
 		{
@@ -96,6 +92,11 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& 
 			}
 			hud.IncreaseAmountAvailable();
 		}
+		break;
+	}
+	case VK_SHIFT:
+	{
+		m_Speed = m_DefaultSpeed *2;
 		break;
 	}
 	case VK_LEFT:
@@ -123,6 +124,16 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& 
 
 void Player::InputKeyUp(int virtualKeyCode)
 {
+	switch (virtualKeyCode)
+	{
+
+	case VK_SHIFT:
+	{
+		m_Speed = m_DefaultSpeed;
+		break;
+	}
+	
+	}
 }
 void Player::SetControlledUnit(std::unique_ptr<Unit>&& pointerToMove)
 {

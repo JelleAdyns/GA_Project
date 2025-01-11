@@ -35,7 +35,8 @@ private:
 	void HandleMovementInput();
 	void HandleBorderCollision(const Box& levelBox);
 
-	constexpr static float m_Speed{ 300 };
+	constexpr static float m_DefaultSpeed{ 150 };
+	float m_Speed{ m_DefaultSpeed};
 
 	TwoBlade m_Direction{ 1,0,0,0,0,0 };
 	Motor m_Translation{};
