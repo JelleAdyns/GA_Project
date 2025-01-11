@@ -17,21 +17,47 @@ public:
 	
 	void SelectNextUnit();
 	void SelectPreviousUnit();
+	void Reset();
+	void DecreaseAmountAvailable();
+	void IncreaseAmountAvailable();
+
+	bool IsSameUnit(std::type_index typeId) const;
+	bool IsUnitAvailable() const;
+
 	std::unique_ptr<Unit> GetInstaceOfSelectedUnit(const Point2f& pos) const ;
+	float GetBottom() const { return m_Area.bottom; };
+
 	constexpr static float GetAreaHeight() { return m_AreaHeight; };
 
+
 private:
-	constexpr static float m_AreaHeight{ Tile::GetSize()*5};
-	Rectf m_Area
+
+	struct AvailableUnit
 	{
-		0.f,
-		ENGINE.GetWindowRect().height - m_AreaHeight,
-		static_cast<float>(ENGINE.GetWindowRect().width),
+		AvailableUnit(std::unique_ptr<Unit>&& unit, int amount) :
+			pUnit{std::move(unit)},
+			MaxAmount{amount},
+			CurrentAmountLeft{amount}
+		{}
+
+		std::unique_ptr<Unit> pUnit{ nullptr };
+		int MaxAmount{0};
+		int CurrentAmountLeft{0};
+	};
+
+	constexpr static float m_AreaHeight{ Tile::GetSize()*4.5f};
+	const Rectf m_Area
+	{
+		Tile::GetSize()/4,
+		ENGINE.GetWindowRect().height - m_AreaHeight - Tile::GetSize()/4,
+		ENGINE.GetWindowRect().width - Tile::GetSize()/2,
 		m_AreaHeight
 	};
 
-	int m_IndexSelectedUnit{ 0 };
-	std::vector<std::unique_ptr<Unit>> m_VecUnitsToSelect;
+	int m_SelectedIndex{ 0 };
+	std::vector<AvailableUnit> m_VecUnits;
+
+	jela::Font& m_rFont{ jela::ResourceManager::GetInstance().GetFont(_T("Arial")) };
 };
 
 #endif // !HUD_H

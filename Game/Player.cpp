@@ -51,8 +51,12 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& 
 		{
 			if(not level.IsPointInTile(m_Position))
 			{
-				level.AddUnit(std::move(m_pControlledUnit));
-				m_pControlledUnit = nullptr;
+				if(hud.IsUnitAvailable())
+				{
+					level.AddUnit(std::move(m_pControlledUnit));
+					m_pControlledUnit = nullptr;
+					hud.DecreaseAmountAvailable();
+				}
 			}
 		}
 		break;
@@ -79,6 +83,11 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& 
 				Motor tr = Motor::Translation(GAUtils::GetDistance(m_pControlledUnit->GetPos(), m_Position), trLine);
 				m_pControlledUnit->TranslateUnit(tr);
 			}
+			while (not hud.IsSameUnit(m_pControlledUnit->GetTypeId()))
+			{
+				hud.SelectNextUnit();
+			}
+			hud.IncreaseAmountAvailable();
 		}
 		break;
 	}

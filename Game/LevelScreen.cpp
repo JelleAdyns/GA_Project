@@ -130,7 +130,7 @@ bool LevelScreen::PickUpUnit()
 	return pickedUp;
 }
 
-bool LevelScreen::IsPointInTile(const ThreeBlade& point)
+bool LevelScreen::IsPointInTile(const ThreeBlade& point) const
 {
 	for (const auto& pTile : m_pVecTiles)
 	{

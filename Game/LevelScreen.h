@@ -22,9 +22,9 @@ public:
 		Screen{},
 		m_LevelBox{
 			ENGINE.GetWindowRect().width / 2.f,
-			(ENGINE.GetWindowRect().height - HUD::GetAreaHeight()) / 2.f,
+			m_HUD.GetBottom() / 2.f,
 			static_cast<float>(ENGINE.GetWindowRect().width),
-			ENGINE.GetWindowRect().height - HUD::GetAreaHeight()}
+			m_HUD.GetBottom()}
 	{
 		LoadStage();
 		m_Player.SetControlledUnit(m_HUD.GetInstaceOfSelectedUnit(Point2f{ m_Player.GetPos()[0],m_Player.GetPos()[1] }));
@@ -52,11 +52,10 @@ public:
 	void AddUnit(std::unique_ptr<Unit>&& pUnit);
 	const Box& GetLevelBox() const;
 	bool PickUpUnit();
-	bool IsPointInTile(const ThreeBlade& point);
+	bool IsPointInTile(const ThreeBlade& point) const;
 
 private:
 
-	const Box m_LevelBox;
 	Player m_Player{ m_LevelBox.Center[0], m_LevelBox.Center[1] };
 	Cannon m_Cannon{};
 	HUD m_HUD{};
@@ -65,6 +64,7 @@ private:
 	std::vector<std::unique_ptr<Unit>> m_pVecUnits{};
 	std::vector<std::unique_ptr<Tile>> m_pVecTiles{};
 
+	const Box m_LevelBox;
 	int m_StageNumber{};
 	int m_MaxStages{2};
 
