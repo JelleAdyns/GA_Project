@@ -12,7 +12,7 @@
 Player::Player(float x, float y) :
 	m_Position{ x, y, 0}
 {
-
+	
 }
 Player::Player(const Point2f& pos):
 	Player{pos.x,pos.y}
@@ -26,14 +26,15 @@ void Player::Draw() const
 	if (m_pControlledUnit) m_pControlledUnit->Draw();
 }
 
-void Player::Update(const LevelScreen& level)
+void Player::Update(LevelScreen& level)
 {
-	HandleMovementInput();
+	HandleMovementInput(level);
 	HandleBorderCollision(level.GetLevelBox());	
 }
 
 void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& hud)
 {
+	
 	switch (virtualKeyCode)
 	{
 	case _T('R'):
@@ -52,6 +53,12 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& 
 					level.AddUnit(std::move(m_pControlledUnit));
 					m_pControlledUnit = nullptr;
 					hud.DecreaseAmountAvailable();
+
+					if (not LevelScreen::PICKUP_HINT.second)
+					{
+						level.SetHint(LevelScreen::PICKUP_HINT.first);
+						LevelScreen::PICKUP_HINT.second = true;
+					}
 				}
 			}
 			
@@ -66,14 +73,20 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& 
 	}
 	case _T('Q'):
 	{
-		hud.SelectPreviousUnit();
-		SetControlledUnit(hud.GetInstaceOfSelectedUnit(Point2f{ m_Position[0],m_Position[1] }));
+		if (hud.GetAmountOfUnits() > 1)
+		{
+			hud.SelectPreviousUnit();
+			SetControlledUnit(hud.GetInstaceOfSelectedUnit(Point2f{ m_Position[0],m_Position[1] }));
+		}
 		break;
 	}
 	case _T('E'):
 	{
-		hud.SelectNextUnit();
-		SetControlledUnit(hud.GetInstaceOfSelectedUnit(Point2f{ m_Position[0],m_Position[1] }));
+		if (hud.GetAmountOfUnits() > 1)
+		{
+			hud.SelectNextUnit();
+			SetControlledUnit(hud.GetInstaceOfSelectedUnit(Point2f{ m_Position[0],m_Position[1] }));
+		}
 		break;
 	}
 	case _T('X'):
@@ -97,26 +110,52 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& 
 	case VK_SHIFT:
 	{
 		m_Speed = m_DefaultSpeed *2;
+
+		if (not LevelScreen::MODIFY_HINT.second)
+		{
+			level.SetHint(LevelScreen::MODIFY_HINT.first);
+			LevelScreen::MODIFY_HINT.second = true;
+		}
 		break;
 	}
 	case VK_LEFT:
 	{
 		if(m_pControlledUnit) m_pControlledUnit->Action1();
+		if (not LevelScreen::PLACE_HINT.second)
+		{
+			level.SetHint(LevelScreen::PLACE_HINT.first);
+			LevelScreen::PLACE_HINT.second = true;
+		}
 		break;
 	}
 	case VK_RIGHT:
 	{
 		if (m_pControlledUnit) m_pControlledUnit->Action2();
+		if (not LevelScreen::PLACE_HINT.second)
+		{
+			level.SetHint(LevelScreen::PLACE_HINT.first);
+			LevelScreen::PLACE_HINT.second = true;
+		}
 		break;
 	}
 	case VK_UP:
 	{
 		if (m_pControlledUnit) m_pControlledUnit->Action3();
+		if (not LevelScreen::PLACE_HINT.second)
+		{
+			level.SetHint(LevelScreen::PLACE_HINT.first);
+			LevelScreen::PLACE_HINT.second = true;
+		}
 		break;
 	}
 	case VK_DOWN:
 	{
 		if (m_pControlledUnit) m_pControlledUnit->Action4();
+		if (not LevelScreen::PLACE_HINT.second)
+		{
+			level.SetHint(LevelScreen::PLACE_HINT.first);
+			LevelScreen::PLACE_HINT.second = true;
+		}
 		break;
 	}
 	}
@@ -140,7 +179,7 @@ void Player::SetControlledUnit(std::unique_ptr<Unit>&& pointerToMove)
 	if(pointerToMove)
 		m_pControlledUnit = std::move(pointerToMove);
 }
-void Player::HandleMovementInput()
+void Player::HandleMovementInput(LevelScreen& level)
 {
 	auto dt = ENGINE.GetDeltaTime();
 	m_Direction = {};
@@ -153,6 +192,13 @@ void Player::HandleMovementInput()
 		m_Translation = Motor::Translation(m_Speed * dt, m_Direction);
 		GAUtils::Transform(m_Position, m_Translation);
 		if (m_pControlledUnit) m_pControlledUnit->TranslateUnit(m_Translation);
+
+		if (not BOOST_HINT.second)
+		{
+			level.SetHint(BOOST_HINT.first);
+			BOOST_HINT.second = true;
+			MOVE_HINT.second = true;
+		}
 	}
 
 	

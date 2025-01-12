@@ -27,7 +27,7 @@ void PauseScreen::Draw() const
 	ENGINE.SetColor(RGB(255, 255, 255));
 
 
-	//m_rFont.SetTextFormat(32, true, false);
+	m_rFont.SetTextFormat(32, true, false);
 	m_rFont.SetHorizontalAllignment(jela::Font::HorAllignment::Center);
 	m_rFont.SetVerticalAllignment(jela::Font::VertAllignment::Top);
 
@@ -40,8 +40,6 @@ void PauseScreen::Draw() const
 		_T("Move:\nPlayer boost:\nSelect unit:\nPlace unit:\nPick up unit:\nModify units:\nHands free:"),
 		m_rFont,
 		textDestRect);
-
-	//m_rFont.SetHorizontalAllignment(jela::Font::HorAllignment::Right);
 
 	ENGINE.DrawString(
 		_T("WASD\nSHIFT\nQ/E\nSPACE (not in tiles)\nX (when in range)\nARROWS\nR"),

@@ -9,13 +9,22 @@ LevelScreen::LevelScreen(Game& game) :
 	Screen{},
 	m_LevelBox{
 		ENGINE.GetWindowRect().width / 2.f,
-		m_HUD.GetBottom() / 2.f,
+		m_HUD.GetArea().bottom / 2.f,
 		static_cast<float>(ENGINE.GetWindowRect().width),
-		m_HUD.GetBottom() }
+		m_HUD.GetArea().bottom }
 {
 	LoadStage();
+	
+	if(not Player::MOVE_HINT.second)
+	{
+		SetHint(Player::MOVE_HINT.first);
+		Player::MOVE_HINT.second = true;
+	}
+
 	m_Player.SetControlledUnit(m_HUD.GetInstaceOfSelectedUnit(Point2f{ m_Player.GetPos()[0],m_Player.GetPos()[1] }));
 	m_pPushCommand = std::make_unique<PushScreenCommand>(game, Game::State::Pause);
+
+	SELECT_HINT.first.DestRect = Rectf{ m_HUD.GetArea().left, m_HUD.GetArea().bottom, 200, m_HUD.GetArea().height };
 }
 
 void LevelScreen::Draw() const
@@ -41,11 +50,30 @@ void LevelScreen::Draw() const
 	}
 	m_Player.Draw();
 	m_HUD.Draw();
+
+
+	if (m_Hint.VisibleTime > 0.f)
+	{
+		auto& font = jela::ResourceManager::GetInstance().GetFont(_T("Arial"));
+		font.SetTextFormat(22, true, false);
+		font.SetHorizontalAllignment(jela::Font::HorAllignment::Left);
+		font.SetVerticalAllignment(jela::Font::VertAllignment::Bottom);
+		Rectf destRect{ m_Hint.DestRect };
+		if (m_Hint.FollowPlayer)
+		{
+			destRect.left += m_Player.GetPos()[0];
+			destRect.bottom += m_Player.GetPos()[1];
+		}
+		ENGINE.SetColor(RGB(255, 255, 0));
+		Drawf::DrawString(m_Hint.HintText, font, destRect);
+	}
 }
 
 void LevelScreen::Update()
 {
-
+	if (m_Hint.VisibleTime > 0.f)
+		m_Hint.VisibleTime -= ENGINE.GetDeltaTime();
+	
 	m_Player.Update(*this);
 	if (m_Cannon.ReadyToFire())
 	{
@@ -161,6 +189,11 @@ bool LevelScreen::IsPointInTile(const ThreeBlade& point) const
 	return false;
 }
 
+void LevelScreen::SetHint(const HintBox& hint)
+{
+	m_Hint = hint;
+}
+
 bool LevelScreen::LevelCompleted() const
 {
 	return m_pVecTargets.empty();
@@ -272,6 +305,7 @@ void LevelScreen::LoadStage()
 
 	info = stageTest.str().substr(pos);
 
+	int unitTypeAmount = 0;
 	while (getline(unitsStream, unitsString, _T(' ')))
 	{
 		tchar firstChar = unitsString[0];
@@ -294,8 +328,18 @@ void LevelScreen::LoadStage()
 			m_HUD.AddUnit(std::make_unique<PhaserUnit>(0.f, 0.f), unitAmount);
 			break;
 		}
+		++unitTypeAmount;
 	}
-	
+
+	if(unitTypeAmount > 1)
+	{
+		if (not SELECT_HINT.second)
+		{
+			SetHint(SELECT_HINT.first);
+			SELECT_HINT.second = true;
+		}
+	}
+
 	stageTest.str(info);
 
 	while (getline(stageTest, info))

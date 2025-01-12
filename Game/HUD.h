@@ -26,7 +26,8 @@ public:
 	bool IsUnitAvailable() const;
 
 	std::unique_ptr<Unit> GetInstaceOfSelectedUnit(const Point2f& pos) const ;
-	float GetBottom() const { return m_Area.bottom; };
+	Rectf GetArea() const { return m_Area; };
+	size_t GetAmountOfUnits() const { return m_VecUnits.size(); };
 
 	constexpr static float GetAreaHeight() { return m_AreaHeight; };
 

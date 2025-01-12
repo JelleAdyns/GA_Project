@@ -50,7 +50,8 @@ set(SOURCES
 	"MainMenuScreen.cpp"
 	"PauseScreen.h"
 	"PauseScreen.cpp"
-	"Commands.h")
+	"Commands.h"
+	"HintBox.h")
 
 add_executable(${PROJECT_NAME} WIN32  ${SOURCES})
 set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE YES)

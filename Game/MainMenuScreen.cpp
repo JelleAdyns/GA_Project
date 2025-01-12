@@ -5,6 +5,7 @@
 
 void MainMenuScreen::Draw() const
 {
+	m_rTitleFont.SetTextFormat(100, true, false);
 	float screenRadius{ m_ScreenBox.GetWidth() /2 };
 	ThreeBlade middlePoint{ m_ScreenBox.GetWidth() / 2, m_ScreenBox.GetHeight() / 2,0 };
 	for (const auto& point : m_VecPoints)
@@ -32,13 +33,24 @@ void MainMenuScreen::Draw() const
 		0,
 		ENGINE.GetWindowRect().width-100,
 		ENGINE.GetWindowRect().width);
+
+	m_rTitleFont.SetTextFormat(32, true, false);
+	if (m_DrawHint)
+	{
+		constexpr int hintWidth{ 400 };
+		ENGINE.DrawString(_T("PRESS ANY BUTTON"), m_rTitleFont, ENGINE.GetWindowRect().width / 2 - hintWidth / 2, 100, hintWidth);
+	}
 }
 
 void MainMenuScreen::Update()
 {
-	static float fireRate{ 1.f };
-	static float time{ 1.f };
+	m_TotalTime += ENGINE.GetDeltaTime();
+	if (m_TotalTime > 10.f)
+			m_DrawHint = true;
+	static float fireRate{ 0.75f };
+	static float time{ fireRate };
 	time += ENGINE.GetDeltaTime();
+	
 	if (time >= fireRate)
 	{
 		m_VecPoints.emplace_back(ThreeBlade{ m_ScreenBox.GetWidth() / 2 + 1, m_ScreenBox.GetHeight() / 2,0 });
@@ -47,7 +59,12 @@ void MainMenuScreen::Update()
 		m_VecPoints.emplace_back(ThreeBlade{ m_ScreenBox.GetWidth() / 2, m_ScreenBox.GetHeight() / 2 - 1,0 });
 
 		time -= fireRate;
+		
+	
+		
 	}
+
+	
 
 	ThreeBlade middlePoint{ m_ScreenBox.GetWidth() / 2, m_ScreenBox.GetHeight() / 2,0 };
 	TwoBlade rotLine = TwoBlade::LineFromPoints(

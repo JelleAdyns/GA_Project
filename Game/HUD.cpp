@@ -16,7 +16,7 @@ HUD::HUD()
 
 void HUD::Draw() const
 {
-	//m_rFont.SetTextFormat(32, true, false);
+	m_rFont.SetTextFormat(32, true, false);
 	m_rFont.SetHorizontalAllignment(jela::Font::HorAllignment::Left);
 	m_rFont.SetVerticalAllignment(jela::Font::VertAllignment::Bottom);
 

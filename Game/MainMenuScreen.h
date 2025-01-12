@@ -57,6 +57,9 @@ private:
 
 	std::unique_ptr<Command> m_pStartCommand;
 
+	bool m_DrawHint{ false };
+	float m_TotalTime{ 0.f };
+	
 	void EraseLostPoints();
 };
 

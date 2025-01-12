@@ -14,6 +14,7 @@
 #include "Target.h"
 #include "HUD.h"
 #include "Commands.h"
+#include "HintBox.h"
 #include "Game.h"
 
 class LevelScreen final : public Screen
@@ -43,8 +44,16 @@ public:
 	const Box& GetLevelBox() const;
 	bool PickUpUnit();
 	bool IsPointInTile(const ThreeBlade& point) const;
+	void SetHint(const HintBox& hint);
+
+
+	static inline std::pair<HintBox, bool> SELECT_HINT{ std::make_pair<HintBox, bool>({_T("Select unit with Q and E."),20, Rectf{},false }, false) };
+	static inline std::pair<HintBox, bool> MODIFY_HINT{ std::make_pair<HintBox, bool>({_T("Modify unit with the ARROWS."),10, Rectf{ 50,-50,200,100 },true }, false) };
+	static inline std::pair<HintBox, bool> PLACE_HINT{ std::make_pair<HintBox, bool>({_T("Place unit with SPACE."),10, Rectf{ 50,-50,200,100 },true }, false) };
+	static inline std::pair<HintBox, bool> PICKUP_HINT{ std::make_pair<HintBox, bool>({_T("Pick up unit with X when in range."),10, Rectf{ 50,-50,200,100 },true }, false) };
 
 private:
+	HintBox m_Hint{};
 
 	std::unique_ptr<Command> m_pPushCommand{nullptr};
 
