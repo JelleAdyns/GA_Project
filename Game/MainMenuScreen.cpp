@@ -47,6 +47,7 @@ void MainMenuScreen::Update()
 	m_TotalTime += ENGINE.GetDeltaTime();
 	if (m_TotalTime > 10.f)
 			m_DrawHint = true;
+
 	static float fireRate{ 0.75f };
 	static float time{ fireRate };
 	time += ENGINE.GetDeltaTime();
@@ -59,9 +60,6 @@ void MainMenuScreen::Update()
 		m_VecPoints.emplace_back(ThreeBlade{ m_ScreenBox.GetWidth() / 2, m_ScreenBox.GetHeight() / 2 - 1,0 });
 
 		time -= fireRate;
-		
-	
-		
 	}
 
 	

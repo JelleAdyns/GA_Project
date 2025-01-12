@@ -1,10 +1,11 @@
 #include "Tile.h"
 #include "DrawFloatToInt.h"
-#include <Engine.h>
 
 Tile::Tile(const Point2f& center):
-	m_Box{center, m_Size, m_Size}
+	m_Box{center, m_Size, m_Size},
+	m_rTileTexture{ jela::ResourceManager::GetInstance().GetTexture(_T("Tile.png")) }
 {
+	
 }
 
 void Tile::Draw() const
@@ -19,6 +20,8 @@ void Tile::Draw() const
 	Drawf::FillRectangle(rect);
 	ENGINE.SetColor(RGB(0, 0, 0));
 	Drawf::DrawRectangle(rect);
+
+	Drawf::DrawTexture(m_rTileTexture, rect);
 }
 
 void Tile::ActOnProjectile(const std::unique_ptr<Projectile>& pProjectile)

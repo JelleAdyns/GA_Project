@@ -11,7 +11,9 @@
 class Cannon final
 {
 public:
-	Cannon() = default;
+	Cannon():
+		m_rTexture{jela::ResourceManager::GetInstance().GetTexture(_T("Cannon.png"))}
+	{}
 	~Cannon() = default;
 
 	Cannon(const Cannon& other) = delete;
@@ -31,6 +33,8 @@ private:
 		40,
 		m_BaseShape.radius * 2 - 10 * 2
 	};
+
+	jela::Texture& m_rTexture;
 };
 
 #endif // !CANNON_H

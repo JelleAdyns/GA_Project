@@ -19,8 +19,12 @@ void Projectile::Draw() const
 	if(not m_IsDead)
 	{
 		float depthValue = (m_Position[2] / std::abs(m_KillDepth + 1) + 1);
-		ENGINE.SetColor(RGB(255, 255, 255), depthValue);
-		Drawf::FillEllipse(std::abs(m_Position[0]), std::abs(m_Position[1]), m_Radius+depthValue, m_Radius+depthValue);
+		Ellipsef ellipse = Ellipsef{ std::abs(m_Position[0]), std::abs(m_Position[1]), m_Radius + depthValue, m_Radius + depthValue };
+		ENGINE.SetColor(RGB(215, 215, 215), depthValue);
+		Drawf::FillEllipse(ellipse);
+
+		ENGINE.SetColor(RGB(0, 0, 0), depthValue);
+		Drawf::DrawEllipse(ellipse, 3.f);
 	}
 }
 

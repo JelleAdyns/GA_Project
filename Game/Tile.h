@@ -1,6 +1,7 @@
 #ifndef TILE_H
 #define TILE_H
 
+#include <Engine.h>
 #include "structsf.h"
 #include "Box.h"
 #include "Projectile.h"
@@ -28,7 +29,7 @@ protected:
 	Box m_Box;
 
 private:
-
+	jela::Texture& m_rTileTexture;
 	constexpr static float m_Size{ 32 };
 };
 

@@ -66,7 +66,7 @@ private:
 	std::vector<std::unique_ptr<Unit>> m_pVecUnits{};
 	std::vector<std::unique_ptr<Tile>> m_pVecTiles{};
 
-	int m_StageNumber{0};
+	int m_StageNumber{1};
 	int m_MaxStages{2};
 
 	bool LevelCompleted() const;

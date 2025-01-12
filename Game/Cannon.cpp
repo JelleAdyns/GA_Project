@@ -5,10 +5,11 @@
 
 void Cannon::Draw() const
 {
-	ENGINE.SetColor(RGB(255,255,255));
-	Drawf::FillEllipse(m_BaseShape.center, m_BaseShape.radius, m_BaseShape.radius);
-	Drawf::FillRectangle(m_BarrelShape);
+	//ENGINE.SetColor(RGB(255,255,255));
+	//Drawf::FillEllipse(m_BaseShape.center, m_BaseShape.radius, m_BaseShape.radius);
+	//Drawf::FillRectangle(m_BarrelShape);
 
+	Drawf::DrawTexture(m_rTexture, Rectf{5.f,0.f,Tile::GetSize() * 2,Tile::GetSize() * 2 });
 }
 
 bool Cannon::ReadyToFire() const

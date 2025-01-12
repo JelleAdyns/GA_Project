@@ -3,19 +3,22 @@
 #include "ProjectileOverlapHandler.h"
 
 FenceTile::FenceTile(const Point2f& center):
-	Tile{center}
+	Tile{center},
+	m_rTexture{jela::ResourceManager::GetInstance().GetTexture(_T("Fence.png"))}
 {
 	static_assert(m_AcceptanceDepth > Projectile::GetKillDepth());
 }
 
 void FenceTile::Draw() const
 {
-	ENGINE.SetColor(RGB(150, 150, 150), 0.5f);
-	Drawf::FillRectangle(
-		m_Box.Center[0] - m_Box.GetWidth() / 2,
+	Rectf rect{ m_Box.Center[0] - m_Box.GetWidth() / 2,
 		m_Box.Center[1] - m_Box.GetHeight() / 2,
 		m_Box.GetWidth(),
-		m_Box.GetHeight());
+		m_Box.GetHeight() };
+	//ENGINE.SetColor(RGB(150, 150, 150), 0.5f);
+	//Drawf::FillRectangle(rect);
+
+	Drawf::DrawTexture(m_rTexture, rect);
 }
 
 void FenceTile::ActOnProjectile(const std::unique_ptr<Projectile>& pProjectile)

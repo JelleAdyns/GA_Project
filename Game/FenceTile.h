@@ -23,6 +23,7 @@ public:
 	constexpr static float GetAcceptanceDepth() { return m_AcceptanceDepth; }
 private:
 	constexpr static float m_AcceptanceDepth{ -10 };
+	jela::Texture& m_rTexture;
 };
 
 #endif // !FENCETILE_H

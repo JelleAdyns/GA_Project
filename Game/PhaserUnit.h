@@ -32,7 +32,7 @@ public:
 	virtual void TranslateUnit(const Motor& translation) override;
 
 private:
-	constexpr static float m_Width{ Tile::GetSize() * 4 };
+	constexpr static float m_Width{ Tile::GetSize() * 2 };
 	constexpr static float m_Height{ Tile::GetSize() };
 	constexpr static COLORREF m_Color{ RGB(23, 156, 225) };
 

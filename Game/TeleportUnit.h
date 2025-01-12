@@ -38,14 +38,14 @@ private:
 
 	constexpr static float m_Width{Tile::GetSize()};
 	constexpr static float m_Height{Tile::GetSize()*1.5f};
-	constexpr static float m_MaxDistFromPlane{Tile::GetSize()*2};
-	constexpr static float m_MinDistFromPlane{m_Height/2};
+	constexpr static float m_MaxDistFromPlane{55};
+	constexpr static float m_MinDistFromPlane{m_Height/2+1};
 	constexpr static float m_OffsetStep{10};
 	constexpr static float m_DegreesStep{45};
 	constexpr static COLORREF m_Color{RGB(245, 123, 145)};
 
-	OneBlade m_ReflectPlane{m_Position[1],0,-1,0};
-	Box m_ActivationBox{ m_Position[0], m_Position[1] - (m_Height / 2 + m_OffsetStep), m_Width, m_Height};
+	//OneBlade m_ReflectPlane{m_Position[1],0,-1,0};
+	Box m_ActivationBox{ m_Position[0], m_Position[1] - m_MinDistFromPlane, m_Width, m_Height};
 	Box m_DestinationBox{ m_ActivationBox };
 };
 

@@ -30,8 +30,6 @@ LevelScreen::LevelScreen(Game& game) :
 void LevelScreen::Draw() const
 {
 
-	m_Cannon.Draw();
-	
 	for (const auto& pTile : m_pVecTiles)
 	{
 		pTile->Draw();
@@ -48,6 +46,8 @@ void LevelScreen::Draw() const
 	{
 		pTarget->Draw();
 	}
+
+	m_Cannon.Draw();
 	m_Player.Draw();
 	m_HUD.Draw();
 

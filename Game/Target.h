@@ -1,6 +1,7 @@
 #ifndef TARGET_H
 #define TARGET_H
 
+#include <Engine.h>
 #include "Box.h"
 #include "structsf.h"
 
@@ -25,7 +26,11 @@ public:
 	constexpr static float GetKillDepth() { return m_KillDepth; }
 private:
 	constexpr static float m_KillDepth{ -50 };
+	constexpr static int m_TextureCols{ 11 };
+	int m_CurrCol{ 0 };
 	Box m_HitBox;
+
+	const jela::Texture& m_rTexture;
 };
 
 #endif TARGET_H
