@@ -37,9 +37,19 @@ void PauseScreen::Draw() const
 	m_rFont.SetVerticalAllignment(jela::Font::VertAllignment::Center);
 
 	ENGINE.DrawString(
-		_T("Move: WASD\nPlayer boost: SHIFT\nSelect unit: Q/E\nPlace unit: SPACE (not in tiles)\nPick up unit: X (when in range)\nModify units: ARROWS"),
+		_T("Move:\nPlayer boost:\nSelect unit:\nPlace unit:\nPick up unit:\nModify units:\nHands free:"),
 		m_rFont,
 		textDestRect);
+
+	//m_rFont.SetHorizontalAllignment(jela::Font::HorAllignment::Right);
+
+	ENGINE.DrawString(
+		_T("WASD\nSHIFT\nQ/E\nSPACE (not in tiles)\nX (when in range)\nARROWS\nR"),
+		m_rFont,
+		textDestRect.left + textDestRect.width/2,
+		textDestRect.bottom,
+		textDestRect.width/2,
+		textDestRect.height);
 
 	m_rFont.SetHorizontalAllignment(jela::Font::HorAllignment::Center);
 	m_rFont.SetVerticalAllignment(jela::Font::VertAllignment::Center);

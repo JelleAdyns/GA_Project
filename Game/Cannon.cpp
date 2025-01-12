@@ -11,7 +11,7 @@ void Cannon::Draw() const
 
 }
 
-bool Cannon::ReadyToFire()
+bool Cannon::ReadyToFire() const
 {
 	static float fireRate{ 1.f };
 	static float time{0.f};
@@ -25,7 +25,7 @@ bool Cannon::ReadyToFire()
 	return false;
 }
 
-std::unique_ptr<Projectile> Cannon::CreateProjectile()
+std::unique_ptr<Projectile> Cannon::CreateProjectile() const
 {
 	return std::make_unique<Projectile>(static_cast<float>(m_BarrelShape.left + m_BarrelShape.width), static_cast<float>(m_BaseShape.center.y));
 }

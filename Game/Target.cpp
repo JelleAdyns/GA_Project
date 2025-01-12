@@ -4,7 +4,7 @@
 #include <algorithm>
 
 Target::Target(float x, float y) :
-	m_HitBox{x, y, Tile::GetSize()*2, Tile::GetSize()*2}
+	m_HitBox{x, y, Tile::GetSize()*1.5f, Tile::GetSize()*1.5f}
 {
 
 }

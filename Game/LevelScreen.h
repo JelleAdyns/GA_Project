@@ -48,16 +48,16 @@ private:
 
 	std::unique_ptr<Command> m_pPushCommand{nullptr};
 
-	Player m_Player{ m_LevelBox.Center[0], m_LevelBox.Center[1] };
-	Cannon m_Cannon{};
 	HUD m_HUD{};
+	const Box m_LevelBox;
+	const Cannon m_Cannon{};
+	Player m_Player{ m_LevelBox.Center[0], m_LevelBox.Center[1] };
 	std::vector<std::unique_ptr<Target>> m_pVecTargets{};
 	std::vector<std::unique_ptr<Projectile>> m_pVecProjectiles{};
 	std::vector<std::unique_ptr<Unit>> m_pVecUnits{};
 	std::vector<std::unique_ptr<Tile>> m_pVecTiles{};
 
-	const Box m_LevelBox;
-	int m_StageNumber{};
+	int m_StageNumber{0};
 	int m_MaxStages{2};
 
 	bool LevelCompleted() const;

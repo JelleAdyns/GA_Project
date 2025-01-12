@@ -20,10 +20,10 @@ public:
 	Cannon& operator=(Cannon&& other) noexcept = delete;
 
 	void Draw() const;
-	bool ReadyToFire();
-	std::unique_ptr<Projectile> CreateProjectile();
+	bool ReadyToFire() const;
+	std::unique_ptr<Projectile> CreateProjectile() const;
 private:
-	Circlef m_BaseShape{30,Tile::GetSize() + 1 /*+ Tile::GetSize()/2*/,25};
+	Circlef m_BaseShape{30,Tile::GetSize() + 1,25};
 	Rectf m_BarrelShape
 	{
 		m_BaseShape.center.x,

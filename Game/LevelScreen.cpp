@@ -105,6 +105,7 @@ void LevelScreen::Update()
 		Reset();
 		++m_StageNumber %= m_MaxStages;
 		LoadStage();
+		m_Player.SetControlledUnit(m_HUD.GetInstaceOfSelectedUnit(Point2f{ m_Player.GetPos()[0],m_Player.GetPos()[1] }));
 	}
 
 }

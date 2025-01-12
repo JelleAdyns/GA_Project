@@ -22,6 +22,8 @@ void MainMenuScreen::Draw() const
 		);
 
 		Drawf::FillEllipse(point[0], point[1], 10, 10);
+		ENGINE.SetColor(RGB(0,0,0));
+		Drawf::DrawEllipse(point[0], point[1], 10, 10);
 	}
 	ENGINE.SetColor(RGB(255, 255, 0));
 	ENGINE.DrawString(

@@ -103,7 +103,8 @@ void TeleportUnit::ApplyOffset(float dist)
 		m_DestinationBox.Translate(Motor::Translation(m_MaxDistFromPlane - currentDistance, -trLine));
 		return;
 	}
-	else if(dist < 0.f and currentDistance <= m_MinDistFromPlane)
+	
+	if(dist < 0.f and currentDistance <= m_MinDistFromPlane)
 	{
 		m_ActivationBox.Translate(Motor::Translation(m_MinDistFromPlane - currentDistance, trLine));
 		m_DestinationBox.Translate(Motor::Translation(m_MinDistFromPlane - currentDistance, -trLine));
