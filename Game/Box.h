@@ -7,6 +7,14 @@
 
 struct Box final
 {
+	struct Distance final
+	{
+		float Left{0.f};
+		float Right{0.f};
+		float Bottom{0.f};
+		float Top{0.f};
+	};
+
 	Box(const Rectf& rect);
 	Box(const Point2f& center, float width, float height);
 	Box(float centerX, float centerY, float width, float height);
@@ -23,7 +31,7 @@ struct Box final
 	float GetDistanceFromBottom(const ThreeBlade& point) const;
 	float GetDistanceFromTop(const ThreeBlade& point) const;
 
-	jela::Vector2f GetOutsideDistance(const ThreeBlade& point, float extraRadius = 0.f) const;
+	Box::Distance GetDistance(const ThreeBlade& point, float extraRadius = 0.f) const;
 
 	void GetCornerPoints(std::vector<ThreeBlade>& cornerPoints) const;
 	void GetCornerPoints(std::vector<Point2f>& cornerPoints) const;

@@ -67,22 +67,14 @@ float Box::GetDistanceFromTop(const ThreeBlade& point) const
 	return GAUtils::GetDistance(point, TopSide);
 }
 
-jela::Vector2f Box::GetOutsideDistance(const ThreeBlade& point, float extraRadius) const
+Box::Distance Box::GetDistance(const ThreeBlade& point, float extraRadius) const
 {
-	jela::Vector2f dist{};
-
-	float left	{GetDistanceFromLeft(point) - extraRadius};
-	float right	{GetDistanceFromRight(point) - extraRadius};
-	float bottom{GetDistanceFromBottom(point) - extraRadius};
-	float top	{GetDistanceFromTop(point) - extraRadius};
-
-	if (left < 0.f) dist.x = std::abs(left);
-	else if (right < 0.f) dist.x = right;
-
-	if (bottom < 0.f) dist.y = std::abs(bottom);
-	else if (top < 0.f) dist.y = top;
-	
-	return dist;
+	return Box::Distance{
+		GetDistanceFromLeft(point) - extraRadius,
+		GetDistanceFromRight(point) - extraRadius,
+		GetDistanceFromBottom(point) - extraRadius,
+		GetDistanceFromTop(point) - extraRadius
+	};
 }
 
 void Box::GetCornerPoints(std::vector<Point2f>& cornerPoints) const

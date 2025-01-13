@@ -206,17 +206,29 @@ void Player::HandleMovementInput(LevelScreen& level)
 void Player::HandleBorderCollision(const Box& levelBox)
 {
 
-	const jela::Vector2f dist = levelBox.GetOutsideDistance(m_Position, 20);
+	const auto dist = levelBox.GetDistance(m_Position, 20);
 
-	if (dist.x != 0.f)
+	if(dist.Left < 0.f)
 	{
-		Motor trans = Motor::Translation(dist.x, TwoBlade{ 1,0,0,0,0,0 });
+		Motor trans = Motor::Translation(dist.Left, OneBlade{ -1,0,0,0 } ^ levelBox.LeftSide);
 		GAUtils::Transform(m_Position, trans);
 		if (m_pControlledUnit) m_pControlledUnit->TranslateUnit(trans);
 	}
-	if (dist.y != 0.f)
+	if (dist.Right < 0.f)
 	{
-		Motor trans = Motor::Translation(dist.y, TwoBlade{ 0,1,0,0,0,0 });
+		Motor trans = Motor::Translation(dist.Right, OneBlade{ -1,0,0,0 } ^ levelBox.RightSide);
+		GAUtils::Transform(m_Position, trans);
+		if (m_pControlledUnit) m_pControlledUnit->TranslateUnit(trans);
+	}
+	if (dist.Bottom < 0.f)
+	{
+		Motor trans = Motor::Translation(dist.Bottom, OneBlade{ -1,0,0,0 } ^ levelBox.BottomSide);
+		GAUtils::Transform(m_Position, trans);
+		if (m_pControlledUnit) m_pControlledUnit->TranslateUnit(trans);
+	}
+	if (dist.Top < 0.f)
+	{
+		Motor trans = Motor::Translation(dist.Top, OneBlade{ -1,0,0,0 } ^ levelBox.TopSide);
 		GAUtils::Transform(m_Position, trans);
 		if (m_pControlledUnit) m_pControlledUnit->TranslateUnit(trans);
 	}
