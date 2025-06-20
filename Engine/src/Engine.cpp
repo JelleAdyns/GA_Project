@@ -315,6 +315,10 @@ namespace jela
         return false;
     }
    
+    void Engine::Quit()
+    {
+        PostMessage(GetWindow(), WM_DESTROY, NULL, NULL);
+    }
     void Engine::DrawBorders(int rtWidth, int rtHeight) const
     {
     
