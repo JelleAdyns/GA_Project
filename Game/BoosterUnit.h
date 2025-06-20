@@ -26,8 +26,8 @@ public:
 
 	virtual void Action1() override;
 	virtual void Action2() override;
-	virtual void Action3() override {};
-	virtual void Action4() override {};
+	virtual void Action3() override;
+	virtual void Action4() override;
 
 	virtual void TranslateUnit(const Motor& translation) override;
 private:
@@ -35,6 +35,8 @@ private:
 	constexpr static float m_Height{ Tile::GetSize()};
 	constexpr static COLORREF m_Color{ RGB(234, 124, 25) };
 
+	void ApplyOffset(float dist);
+	float m_Offset{ 0.f };
 	Box m_Area;
 };
 

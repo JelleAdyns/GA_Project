@@ -53,17 +53,40 @@ void BoosterUnit::EndOverlap(const std::unique_ptr<Projectile>& pProjectile)
 
 void BoosterUnit::Action1()
 {
-	const TwoBlade rotLine = TwoBlade::LineFromPoints(m_Position[0], m_Position[1], 0, m_Position[0], m_Position[1], 1);
-	Motor rotation = Motor::Rotation(45, rotLine);
-	m_Area.Rotate(rotation, true);
+	ApplyOffset(10.f);
 }
 
 void BoosterUnit::Action2()
 {
+	ApplyOffset(-10.f);
+}
+
+void BoosterUnit::Action3()
+{
+	const TwoBlade rotLine = TwoBlade::LineFromPoints(m_Position[0], m_Position[1], 0, m_Position[0], m_Position[1], 1);
+	m_Area.Rotate(Motor::Rotation(45, rotLine), true);
+}
+
+void BoosterUnit::Action4()
+{
+	const TwoBlade rotLine = TwoBlade::LineFromPoints(m_Position[0], m_Position[1], 0, m_Position[0], m_Position[1], 1);
+	m_Area.Rotate( Motor::Rotation(-45, rotLine), true);
 }
 
 void BoosterUnit::TranslateUnit(const Motor& translation)
 {
 	m_Area.Translate(translation);
 	GAUtils::Transform(m_Position, translation);
+}
+
+void BoosterUnit::ApplyOffset(float dist)
+{
+	if (m_Offset + dist > 40.f or m_Offset + dist < -40.f)
+		return;
+
+	m_Offset += dist;
+	const TwoBlade trLine{ (m_Area.LeftSide ^ m_Area.RightSide) };
+
+	m_Area.Translate(Motor::Translation(dist, trLine));
+
 }
