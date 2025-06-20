@@ -95,8 +95,9 @@ void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& 
 		{
 			if (not m_Position.RoundedEqual(m_pControlledUnit->GetPos(),0.001f))
 			{
-				TwoBlade trLine = OneBlade{ -1,0,0,0 } ^ ((m_pControlledUnit->GetPos() & m_Position) | m_Position);
-				Motor tr = Motor::Translation(GAUtils::GetDistance(m_pControlledUnit->GetPos(), m_Position), trLine);
+				auto plane = ((m_pControlledUnit->GetPos() & m_Position) | m_Position);
+				TwoBlade trLine = OneBlade{ -1,0,0,0 } ^ plane;
+				Motor tr = Motor::Translation(trLine.VNorm(), trLine);
 				m_pControlledUnit->TranslateUnit(tr);
 			}
 			while (not hud.IsSameUnit(m_pControlledUnit->GetTypeId()))
