@@ -51,7 +51,7 @@ set(SOURCES
 	"PauseScreen.h"
 	"PauseScreen.cpp"
 	"Commands.h"
-	"HintBox.h")
+	"HintBox.h" "VictoryScreen.h" "VictoryScreen.cpp")
 
 add_executable(${PROJECT_NAME} WIN32  ${SOURCES})
 set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE YES)
@@ -61,7 +61,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE EngineLibrary)
 
 set_property(GLOBAL PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
 
-message(STATUS "SOURCE DIR: ${CMAKE_CURRENT_BINARY_DIR}")
+message(STATUS "BINARY DIR: ${CMAKE_CURRENT_BINARY_DIR}")
 add_custom_target(copyResources ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     ${CMAKE_SOURCE_DIR}/Resources

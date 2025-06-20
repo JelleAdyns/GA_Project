@@ -35,7 +35,8 @@ public:
     {
         MainMenu,
         Playing,
-        Pause
+        Pause,
+        Victory
     };
     enum class ScreenOperation
     {

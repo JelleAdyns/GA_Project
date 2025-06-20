@@ -55,19 +55,20 @@ public:
 private:
 	HintBox m_Hint{};
 
-	std::unique_ptr<Command> m_pPushCommand{nullptr};
+	std::unique_ptr<Command> m_pPauseCommand{nullptr};
+	std::unique_ptr<Command> m_pVictoryCommand{nullptr};
 
 	HUD m_HUD{};
 	const Box m_LevelBox;
-	const Cannon m_Cannon{};
+	Cannon m_Cannon{1.f};
 	Player m_Player{ m_LevelBox.Center[0], m_LevelBox.Center[1] };
 	std::vector<std::unique_ptr<Target>> m_pVecTargets{};
 	std::vector<std::unique_ptr<Projectile>> m_pVecProjectiles{};
 	std::vector<std::unique_ptr<Unit>> m_pVecUnits{};
 	std::vector<std::unique_ptr<Tile>> m_pVecTiles{};
 
-	int m_StageNumber{1};
-	int m_MaxStages{2};
+	int m_StageNumber{0};
+	int m_MaxStages{6};
 
 	bool LevelCompleted() const;
 	void Reset();

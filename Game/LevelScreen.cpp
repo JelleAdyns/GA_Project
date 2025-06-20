@@ -22,7 +22,8 @@ LevelScreen::LevelScreen(Game& game) :
 	}
 
 	m_Player.SetControlledUnit(m_HUD.GetInstaceOfSelectedUnit(Point2f{ m_Player.GetPos()[0],m_Player.GetPos()[1] }));
-	m_pPushCommand = std::make_unique<PushScreenCommand>(game, Game::State::Pause);
+	m_pPauseCommand = std::make_unique<PushScreenCommand>(game, Game::State::Pause);
+	m_pVictoryCommand = std::make_unique<LoadScreenCommand>(game, Game::State::Victory);
 
 	SELECT_HINT.first.DestRect = Rectf{ m_HUD.GetArea().left, m_HUD.GetArea().bottom, 200, m_HUD.GetArea().height };
 }
@@ -130,10 +131,17 @@ void LevelScreen::Update()
 
 	if (LevelCompleted())
 	{
-		Reset();
-		++m_StageNumber %= m_MaxStages;
-		LoadStage();
-		m_Player.SetControlledUnit(m_HUD.GetInstaceOfSelectedUnit(Point2f{ m_Player.GetPos()[0],m_Player.GetPos()[1] }));
+		++m_StageNumber;
+		if (m_StageNumber == m_MaxStages)
+		{
+			m_pVictoryCommand->Execute();
+		}
+		else
+		{
+			Reset();
+			LoadStage();
+			m_Player.SetControlledUnit(m_HUD.GetInstaceOfSelectedUnit(Point2f{ m_Player.GetPos()[0],m_Player.GetPos()[1] }));
+		}
 	}
 
 }
@@ -148,12 +156,27 @@ void LevelScreen::InputKeyDownThisFrame(int virtualKeyCode)
 	m_Player.InputKeyDownThisFrame(virtualKeyCode, *this, m_HUD);
 	if (virtualKeyCode == VK_ESCAPE)
 	{
-		m_pPushCommand->Execute();
+		m_pPauseCommand->Execute();
 	}
 }
 void LevelScreen::InputKeyUp(int virtualKeyCode)
 {
 	m_Player.InputKeyUp(virtualKeyCode);
+	
+	if (virtualKeyCode == VK_F1)
+	{
+		++m_StageNumber;
+		if (m_StageNumber == m_MaxStages)
+		{
+			m_pVictoryCommand->Execute();
+		}
+		else
+		{
+			Reset();
+			LoadStage();
+			m_Player.SetControlledUnit(m_HUD.GetInstaceOfSelectedUnit(Point2f{ m_Player.GetPos()[0],m_Player.GetPos()[1] }));
+		}
+	}
 }
 
 const Box& LevelScreen::GetLevelBox() const

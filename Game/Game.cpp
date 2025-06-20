@@ -3,6 +3,7 @@
 #include "MainMenuScreen.h"
 #include "LevelScreen.h"
 #include "PauseScreen.h"
+#include "VictoryScreen.h"
 
 void Game::Initialize()
 {
@@ -124,7 +125,11 @@ void Game::LoadScreen()
 		m_pScreenStack.emplace_back(m_GameState, std::make_unique<PauseScreen>(*this));
 
 		break;
+	case State::Victory:
 
+		m_pScreenStack.emplace_back(m_GameState, std::make_unique<VictoryScreen>(*this));
+
+		break;
 	}
 
 	m_pScreenStack.back().second->OnEnter();
@@ -149,6 +154,11 @@ void Game::PushScreen()
 	case State::Pause:
 
 		m_pScreenStack.emplace_back(m_GameState, std::make_unique<PauseScreen>(*this));
+
+		break;
+	case State::Victory:
+
+		m_pScreenStack.emplace_back(m_GameState, std::make_unique<VictoryScreen>(*this));
 
 		break;
 	}
