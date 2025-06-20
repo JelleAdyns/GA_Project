@@ -55,12 +55,13 @@ void PhaserUnit::EndOverlap(const std::unique_ptr<Projectile>& pProjectile)
 void PhaserUnit::Action1()
 {
 	const TwoBlade rotLine = TwoBlade::LineFromPoints(m_Position[0], m_Position[1], 0, m_Position[0], m_Position[1], 1);
-	Motor rotation = Motor::Rotation(45, rotLine);
-	m_Area.Rotate(rotation, true);
+	m_Area.Rotate(Motor::Rotation(45, rotLine), true);
 }
 
 void PhaserUnit::Action2()
 {
+	const TwoBlade rotLine = TwoBlade::LineFromPoints(m_Position[0], m_Position[1], 0, m_Position[0], m_Position[1], 1);
+	m_Area.Rotate(Motor::Rotation(-45, rotLine), true);
 }
 
 void PhaserUnit::TranslateUnit(const Motor& translation)
