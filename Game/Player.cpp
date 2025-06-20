@@ -21,8 +21,10 @@ Player::Player(const Point2f& pos):
 
 void Player::Draw() const
 {
-	ENGINE.SetColor(RGB(255, 255, 0));
-	Drawf::DrawEllipse(m_Position[0], m_Position[1],20, 20, 5);
+	ENGINE.SetColor(RGB(235, 0, 0));
+	Drawf::FillEllipse(m_Position[0], m_Position[1],20, 20);
+	ENGINE.SetColor(RGB(135, 0, 0));
+	Drawf::FillEllipse(m_Position[0], m_Position[1],10, 10);
 	if (m_pControlledUnit) m_pControlledUnit->Draw();
 }
 
@@ -30,6 +32,7 @@ void Player::Update(LevelScreen& level)
 {
 	HandleMovementInput(level);
 	HandleBorderCollision(level.GetLevelBox());	
+	if (m_pControlledUnit) m_pControlledUnit->Update();
 }
 
 void Player::InputKeyDownThisFrame(int virtualKeyCode, LevelScreen& level, HUD& hud)

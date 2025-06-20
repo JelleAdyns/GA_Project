@@ -5,7 +5,7 @@
 
 Target::Target(float x, float y) :
 	m_HitBox{ x, y, Tile::GetSize() * 1.5f, Tile::GetSize() * 1.5f },
-	m_rTexture{ jela::ResourceManager::GetInstance().GetTexture(_T("Target2.png")) }
+	m_rTexture{ jela::ResourceManager::GetInstance().GetTexture(_T("Target.png")) }
 {
 
 }

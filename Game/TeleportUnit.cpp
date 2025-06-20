@@ -96,7 +96,7 @@ void TeleportUnit::Rotate(float degrees)
 void TeleportUnit::ApplyOffset(float dist)
 {
 	//const TwoBlade trLine{ m_ReflectPlane ^ OneBlade{-1,0,0,0} };
-	const TwoBlade trLine{ (m_ActivationBox.TopSide ^ m_DestinationBox.TopSide).Normalized()};
+	const TwoBlade trLine{ (m_ActivationBox.TopSide ^ m_DestinationBox.TopSide)};
 
 	m_ActivationBox.Translate(Motor::Translation(dist, trLine));
 	m_DestinationBox.Translate(Motor::Translation(dist, -trLine));
