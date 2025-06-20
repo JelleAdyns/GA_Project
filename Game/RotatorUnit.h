@@ -28,7 +28,7 @@ public:
 	virtual void Action1() override;
 	virtual void Action2() override;
 	virtual void Action3() override;
-	virtual void Action4() override {};
+	virtual void Action4() override;
 
 	virtual void TranslateUnit(const Motor& translation) override;
 private:
@@ -39,9 +39,10 @@ private:
 	float m_Degrees{ 180 };
 	float m_StartAngle{ 0 };
 	float m_RotationVelocity{ 90 };
+
 	TwoBlade m_RotationLine;
 	OneBlade m_StartPlane{ -m_Position[1],0,1,0};
-	OneBlade m_EndPlane{ -m_Position[1],0,1,0};
+	OneBlade m_EndPlane{ m_StartPlane };
 };
 
 #endif // !ROTATORUNIT_H

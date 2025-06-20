@@ -73,7 +73,7 @@ void RotatorUnit::ActOnProjectile(std::unique_ptr<Projectile>& pProjectile)
 void RotatorUnit::Action1()
 {
 	m_StartAngle += 45.f;
-	if (m_StartAngle >= 360.f) m_StartAngle = 0.f;
+	//if (m_StartAngle >= 360.f) m_StartAngle -= 360;
 
 	Motor rotation = Motor::Rotation(45, m_RotationLine);
 
@@ -82,6 +82,27 @@ void RotatorUnit::Action1()
 }
 
 void RotatorUnit::Action2()
+{
+	//if (m_StartAngle <= 0.f) m_StartAngle = 360 - m_StartAngle;
+	m_StartAngle -= 45.f;
+
+	Motor rotation = Motor::Rotation(-45, m_RotationLine);
+
+	GAUtils::Transform(m_StartPlane, rotation);
+	GAUtils::Transform(m_EndPlane, rotation);
+}
+
+void RotatorUnit::Action3()
+{
+	m_RotationVelocity = -m_RotationVelocity;
+	
+	OneBlade temp = m_StartPlane;
+
+	m_StartPlane = m_EndPlane;
+	m_EndPlane = temp;
+}
+
+void RotatorUnit::Action4()
 {
 	m_Degrees += 45;
 	if (m_Degrees > 180.f)
@@ -98,16 +119,6 @@ void RotatorUnit::Action2()
 		GAUtils::Transform(m_EndPlane, rotation);
 	else
 		GAUtils::Transform(m_StartPlane, rotation);
-}
-
-void RotatorUnit::Action3()
-{
-	m_RotationVelocity = -m_RotationVelocity;
-	
-	OneBlade temp = m_StartPlane;
-
-	m_StartPlane = m_EndPlane;
-	m_EndPlane = temp;
 }
 
 void RotatorUnit::TranslateUnit(const Motor& translation)
