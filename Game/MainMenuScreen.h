@@ -63,4 +63,4 @@ private:
 	void EraseLostPoints();
 };
 
-#endif // !MAINMENUSCREENH
+#endif // !MAINMENUSCREEN_H

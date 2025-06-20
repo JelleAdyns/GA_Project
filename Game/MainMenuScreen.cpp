@@ -47,27 +47,27 @@ void MainMenuScreen::Update()
 	m_TotalTime += ENGINE.GetDeltaTime();
 	if (m_TotalTime > 10.f)
 			m_DrawHint = true;
-
+	ThreeBlade middlePoint{ m_ScreenBox.GetWidth() / 2, m_ScreenBox.GetHeight() / 2,0 };
 	static float fireRate{ 0.75f };
 	static float time{ fireRate };
 	time += ENGINE.GetDeltaTime();
-	
+	TwoBlade rotLine = TwoBlade::LineFromPoints(
+			middlePoint[0], middlePoint[1], middlePoint[2],
+			middlePoint[0], middlePoint[1], middlePoint[2] + 1);
 	if (time >= fireRate)
 	{
-		m_VecPoints.emplace_back(ThreeBlade{ m_ScreenBox.GetWidth() / 2 + 1, m_ScreenBox.GetHeight() / 2,0 });
-		m_VecPoints.emplace_back(ThreeBlade{ m_ScreenBox.GetWidth() / 2, m_ScreenBox.GetHeight() / 2 + 1,0 });
-		m_VecPoints.emplace_back(ThreeBlade{ m_ScreenBox.GetWidth() / 2 - 1, m_ScreenBox.GetHeight() / 2,0 });
-		m_VecPoints.emplace_back(ThreeBlade{ m_ScreenBox.GetWidth() / 2, m_ScreenBox.GetHeight() / 2 - 1,0 });
+		int nrOfPoints{ 6 };
+		for (size_t i = 0; i < nrOfPoints; i++)
+		{
+			ThreeBlade point{ m_ScreenBox.GetWidth() / 2 + 1, m_ScreenBox.GetHeight() / 2,0 };
+			auto rot = Motor::Rotation(i * (360.f / nrOfPoints), rotLine);
+			GAUtils::Transform(point, rot);
+			m_VecPoints.emplace_back(point);
+		}
 
 		time -= fireRate;
 	}
 
-	
-
-	ThreeBlade middlePoint{ m_ScreenBox.GetWidth() / 2, m_ScreenBox.GetHeight() / 2,0 };
-	TwoBlade rotLine = TwoBlade::LineFromPoints(
-		middlePoint[0], middlePoint[1], middlePoint[2],
-		middlePoint[0], middlePoint[1], middlePoint[2] + 1);
 	for (auto& point : m_VecPoints)
 	{
 		auto rot = Motor::Rotation(20*ENGINE.GetDeltaTime(), rotLine);
@@ -84,7 +84,11 @@ void MainMenuScreen::Update()
 
 void MainMenuScreen::InputKeyDownThisFrame(int virtualKeyCode)
 {
-	if (virtualKeyCode != VK_F11)
+	if (virtualKeyCode == VK_ESCAPE)
+	{
+		ENGINE.Quit();
+	}
+	else if (virtualKeyCode != VK_F11)
 		m_pStartCommand->Execute();
 }
 
