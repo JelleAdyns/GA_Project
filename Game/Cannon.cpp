@@ -12,17 +12,15 @@ void Cannon::Draw() const
 	Drawf::DrawTexture(m_rTexture, Rectf{5.f,0.f,Tile::GetSize() * 2,Tile::GetSize() * 2 });
 }
 
-bool Cannon::ReadyToFire() const
+bool Cannon::ReadyToFire()
 {
-	static float fireRate{ 1.f };
-	static float time{0.f};
-	time += ENGINE.GetDeltaTime();
-	if (time >= fireRate)
+	m_Time += ENGINE.GetDeltaTime();
+	if (m_Time >= m_FireRate)
 	{
-		time -= fireRate;
+		m_Time -= m_FireRate;
 		return true;
 	}
-
+	
 	return false;
 }
 

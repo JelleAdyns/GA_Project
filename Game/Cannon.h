@@ -11,7 +11,8 @@
 class Cannon final
 {
 public:
-	Cannon():
+	Cannon(float fireRate):
+		m_FireRate{fireRate},
 		m_rTexture{jela::ResourceManager::GetInstance().GetTexture(_T("Cannon.png"))}
 	{}
 	~Cannon() = default;
@@ -22,7 +23,7 @@ public:
 	Cannon& operator=(Cannon&& other) noexcept = delete;
 
 	void Draw() const;
-	bool ReadyToFire() const;
+	bool ReadyToFire();
 	std::unique_ptr<Projectile> CreateProjectile() const;
 private:
 	Circlef m_BaseShape{30,Tile::GetSize() + 1,25};
@@ -33,7 +34,8 @@ private:
 		40,
 		m_BaseShape.radius * 2 - 10 * 2
 	};
-
+	float m_FireRate{};
+	float m_Time{};
 	jela::Texture& m_rTexture;
 };
 
